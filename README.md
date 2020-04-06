@@ -27,11 +27,9 @@ on early stages of maintaining this project.
 - Surface
 - TSpline
 
-For more information contact me by email
+# For more information contact me by email
 
 deltan1ms@live.com
-
-
 deltan2ms@gmail.com
 
 
