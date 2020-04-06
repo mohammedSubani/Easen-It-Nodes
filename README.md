@@ -1,10 +1,3 @@
- _____                       _____ _     _   _           _           
-|  ___|                     |_   _| |   | \ | |         | |          
-| |__  __ _ ___  ___ _ __     | | | |_  |  \| | ___   __| | ___  ___ 
-|  __|/ _` / __|/ _ \ '_ \    | | | __| | . ` |/ _ \ / _` |/ _ \/ __|
-| |__| (_| \__ \  __/ | | |  _| |_| |_  | |\  | (_) | (_| |  __/\__ \
-\____/\__,_|___/\___|_| |_|  \___/ \__| \_| \_/\___/ \__,_|\___||___/
-
 # Easen-It-Nodes
 A custom nodes to enhance and empower Dynamo and Dynamo Revit workflows. 
 
@@ -37,6 +30,8 @@ on early stages of maintaining this project.
 For more information contact me by email
 
 deltan1ms@live.com
+
+
 deltan2ms@gmail.com
 
 
