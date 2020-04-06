@@ -1,0 +1,315 @@
+{
+  "Uuid": "2027c04b-e17c-4e5f-b595-5122eef6077b",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Finds the centroid for the geometry of the element if it is a surface it finds the center point if it is a curve it finds the mid point.",
+  "Name": "Revit.Element.Geometry.Centroid",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\ngeom = IN[0]\r\n\r\n# finds the centroid for any of the following \r\nif isinstance(geom,Solid):\r\n\tOUT=Solid.Centroid(geom)\r\nelif isinstance(geom,Surface):\r\n\tOUT=Surface.PointAtParameter(geom[0],0.5,0.5)\r\nelif isinstance(geom,Curve):\r\n\tOUT=Curve.PointAtParameter(geom,0.5)\r\nelse:\r\n\tOUT='Bad Input Type'\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#  \r\n#______________________________________________________________________________________________________________________________________________________#   ",
+      "VariableInputPorts": true,
+      "Id": "3e2fb53601de42be882abc445a638596",
+      "Inputs": [
+        {
+          "Id": "d2c6c006f4bf4066be4101adfb393153",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7ea10b5d019149d4bd151a17ba4f6dc7",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\ngeom = IN[0]\r\nsurface=IN[1]\r\n\r\nif isinstance(geom,Solid):\r\n\tOUT=geom\r\nelse:\r\n\tOUT=surface\r\n\r\n# centroids can be for solids or surfaces",
+      "VariableInputPorts": true,
+      "Id": "68e9b34e3cad4af08b0cecfea8c53d40",
+      "Inputs": [
+        {
+          "Id": "448b34156e424ad89621e642397ff5b8",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f0f002c6aa6a4931b423a231d9ecaa65",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3a7ae1289596437cae9880f52b2124de",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "centroid",
+      "Id": "12a6a2e99f654d2cb0f97f9673a77610",
+      "Inputs": [
+        {
+          "Id": "5b7b2576ba564a2fb2246dff991a07c5",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n# Get elements geometry\r\nelem = IN[0]\r\n\r\nOUT=elem.Geometry()[0]",
+      "VariableInputPorts": true,
+      "Id": "1ba8486880c948c18739b931a857595f",
+      "Inputs": [
+        {
+          "Id": "ca3a040630ad48628658c5d6b27d9e95",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7bfd5f35a878408385d3c8f2504a65a0",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "a[0];",
+      "Id": "7442ed4aee434d18ad0e804b5fb51c11",
+      "Inputs": [
+        {
+          "Id": "95f951ba418a4a53a624e16cc2f522cd",
+          "Name": "a",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f2bb34f4315949baaaadeccfab165571",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "element",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "23e631a7343c4550a3be97369396e1c1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b4f0979e4abc49ecb16d22d176ccd148",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "7ea10b5d019149d4bd151a17ba4f6dc7",
+      "End": "5b7b2576ba564a2fb2246dff991a07c5",
+      "Id": "27a049a1072e41039c72853093c96ea9"
+    },
+    {
+      "Start": "3a7ae1289596437cae9880f52b2124de",
+      "End": "d2c6c006f4bf4066be4101adfb393153",
+      "Id": "ed4974284b14491a8155796c290fbaac"
+    },
+    {
+      "Start": "7bfd5f35a878408385d3c8f2504a65a0",
+      "End": "448b34156e424ad89621e642397ff5b8",
+      "Id": "4efd63f770db4bd48daf3293382d43a9"
+    },
+    {
+      "Start": "f2bb34f4315949baaaadeccfab165571",
+      "End": "f0f002c6aa6a4931b423a231d9ecaa65",
+      "Id": "fa5c705c92ee4b3c833fd4c41fcd5736"
+    },
+    {
+      "Start": "b4f0979e4abc49ecb16d22d176ccd148",
+      "End": "ca3a040630ad48628658c5d6b27d9e95",
+      "Id": "6dae0817373342e2bd48e048284164ab"
+    },
+    {
+      "Start": "b4f0979e4abc49ecb16d22d176ccd148",
+      "End": "95f951ba418a4a53a624e16cc2f522cd",
+      "Id": "78d36137261f431ab8b468cd6189174e"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 12.037685476786033,
+      "EyeY": 8.08413864792216,
+      "EyeZ": 6.5293980661803239,
+      "LookX": -4.0879094688565312,
+      "LookY": -4.4184496834019047,
+      "LookZ": -10.215005676037142,
+      "UpX": -0.061321804498089834,
+      "UpY": 0.98628560153724476,
+      "UpZ": -0.15323298761507087
+    },
+    "NodeViews": [
+      {
+        "Id": "3e2fb53601de42be882abc445a638596",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1077.3594294133841,
+        "Y": 274.08659907402171
+      },
+      {
+        "Id": "68e9b34e3cad4af08b0cecfea8c53d40",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 912.12318373497,
+        "Y": 271.605886007902
+      },
+      {
+        "Id": "12a6a2e99f654d2cb0f97f9673a77610",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1242.3609259165339,
+        "Y": 268.15118117693805
+      },
+      {
+        "Id": "1ba8486880c948c18739b931a857595f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 721.658523132788,
+        "Y": 240.0
+      },
+      {
+        "Id": "7442ed4aee434d18ad0e804b5fb51c11",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Code Block",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 722.12639812511907,
+        "Y": 323.595735716708
+      },
+      {
+        "Id": "23e631a7343c4550a3be97369396e1c1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 467.0,
+        "Y": 281.379300385429
+      }
+    ],
+    "Annotations": [],
+    "X": -148.23690250371419,
+    "Y": 25.441966111292345,
+    "Zoom": 0.78436932804482717
+  }
+}

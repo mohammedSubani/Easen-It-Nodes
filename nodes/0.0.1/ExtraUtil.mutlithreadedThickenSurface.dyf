@@ -1,0 +1,401 @@
+{
+  "Uuid": "2e35622a-2403-4e61-aa90-1f1e6e84fd51",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Using multithreadding utilities in IronPython to complete a task of thickening surfaces faster",
+  "Name": "ExtraUtil.mutlithreadedThickenSurface",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "solids",
+      "Id": "f306142792cc42ceb67279ab25ceb650",
+      "Inputs": [
+        {
+          "Id": "a87690b224a74ffdbf57009393d25e53",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "a[0];\na[1];",
+      "Id": "a00e52fc5ae24f89acf60ce414b83551",
+      "Inputs": [
+        {
+          "Id": "a3c84ff3322a4b05a82297f28f5dab4d",
+          "Name": "a",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bbe3d5ea8e5d44ed8c89fd0ca3a13271",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6aa97beb68544680b823df81f57c179c",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\nimport threading\r\nimport time\r\n\r\nstart_time = time.time()\r\n\r\nnumberOfCPUs=IN[0]\r\nsurfaces=IN[1]\r\nthickness=IN[2]\r\nboth_sides=IN[3]\r\n\r\nclass thickenSurfaces(threading.Thread):\r\n\tdef __init__(self,inputList):\r\n\t\tself.inputList=inputList\r\n\t\tself.result=[]\r\n\t\r\n\tdef run(self):\r\n\t\tfor i in self.inputList:\r\n\t\t\tself.result.append(Surface.Thicken(i,thickness,both_sides))\r\n\r\ndef divideSubElements(inList):\r\n\tnumbOfSubElements=int(len(inList)/numberOfCPUs)\r\n\r\n\tdividedElements=[]\r\n\r\n\tfor i in range(numberOfCPUs):\r\n\t\tif i == numberOfCPUs-1:\r\n\t\t\tdividedElements.append(inList[i*numbOfSubElements:len(surfaces)])\r\n\t\telse:\r\n\t\t\tdividedElements.append(inList[i*numbOfSubElements:i*numbOfSubElements+numbOfSubElements])\r\n\t\r\n\treturn dividedElements\r\n\r\ndef createThreadObjects(inList):\r\n\tthreadObjects=[]\r\n\tfor i in inList:\r\n\t\tthreadObjects.append(thickenSurfaces(i))\r\n\treturn threadObjects\r\n\t\r\ndivided=divideSubElements(surfaces)\r\nthreadObjs=createThreadObjects(divided)\r\n\r\nfor i in threadObjs:\r\n\ti.run()\r\n\r\nresults=[]\r\n\r\nfor i in threadObjs:\r\n\tresults.append(i.result)\r\n\t\r\nelapsedTime=time.time()-start_time\r\n\r\nelapsedTimeStr='Done in ' + repr(elapsedTime) + ' Seconds'\r\nOUT=results,elapsedTimeStr\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#  \r\n#______________________________________________________________________________________________________________________________________________________#   ",
+      "VariableInputPorts": true,
+      "Id": "87ca5ef2b7464ebf8f3d247835076822",
+      "Inputs": [
+        {
+          "Id": "34c22cd212ce4ebe8e0b3518530dde45",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "40874647c9a640c99df468c6669ef1c3",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e461254c83fb4b05820031da41bae117",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c22f68ff444547c1a2f37a099771de29",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bc3cb44647bf4532b12202e6821c3884",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "ExecutionTime",
+      "Id": "4ba2a25bebda40b5b2cb4751a3eabb70",
+      "Inputs": [
+        {
+          "Id": "469d7625d52d47909a1dc84c14d01cc8",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "surfaces",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "c18dd90929374391906f62fb4796ecaf",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "cb6d755971ff46aea2b8ce43892fe3f5",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "thickness",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "7c38cc4d8efb4737a0287531cdb80447",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "16e0bd78e8e9415588f7fcc6975c3980",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "both_sides",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "72784236d3744dcdaa7ccf371b8f6306",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ed0a6478155c4ab296d38e5206970823",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "845e48d6-34e1-4d72-a649-e29dc7c2b29d",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "40b94925de2f4b158d1cd0a577891b1a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "a06283dcd2994a7392f7da09266707d6",
+          "Name": "CPU_Count",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Counts the CPU for your machine. \r\nNote : Python code is not made be Easen It Nodes for more information visit : \r\nhttps://github.com/giampaolo/psutil"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "bbe3d5ea8e5d44ed8c89fd0ca3a13271",
+      "End": "a87690b224a74ffdbf57009393d25e53",
+      "Id": "18d304bde2054a61ae1acb3d5b70e4df"
+    },
+    {
+      "Start": "6aa97beb68544680b823df81f57c179c",
+      "End": "469d7625d52d47909a1dc84c14d01cc8",
+      "Id": "00c72e0fe659486b90a2bab57319e1c6"
+    },
+    {
+      "Start": "bc3cb44647bf4532b12202e6821c3884",
+      "End": "a3c84ff3322a4b05a82297f28f5dab4d",
+      "Id": "d2f0bc882cc6490c951e2c7e2db6f2b8"
+    },
+    {
+      "Start": "cb6d755971ff46aea2b8ce43892fe3f5",
+      "End": "40874647c9a640c99df468c6669ef1c3",
+      "Id": "32336e4823d54deca0d85ac042978456"
+    },
+    {
+      "Start": "16e0bd78e8e9415588f7fcc6975c3980",
+      "End": "e461254c83fb4b05820031da41bae117",
+      "Id": "c9883548a2ea4383b81522bf9641eb7b"
+    },
+    {
+      "Start": "ed0a6478155c4ab296d38e5206970823",
+      "End": "c22f68ff444547c1a2f37a099771de29",
+      "Id": "19c790d0b13e4b4d85e15d659e136324"
+    },
+    {
+      "Start": "a06283dcd2994a7392f7da09266707d6",
+      "End": "34c22cd212ce4ebe8e0b3518530dde45",
+      "Id": "f831abfeeaf94af1be58b0d14f5c0236"
+    }
+  ],
+  "Dependencies": [
+    "845e48d6-34e1-4d72-a649-e29dc7c2b29d"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "Id": "f306142792cc42ceb67279ab25ceb650",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1167.539119314692,
+        "Y": 321.18588866864104
+      },
+      {
+        "Id": "a00e52fc5ae24f89acf60ce414b83551",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Code Block",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1038.48423408282,
+        "Y": 366.504483606857
+      },
+      {
+        "Id": "87ca5ef2b7464ebf8f3d247835076822",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 879.084262514981,
+        "Y": 361.856190431742
+      },
+      {
+        "Id": "4ba2a25bebda40b5b2cb4751a3eabb70",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1168.6379433704119,
+        "Y": 442.056534797851
+      },
+      {
+        "Id": "c18dd90929374391906f62fb4796ecaf",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 410.190637181969
+      },
+      {
+        "Id": "7c38cc4d8efb4737a0287531cdb80447",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 468.428312135134
+      },
+      {
+        "Id": "72784236d3744dcdaa7ccf371b8f6306",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 529.962459255459
+      },
+      {
+        "Id": "40b94925de2f4b158d1cd0a577891b1a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "ExtraUtil.countCPU",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 581.31648558802294,
+        "Y": 308.0
+      }
+    ],
+    "Annotations": [],
+    "X": -697.86180845658157,
+    "Y": -301.54322441872887,
+    "Zoom": 1.3233851062846937
+  }
+}

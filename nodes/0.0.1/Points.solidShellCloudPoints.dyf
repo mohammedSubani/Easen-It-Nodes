@@ -1,0 +1,309 @@
+{
+  "Uuid": "a6318d35-a85c-486a-8ea2-01719bd51b14",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Creates a random points over the surfaces of the solid",
+  "Name": "Points.solidShellCloudPoints",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Topology": {
+        "Key": "Autodesk.DesignScript.Geometry.Topology",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\nimport random\r\n\r\n# The input lists for this node .\r\nsrfcs=IN[0]\r\npointsDensity=IN[1]\r\n\r\n# The output list of points for this node .\r\ncloudPoints=[]\r\n\r\n# Creating random points on given surface .\r\nfor i in srfcs:\r\n\tpnts=[]\r\n\tfor j in range(pointsDensity):\r\n\t\tpnts.append(Surface.PointAtParameter(i, random.random(), random.random()))\r\n\tcloudPoints.append(pnts)\r\n\r\n\r\n\r\nOUT = cloudPoints\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "8ef2f6e26952485993da9fddc4440c7c",
+      "Inputs": [
+        {
+          "Id": "92f4b011f91b4ab3a37b1afb17e46d7c",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "edb0c5582e5c4a5ab6dc515b7b5f08d1",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "89278ef08bec4259890262f81bf125d5",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Face.SurfaceGeometry",
+      "Id": "eeba1bf7a0574bf39c9545fe7057e0c4",
+      "Inputs": [
+        {
+          "Id": "7fc8634343e74543a55bb07ac5770ddb",
+          "Name": "face",
+          "Description": "Autodesk.DesignScript.Geometry.Face",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3e2ac193f90f44fe9901829067469311",
+          "Name": "Surface",
+          "Description": "Surface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "The underlying Surface making up the Face\n\nFace.SurfaceGeometry ( ): Surface"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "cloudPoints",
+      "Id": "7ac31529ea2d4a0db03c03a4d79746b8",
+      "Inputs": [
+        {
+          "Id": "e54c76efbf0b487eb67a5ec327ff562e",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "faces = Topology.Faces(sld);",
+      "Id": "9878a3b95e08461493be29cb7dc39a9c",
+      "Inputs": [
+        {
+          "Id": "50a9512ddd104441922d088ae52d462f",
+          "Name": "sld",
+          "Description": "sld",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "32fd7530a0fb46f5b32dff8471295f68",
+          "Name": "",
+          "Description": "faces",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "pointsDensity",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "3b5ea95e7ae24dffb9adf6e573942ee0",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8cbcf593db4348e2859cbf2e7063445e",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "solid",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "52fd3310fd5446b98b1a36c1c43c39c1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "870e458c0e2a438ea841413ffe88dcb9",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "89278ef08bec4259890262f81bf125d5",
+      "End": "e54c76efbf0b487eb67a5ec327ff562e",
+      "Id": "4431eae02f9546999c4822abb1463c26"
+    },
+    {
+      "Start": "3e2ac193f90f44fe9901829067469311",
+      "End": "92f4b011f91b4ab3a37b1afb17e46d7c",
+      "Id": "a948d1fd6fdf48b3a6808452f6df2b7a"
+    },
+    {
+      "Start": "32fd7530a0fb46f5b32dff8471295f68",
+      "End": "7fc8634343e74543a55bb07ac5770ddb",
+      "Id": "ab5216c08e294ec6959e062a5bfe0dd5"
+    },
+    {
+      "Start": "8cbcf593db4348e2859cbf2e7063445e",
+      "End": "edb0c5582e5c4a5ab6dc515b7b5f08d1",
+      "Id": "6533f40dcd274f9ab49d8b473ec53781"
+    },
+    {
+      "Start": "870e458c0e2a438ea841413ffe88dcb9",
+      "End": "50a9512ddd104441922d088ae52d462f",
+      "Id": "0ebb59034e434e148b366a05c565a736"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 3.0736900387410322,
+      "EyeY": 7.7583689605863242,
+      "EyeZ": 11.624716089804002,
+      "LookX": -3.0736900387410322,
+      "LookY": -5.2583689605863242,
+      "LookZ": -11.624716089804002,
+      "UpX": 0.1502526878446041,
+      "UpY": -0.80901699437495667,
+      "UpZ": 0.56825666085669813
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": false,
+        "Name": "Python Script",
+        "Id": "8ef2f6e26952485993da9fddc4440c7c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1084.86422601517,
+        "Y": 396.62161182931004
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Face.SurfaceGeometry",
+        "Id": "eeba1bf7a0574bf39c9545fe7057e0c4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 802.303541303852,
+        "Y": 382.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "7ac31529ea2d4a0db03c03a4d79746b8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1218.77003212164,
+        "Y": 397.97374485693103
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Code Block",
+        "Id": "9878a3b95e08461493be29cb7dc39a9c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 437.481966641169,
+        "Y": 384.40745418110805
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "3b5ea95e7ae24dffb9adf6e573942ee0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 246.0,
+        "Y": 453.272528918042
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "52fd3310fd5446b98b1a36c1c43c39c1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 246.15988052148498,
+        "Y": 390.45646574667103
+      }
+    ],
+    "Annotations": [],
+    "X": -194.91016646599985,
+    "Y": -118.06000476855985,
+    "Zoom": 0.91426896937398294
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "Uuid": "a9bce6e6-be0f-42ee-930d-92e22362040f",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "For a list of points returns two points with the minmum distnace between them",
+  "Name": "Points.nearstPoints",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Autodesk.DesignScript.Geometry.Point": {
+        "Key": "Autodesk.DesignScript.Geometry.Point",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "nearstPoints",
+      "Id": "ff3c6782392548d8a39ed69a7151d6ca",
+      "Inputs": [
+        {
+          "Id": "04497cb10ada4046ab25a2320b727b2a",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Measures the distance between two points .\r\ndef distance(pnt1,pnt2):\r\n\treturn (((pnt2.X-pnt1.X)**2\r\n\t\t\t+(pnt2.Y-pnt1.Y)**2\r\n\t\t\t+(pnt2.Z-pnt1.Z)**2)**0.5)\r\n\t\t\t\r\n\r\n# The input list of points .\r\npoints = IN[0]\r\n\r\nshortestDistance=distance(points[0],points[1])\r\n\r\n# The output list of points .\r\nnearstPoints=[]\r\n\r\nfor i in range(len(points)):\r\n\tfor j in range(len(points)):\r\n\t\tif i == j:\r\n\t\t\tpass\r\n\t\telse:\r\n\t\t\tif distance(points[i],points[j])<shortestDistance:\r\n\t\t\t\tshortestDistance=distance(points[i],points[j])\r\n\t\t\t\tnearstPoints.Clear()\r\n\t\t\t\tnearstPoints.append(points[i])\r\n\t\t\t\tnearstPoints.append(points[j])\r\n\r\nOUT=nearstPoints\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "3d3db4efa47746ca93048c34d0ba3626",
+      "Inputs": [
+        {
+          "Id": "fbe010bb0aa047f7b569bc583b5f5809",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1abf76d2b1604080bf51722287d59deb",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "points",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "80f85106a7c440128bd16b39fc859e62",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "89db52e996d14196a236cb3c58abefbd",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "1abf76d2b1604080bf51722287d59deb",
+      "End": "04497cb10ada4046ab25a2320b727b2a",
+      "Id": "8a2c81ea8da74d23ab440b88241c0158"
+    },
+    {
+      "Start": "89db52e996d14196a236cb3c58abefbd",
+      "End": "fbe010bb0aa047f7b569bc583b5f5809",
+      "Id": "4a46aa4de671420a978baa01f161f4aa"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "ff3c6782392548d8a39ed69a7151d6ca",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 936.68188887384008,
+        "Y": 261.65941517955127
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "3d3db4efa47746ca93048c34d0ba3626",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 788.36316126230008,
+        "Y": 265.23078503808728
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "80f85106a7c440128bd16b39fc859e62",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 592.19733136556169,
+        "Y": 263.15392519043326
+      }
+    ],
+    "Annotations": [],
+    "X": -1220.7215324656238,
+    "Y": -324.36442775380243,
+    "Zoom": 2.1120012979145915
+  }
+}

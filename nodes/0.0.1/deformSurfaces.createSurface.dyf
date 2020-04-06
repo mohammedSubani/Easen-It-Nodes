@@ -1,0 +1,296 @@
+{
+  "Uuid": "7fdbf8d3-b3d2-43b1-8a1d-6281a5af832d",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "A tool to make a surface out of a flattened list of a grid points .",
+  "Name": "deformSurfaces.createSurface",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.NurbsSurface.ByPoints@Autodesk.DesignScript.Geometry.Point[][],int,int",
+      "Id": "f0514121cbbd445baed25b26e92a5191",
+      "Inputs": [
+        {
+          "Id": "480e0d052df24a669f391d273c217df7",
+          "Name": "points",
+          "Description": "Point[][]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e7419dfdb1394d05a7d0b89269cde7d3",
+          "Name": "uDegree",
+          "Description": "int\nDefault value : 3",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "45a84117c8cc43bdb1de94579629e60b",
+          "Name": "vDegree",
+          "Description": "int\nDefault value : 3",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2c6d894ea6994ab6a008d1c57266e9ad",
+          "Name": "NurbsSurface",
+          "Description": "NurbsSurface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a NurbsSurface with specified interpolated points and U and V degrees. The resultant surface will pass through all of the points.\n\nNurbsSurface.ByPoints (points: Point[][], uDegree: int = 3, vDegree: int = 3): NurbsSurface"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "surface:Surface",
+      "Id": "9f21a2991ff548d1b7e0357226280199",
+      "Inputs": [
+        {
+          "Id": "0059305c637b499086b29b32c92d41d0",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Chop@var[]..[],int[]",
+      "Id": "0c28fd409a4b45ba86ff111340caf341",
+      "Inputs": [
+        {
+          "Id": "10f7b05968b946ecb6bb78909bca97e3",
+          "Name": "list",
+          "Description": "List to chop into sublists\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f153a5831241476a80111ed468905317",
+          "Name": "lengths",
+          "Description": "Lengths of consecutive sublists to be created from the input list\n\nint[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "31e0a79109254ae4a7039a17e8eef52c",
+          "Name": "lists",
+          "Description": "Sublists created from the list",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Chop a list into a set of consecutive sublists with the specified lengths. List division begins at the top of the list.\n\nList.Chop (list: var[]..[], lengths: int[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#*/;",
+      "Id": "6bccd8d582e2434bb5693dabc2ca7f26",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "setOfPoints",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "d8a551bc63cb4fd3b7894db5add76955",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "a806280ffc4f4765ae930fd629886295",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "parameterLengths",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "52a4c5e4c41f4604b48a9af432cf66a2",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6574fffb339d43e1a88baa101f9cc850",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "2c6d894ea6994ab6a008d1c57266e9ad",
+      "End": "0059305c637b499086b29b32c92d41d0",
+      "Id": "27b50223959b45bb81817a712fcfd542"
+    },
+    {
+      "Start": "31e0a79109254ae4a7039a17e8eef52c",
+      "End": "480e0d052df24a669f391d273c217df7",
+      "Id": "3d0fd1c86c7545c0844371c44d286a75"
+    },
+    {
+      "Start": "a806280ffc4f4765ae930fd629886295",
+      "End": "10f7b05968b946ecb6bb78909bca97e3",
+      "Id": "64074641ef5b46a8bac7292457e79780"
+    },
+    {
+      "Start": "6574fffb339d43e1a88baa101f9cc850",
+      "End": "f153a5831241476a80111ed468905317",
+      "Id": "8b4cf5526402471ca6860c4b74ffdb1b"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1.5522920194942744,
+      "EyeY": -1.0601781201529503,
+      "EyeZ": 0.66497231149942959,
+      "LookX": -1.5522920194942744,
+      "LookY": 1.0601781201529503,
+      "LookZ": -0.66497231149942959,
+      "UpX": 0.644281694985368,
+      "UpY": 0.713250449154195,
+      "UpZ": 0.27599799689157117
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "NurbsSurface.ByPoints",
+        "Id": "f0514121cbbd445baed25b26e92a5191",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 967.38988855106265,
+        "Y": 393.703730499328
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "9f21a2991ff548d1b7e0357226280199",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1255.2210744770459,
+        "Y": 395.84585087121
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.Chop",
+        "Id": "0c28fd409a4b45ba86ff111340caf341",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 752.228345772704,
+        "Y": 394.371241485687
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "6bccd8d582e2434bb5693dabc2ca7f26",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 576.115615499306,
+        "Y": 573.56367871618659
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "d8a551bc63cb4fd3b7894db5add76955",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 427.124107390434,
+        "Y": 367.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "52a4c5e4c41f4604b48a9af432cf66a2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 385.0,
+        "Y": 439.61116375601523
+      }
+    ],
+    "Annotations": [],
+    "X": -18.181384852823044,
+    "Y": 151.92588924957062,
+    "Zoom": 0.6586748521582152
+  }
+}

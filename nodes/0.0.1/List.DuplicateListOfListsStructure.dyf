@@ -1,0 +1,164 @@
+{
+  "Uuid": "4c46adfc-b4a3-493f-9b38-79fe77885961",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Takes an indented list of no particular order and returns the strucutre of the indentation tree as an empty list of lists",
+  "Name": "List.DuplicateListOfListsStructure",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "EmptyStructure",
+      "Id": "051b18e28c3b43d29b8d69a3fae7e673",
+      "Inputs": [
+        {
+          "Id": "b2cec72680624501ba5245a290454576",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\n\r\n\r\ninput_list=IN[0]\r\n\r\n\r\n# A recursive method that moves at all levels and create list for each level .\r\ndef createListStructure(inputList) :\r\n\tlistCounter =0\r\n\tfor i in inputList:\r\n\t\tif isinstance(i, list) :\r\n\t\t\tlistCounter +=1\r\n\tif listCounter ==0:\r\n\t\treturn []\r\n\ttmp=[] \r\n\tfor i in inputList:\r\n\t\tif isinstance(i, list) :\r\n\t\t\ttmp.append(createListStructure(i))\r\n\treturn tmp\r\n \r\n# Calling the method and assign it as output .\r\nOUT=createListStructure(input_list)\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "ab3bad0e7c9d422bb00b77c65942cfa4",
+      "Inputs": [
+        {
+          "Id": "cce9bb1dfefa41198a943f86aaf03075",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "086e9dc9b4c84b7590b3a711af61b8ec",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "listOfLists",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "0f6c3e70741c40e8aa6afdac89705ac3",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f3513de74e734eb4a5334c610f5b6368",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "086e9dc9b4c84b7590b3a711af61b8ec",
+      "End": "b2cec72680624501ba5245a290454576",
+      "Id": "5d458a4f9b9c487d8a01394043cd279a"
+    },
+    {
+      "Start": "f3513de74e734eb4a5334c610f5b6368",
+      "End": "cce9bb1dfefa41198a943f86aaf03075",
+      "Id": "45548ae8d2f94ff88fd899973b898648"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "051b18e28c3b43d29b8d69a3fae7e673",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1030.2558486666189,
+        "Y": 308.853571598034
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "ab3bad0e7c9d422bb00b77c65942cfa4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 826.4161342893799,
+        "Y": 313.19827469451
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "0f6c3e70741c40e8aa6afdac89705ac3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 552.0,
+        "Y": 308.0
+      }
+    ],
+    "Annotations": [],
+    "X": -398.78739086228552,
+    "Y": 9.37327353042349,
+    "Zoom": 0.931811528498331
+  }
+}

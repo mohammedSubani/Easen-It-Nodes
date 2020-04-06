@@ -1,0 +1,299 @@
+{
+  "Uuid": "836ebdc7-ac9b-4006-9087-bc013905e51f",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Finds and sorts all the elevlations of topography points in a topogrpahy (No Duplicate Elevation)",
+  "Name": "Revit.Element.Topography.getElevationsOfTopography",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\n\r\n\r\nElevationsData = IN[0]\r\n\r\nelev=set(ElevationsData)\r\n\r\n\r\nOUT = elev\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#  \r\n#______________________________________________________________________________________________________________________________________________________#   ",
+      "VariableInputPorts": true,
+      "Id": "da1bdd776d81413595c80e06515b4266",
+      "Inputs": [
+        {
+          "Id": "878fed0b48bc4f43977bd8f3aa6dca97",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "40ef92b321334316b988df6564c196a9",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "elevations",
+      "Id": "cbbcc23a1e03474d957b3be8008d4822",
+      "Inputs": [
+        {
+          "Id": "4e88a3f5e6b24d8dac61f740320d9d65",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Sort@var[]",
+      "Id": "1af58f2acf2d45dbba60e237a12c570e",
+      "Inputs": [
+        {
+          "Id": "b03f4c7730a94404ae0e59d66e20062c",
+          "Name": "list",
+          "Description": "The list of items to be sorted.\n\nvar[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "35441f1dba7a455abf746b6642b37200",
+          "Name": "newList",
+          "Description": "The indices of the items in the sorted list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Sorts a list by the items and return their indices.\n\nList.Sort (list: var[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Point.Z",
+      "Id": "5b26ef71574e4872aaf89bad1db67ab0",
+      "Inputs": [
+        {
+          "Id": "d64f607afed54fe888e08e4e565560fd",
+          "Name": "point",
+          "Description": "Autodesk.DesignScript.Geometry.Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "17c6a702a5644dd3b71ef505536d4fd9",
+          "Name": "double",
+          "Description": "double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the Z component of a Point\n\nPoint.Z: double"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Topography.Points",
+      "Id": "4a801c074c3c4bf19454af57363d8787",
+      "Inputs": [
+        {
+          "Id": "e605515aade54f90b0865edfa8b22813",
+          "Name": "topography",
+          "Description": "Revit.Elements.Topography",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3833df40f0cd416ba20a60acef627e1f",
+          "Name": "Point[]",
+          "Description": "Point[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "The set of points from which this TopographySurface is constructed.\n\nTopography.Points: Point[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "topography",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "5d16f306fe954f8e86ba592bd1e4790c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "cac10a652c1543ce8497b7a9b307caf0",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "40ef92b321334316b988df6564c196a9",
+      "End": "b03f4c7730a94404ae0e59d66e20062c",
+      "Id": "1f904c270cce4b9d9975ec3eda365d33"
+    },
+    {
+      "Start": "35441f1dba7a455abf746b6642b37200",
+      "End": "4e88a3f5e6b24d8dac61f740320d9d65",
+      "Id": "969adfc8b4a7465081b563d1043096f7"
+    },
+    {
+      "Start": "17c6a702a5644dd3b71ef505536d4fd9",
+      "End": "878fed0b48bc4f43977bd8f3aa6dca97",
+      "Id": "efe2458672d844c496c09a4da395b576"
+    },
+    {
+      "Start": "2ec50ccc70284c96ad9d07fa9682fc01",
+      "End": "d64f607afed54fe888e08e4e565560fd",
+      "Id": "d3bf0e5ebd3a4aadb6b102d6590f514c"
+    },
+    {
+      "Start": "cac10a652c1543ce8497b7a9b307caf0",
+      "End": "16c6dea166fd49d4ad9dfa8478d7fa91",
+      "Id": "4a850804ed3445cd8918dbff09f458fd"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 12.037685476786033,
+      "EyeY": 8.08413864792216,
+      "EyeZ": 6.5293980661803239,
+      "LookX": -4.0879094688565312,
+      "LookY": -4.4184496834019047,
+      "LookZ": -10.215005676037142,
+      "UpX": -0.061321804498089834,
+      "UpY": 0.98628560153724476,
+      "UpZ": -0.15323298761507087
+    },
+    "NodeViews": [
+      {
+        "Id": "da1bdd776d81413595c80e06515b4266",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Python Script",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1043.9217845187459,
+        "Y": 314.098521320622
+      },
+      {
+        "Id": "cbbcc23a1e03474d957b3be8008d4822",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1380.258729713926,
+        "Y": 306.305337427801
+      },
+      {
+        "Id": "1af58f2acf2d45dbba60e237a12c570e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "List.Sort",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1185.256509506816,
+        "Y": 311.111771637686
+      },
+      {
+        "Id": "5b26ef71574e4872aaf89bad1db67ab0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Point.Z",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 830.70764362362593,
+        "Y": 314.330076461043
+      },
+      {
+        "Id": "a90f3c38f7614833be233deb5b066012",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Topography.Points",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 584.70764362362593,
+        "Y": 310.330076461043
+      },
+      {
+        "Id": "5d16f306fe954f8e86ba592bd1e4790c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 355.0,
+        "Y": 306.0
+      }
+    ],
+    "Annotations": [],
+    "X": -282.154121770777,
+    "Y": -33.97162234369415,
+    "Zoom": 0.87930738526979435
+  }
+}

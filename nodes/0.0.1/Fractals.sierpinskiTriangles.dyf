@@ -1,0 +1,214 @@
+{
+  "Uuid": "cf968e1d-f91a-4692-9320-e10f0a038051",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Creates a polygon curve to form Sierpinski Triangles",
+  "Name": "Fractals.sierpinskiTriangles",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "sierpinskiTriangles",
+      "Id": "b7c7c5c360744ebda60b9e9ccef28b43",
+      "Inputs": [
+        {
+          "Id": "4c0b1603bb43482bab55a40474a3cedd",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nimport math\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nlength = IN[0]\r\nstopLength=IN[1]\r\nsin60=math.sin(math.radians(60))\r\n\r\n# Creating the first triangle.\r\npnts=[]\r\npnts.append(Point.ByCoordinates(-length/2,0,0))\r\npnts.append(Point.ByCoordinates(length/2,0,0))\r\npnts.append(Point.ByCoordinates(0,sin60*length,0))\r\n\r\n# The output to this node will be stored as a list in the IN variables.\r\nresult=[]\r\n\r\n# A recursive method to create sub-triangles.\r\ndef creatSubTriangles(eqTri):\r\n\t# Getting the curves of the triangle .\r\n\tcrvs=PolyCurve.Curves(eqTri)\r\n\t# Getting the corners for the triangle .\r\n\tstartPnts=[]\r\n\tfor i in crvs:\r\n\t\tstartPnts.append(Curve.StartPoint.GetValue(i))\r\n\t# Getting the mid points for the triangle .\r\n\tnewPnts=[]\r\n\tfor i in crvs:\r\n\t\tnewPnts.append(Curve.PointAtParameter(i,0.5))\r\n\t# Creating sub-triangles .\r\n\tresultTriangles=[]\r\n\tresultTriangles.append(Polygon.ByPoints(newPnts))\r\n\tresultTriangles.append(Polygon.ByPoints([startPnts[0],newPnts[0],newPnts[2]]))\r\n\tresultTriangles.append(Polygon.ByPoints([startPnts[1],newPnts[0],newPnts[1]]))\r\n\tresultTriangles.append(Polygon.ByPoints([startPnts[2],newPnts[1],newPnts[2]]))\r\n\t# Base Case.\r\n\tif Curve.Length.GetValue(crvs[0])<stopLength:\r\n\t\treturn\r\n\tresult.append(resultTriangles[0])\r\n\tfor i in range(1,len(resultTriangles)):\r\n\t\tcreatSubTriangles(resultTriangles[i])\r\n\r\n# Create first triangle store it and pass it to the method .\r\ntriPolygon=Polygon.ByPoints(pnts)\r\nresult.append(triPolygon)\r\n# First call .\r\ncreatSubTriangles(triPolygon)\r\n\r\n\r\nOUT = result\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "0ed129f1c3d9448a91ba9157132cdf3b",
+      "Inputs": [
+        {
+          "Id": "3cf27d94028f47f0b5be1a221882a045",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "cbe4b05e46a743b190132ba9eafae44f",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "499e9b4991fe4bbfa393917cb0d4043f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "startLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "14d5948e27ca4521809b32658f4d49d6",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "729781089e5a4a468b348c9addc7499d",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "stopLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "a98bf902f58b4d29ba5220380473359e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "627d1888bcde4a439afc665514fe2282",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "499e9b4991fe4bbfa393917cb0d4043f",
+      "End": "4c0b1603bb43482bab55a40474a3cedd",
+      "Id": "70383e951bc34c9c8d140b3d707fe7dc"
+    },
+    {
+      "Start": "729781089e5a4a468b348c9addc7499d",
+      "End": "3cf27d94028f47f0b5be1a221882a045",
+      "Id": "467ca4961b0d4b6da8af0fe711fcf64f"
+    },
+    {
+      "Start": "627d1888bcde4a439afc665514fe2282",
+      "End": "cbe4b05e46a743b190132ba9eafae44f",
+      "Id": "c0e0d96947fd45279e8626193d6bdead"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 57.252003910792673,
+      "EyeY": 37.8608697277283,
+      "EyeZ": -130.48948311807015,
+      "LookX": -57.252003910792673,
+      "LookY": -37.8608697277283,
+      "LookZ": 130.48948311807015,
+      "UpX": -0.017525304766779284,
+      "UpY": 0.99904822158195028,
+      "UpZ": 0.0399438937380685
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "b7c7c5c360744ebda60b9e9ccef28b43",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 948.97971697252592,
+        "Y": 316.58367457140304
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "0ed129f1c3d9448a91ba9157132cdf3b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 801.61461141049313,
+        "Y": 316.33097121635905
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "14d5948e27ca4521809b32658f4d49d6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 555.234947035779,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "a98bf902f58b4d29ba5220380473359e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 552.0,
+        "Y": 368.170014865492
+      }
+    ],
+    "Annotations": [],
+    "X": -919.01926195849956,
+    "Y": -338.80832368651932,
+    "Zoom": 1.7192377934030789
+  }
+}

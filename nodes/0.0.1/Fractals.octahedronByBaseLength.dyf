@@ -1,0 +1,317 @@
+{
+  "Uuid": "c65a1f6a-8c80-45c2-8132-169fe145a7da",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Create octahedron surfaces fractal geoemtry ",
+  "Name": "Fractals.octahedronByBaseLength",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Plane": {
+        "Key": "Autodesk.DesignScript.Geometry.Plane",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Point": {
+        "Key": "Autodesk.DesignScript.Geometry.Point",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Vector": {
+        "Key": "Autodesk.DesignScript.Geometry.Vector",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Geometry": {
+        "Key": "Autodesk.DesignScript.Geometry.Geometry",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "plane1 = Plane.ByOriginNormal(Point.ByCoordinates(0, 0, 0), Vector.ByCoordinates(0, 0, 1));\ngeometry1 = Geometry.Mirror(t1, plane1);",
+      "Id": "24e873bbc859456a8db0738fdb325acd",
+      "Inputs": [
+        {
+          "Id": "8b1f326f228b4a5fa8926a9aa07aed4a",
+          "Name": "t1",
+          "Description": "t1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "085a4e16c3c64074afb24dc2f4d6f636",
+          "Name": "",
+          "Description": "plane1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ca6484d6f0304b7d8553dab6dc8c963b",
+          "Name": "",
+          "Description": "geometry1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSVarArgFunction, DynamoCore",
+      "FunctionSignature": "DSCore.List.Join@var[]..[]",
+      "FunctionType": "VariableArgument",
+      "NodeType": "FunctionNode",
+      "Id": "edb77059a5e04bb9b2a675f5b2629c53",
+      "Inputs": [
+        {
+          "Id": "17fea132a5964e0ea0f14cefe4f81516",
+          "Name": "list0",
+          "Description": "Lists to join into one.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e28653fc9ff1439c9aab7e93a6aca441",
+          "Name": "list1",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9883677fbea34d2fa9234417693d709c",
+          "Name": "list",
+          "Description": "Joined list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Concatenates all given lists into a single list.\n\nList.Join (lists: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "octahedronSurfaces",
+      "Id": "b9765a2018d548e6b29687c3503afc4b",
+      "Inputs": [
+        {
+          "Id": "aeaa829d8b804d39a2caac845d828457",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "e601a17e-5a39-403c-b79f-53f2b8b2e5bb",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "f37878607ebb410dabfa93889e300add",
+      "Inputs": [
+        {
+          "Id": "a319d13eeaa5416da3816f32519c31bb",
+          "Name": "baseLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8f57fcad3c4645d09daabdda76c918ae",
+          "Name": "tetrahedronSurfacs",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Create a tetrahedron geometry given a base length"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "baseLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "fb5481bf541640638d6cd83b2b0e696e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "623746f93c8e4e4ebad1d6b2dd57a4c9",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#*/;",
+      "Id": "4b29eb9b0ed64952acc2a32ffab406bd",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "ca6484d6f0304b7d8553dab6dc8c963b",
+      "End": "17fea132a5964e0ea0f14cefe4f81516",
+      "Id": "a03b48b680d646518c815df24e5cd972"
+    },
+    {
+      "Start": "9883677fbea34d2fa9234417693d709c",
+      "End": "aeaa829d8b804d39a2caac845d828457",
+      "Id": "70b9ca470b53472f87fe87afbef96839"
+    },
+    {
+      "Start": "8f57fcad3c4645d09daabdda76c918ae",
+      "End": "8b1f326f228b4a5fa8926a9aa07aed4a",
+      "Id": "5e9f7f7468b34847ad0e7a9bf0e5518e"
+    },
+    {
+      "Start": "8f57fcad3c4645d09daabdda76c918ae",
+      "End": "e28653fc9ff1439c9aab7e93a6aca441",
+      "Id": "f86aee01118d4bea938984b2042194bd"
+    },
+    {
+      "Start": "623746f93c8e4e4ebad1d6b2dd57a4c9",
+      "End": "a319d13eeaa5416da3816f32519c31bb",
+      "Id": "59fac07391a04943afb9c0cc72276dd2"
+    }
+  ],
+  "Dependencies": [
+    "e601a17e-5a39-403c-b79f-53f2b8b2e5bb"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "Id": "24e873bbc859456a8db0738fdb325acd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Code Block",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 956.17132829492061,
+        "Y": 225.0
+      },
+      {
+        "Id": "edb77059a5e04bb9b2a675f5b2629c53",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "List.Join",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1727.6241510799337,
+        "Y": 274.322346598543
+      },
+      {
+        "Id": "b9765a2018d548e6b29687c3503afc4b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1857.8297021044737,
+        "Y": 277.57488458143604
+      },
+      {
+        "Id": "f37878607ebb410dabfa93889e300add",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Solid.tetrahedronByBaseLength",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 569.3236617551886,
+        "Y": 309.468346662156
+      },
+      {
+        "Id": "fb5481bf541640638d6cd83b2b0e696e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 344.49914851052233,
+        "Y": 308.85517636411822
+      },
+      {
+        "Id": "4b29eb9b0ed64952acc2a32ffab406bd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Code Block",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1019.0,
+        "Y": 504.0
+      }
+    ],
+    "Annotations": [],
+    "X": -167.66686014723427,
+    "Y": 107.84420383292226,
+    "Zoom": 0.58829422662867359
+  }
+}

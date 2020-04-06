@@ -1,0 +1,314 @@
+{
+  "Uuid": "646e2a30-fbdc-4fb1-83f9-c6575cf2b075",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Create two planes and return solid geometry between those two planes",
+  "Name": "Solid.isolateSolidAngle",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The input list for these nodes .\r\ninSolid = IN[0]\r\nangle_1=IN[1]\r\nangle_2=IN[2]\r\nangle_3=IN[3]\r\n\r\n# Find solid centroid to creat a coordinate system at the normal of that plane and eventually rotating the desired angle and cut it by two planes and return the gometry within those two planes.\r\n\r\ncentroid=Solid.Centroid(inSolid)\r\nmainPlane=Plane.ByOriginNormal(centroid,Vector.ByCoordinates(0,0,1))\r\nplane_1=Geometry.Rotate(mainPlane,centroid,Vector.ByCoordinates(0,1,0),angle_1)\r\nplane_2=Geometry.Rotate(mainPlane,centroid,Vector.ByCoordinates(0,1,0),angle_2)\r\nplane_3=Geometry.Rotate(mainPlane,centroid,Vector.ByCoordinates(1,0,0),angle_3)\r\nfirstSplit=Geometry.Split(inSolid,plane_1)\r\nsecondSplit=Geometry.Split(firstSplit[0],plane_2)\r\nlastSplit=Geometry.Split(firstSplit[0],plane_3)\r\n\r\nOUT = lastSplit[1]\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              \r\n",
+      "VariableInputPorts": true,
+      "Id": "8421f0749c9d47f28680ecad7550a95e",
+      "Inputs": [
+        {
+          "Id": "dde287a080404e91aceb8b490508d748",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b767e82ff72045ac8daf3d5c6d09e607",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "73c56776e1044995a9d83f8f29a4ef47",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "93659b5eeebd430c9461162974e44297",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bb230ac7dc264a4e9c2677ffd5c56c59",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "isolatedSolid",
+      "Id": "5850d102c0be418e9ea1c061de2018f8",
+      "Inputs": [
+        {
+          "Id": "8fcc52a67aa9453485fc884c9775e008",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "solid",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "837ba58fe07f43d2a5ab790bdf7e67b7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c7fae9a0a0c54160a63a638ed7cef8ec",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "secondAngle",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "1b7792723b1f4ddb956d09215a23673a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4445ed58a1bd464ab6d0651b4a320855",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "firstAngle",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "13a1456b21404297bed20531e09d02a7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "40e28a481f404580ba811a84e4835b6e",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "thirdAngle",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "a7ea958545674a70b551e096238457dc",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "532fffdaeaee47c7934e93b75622298b",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "bb230ac7dc264a4e9c2677ffd5c56c59",
+      "End": "8fcc52a67aa9453485fc884c9775e008",
+      "Id": "ad71feaef15d47bd98e9216993f0a37a"
+    },
+    {
+      "Start": "c7fae9a0a0c54160a63a638ed7cef8ec",
+      "End": "dde287a080404e91aceb8b490508d748",
+      "Id": "5a8effbe7e3842939a26c50b16641849"
+    },
+    {
+      "Start": "4445ed58a1bd464ab6d0651b4a320855",
+      "End": "73c56776e1044995a9d83f8f29a4ef47",
+      "Id": "5855b91f1c8e45a0936f27495b3d286e"
+    },
+    {
+      "Start": "40e28a481f404580ba811a84e4835b6e",
+      "End": "b767e82ff72045ac8daf3d5c6d09e607",
+      "Id": "96c6507769344ec3aa175837d3127d19"
+    },
+    {
+      "Start": "532fffdaeaee47c7934e93b75622298b",
+      "End": "93659b5eeebd430c9461162974e44297",
+      "Id": "354aba3e185648f7a2b3414c876cede1"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1.5522920194942744,
+      "EyeY": -1.0601781201529503,
+      "EyeZ": 0.66497231149942959,
+      "LookX": -1.5522920194942744,
+      "LookY": 1.0601781201529503,
+      "LookZ": -0.66497231149942959,
+      "UpX": 0.644281694985368,
+      "UpY": 0.713250449154195,
+      "UpZ": 0.27599799689157117
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "8421f0749c9d47f28680ecad7550a95e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 888.79781096611509,
+        "Y": 360.37018249517604
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "5850d102c0be418e9ea1c061de2018f8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1046.708387467816,
+        "Y": 360.437599502064
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "837ba58fe07f43d2a5ab790bdf7e67b7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 555.099638470019,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "1b7792723b1f4ddb956d09215a23673a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 551.274909617505,
+        "Y": 450.78987716052
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "13a1456b21404297bed20531e09d02a7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 383.21966743277403
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "a7ea958545674a70b551e096238457dc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 551.274909617505,
+        "Y": 510.71062918323804
+      }
+    ],
+    "Annotations": [],
+    "X": -445.08474207410092,
+    "Y": -113.36202426768961,
+    "Zoom": 1.0298856394709863
+  }
+}

@@ -1,0 +1,299 @@
+{
+  "Uuid": "cef2ac94-9e3f-4555-aeca-c1516e936f02",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Create Icosahderon geometry for the golden rectangles",
+  "Name": "Solid.Icosahderon",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "tringulations",
+      "Id": "3db4bff2925146d7b2d84eeee5711515",
+      "Inputs": [
+        {
+          "Id": "3fec2c7d5d244f0099b02ec509317dcb",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "triPolygons",
+      "Id": "2bebf62c882b47ef8852c1362c9a07b7",
+      "Inputs": [
+        {
+          "Id": "c59dbd3438c04dd4bd2dc490c504f4cd",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "a[0];\na[1];\na[2];",
+      "Id": "2b8a9435a449466b9a3556804c1ac905",
+      "Inputs": [
+        {
+          "Id": "fc44d1b9cf164464a1a8ededfcaa579c",
+          "Name": "a",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "513fae38b1714ec2b059d6da2c08b252",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "19f7119152874c59a5ed9c4d70059711",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7d01551358a643cb80e152385b480330",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "normals",
+      "Id": "7d69f9c89cf946768ac13813c6d8b079",
+      "Inputs": [
+        {
+          "Id": "c30fc6211f944773a5da248a527b1c2a",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nscaleFactor=IN[0]\r\n\r\n# This list of icoshedron triangles.\r\ntringulations=[]\r\n\r\n\r\n# Create the golden ratio rectangles of the icoshedron\r\na=pntsXY=Polygon.Corners(Rectangle.ByWidthLength(Plane.XY(),0.618034,1))\r\nb=pntsXZ=Polygon.Corners(Rectangle.ByWidthLength(Plane.XZ(),0.618034,1))\r\nc=pntsYZ=Polygon.Corners(Rectangle.ByWidthLength(Plane.YZ(),0.618034,1))\r\n\r\n\r\n# Creating triangularion by means of the corner points of these rectangles until the icoshedron is formed\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([a[1],a[2],c[0]]))\r\ntringulations.append(Surface.ByPerimeterPoints([a[1],a[2],c[1]]))\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([a[0],a[3],c[2]]))\r\ntringulations.append(Surface.ByPerimeterPoints([a[0],a[3],c[3]]))\r\n##########\r\n#######################################################################\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([b[1],b[2],a[0]]))\r\ntringulations.append(Surface.ByPerimeterPoints([b[1],b[2],a[1]]))\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([b[0],b[3],a[2]]))\r\ntringulations.append(Surface.ByPerimeterPoints([b[0],b[3],a[3]]))\r\n##########\r\n######################################################################\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([c[1],c[2],b[0]]))\r\ntringulations.append(Surface.ByPerimeterPoints([c[1],c[2],b[1]]))\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([c[0],c[3],b[2]]))\r\ntringulations.append(Surface.ByPerimeterPoints([c[0],c[3],b[3]]))\r\n##########\r\n############################################################################################################################################\r\n############################################################################################################################################\r\n############################################################################################################################################\r\ntringulations.append(Surface.ByPerimeterPoints([a[0],b[1],c[2]]))\r\ntringulations.append(Surface.ByPerimeterPoints([a[0],b[2],c[3]]))\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([a[1],b[1],c[1]]))\r\ntringulations.append(Surface.ByPerimeterPoints([a[1],b[2],c[0]]))\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([a[2],b[0],c[1]]))\r\ntringulations.append(Surface.ByPerimeterPoints([a[2],b[3],c[0]]))\r\n##########\r\ntringulations.append(Surface.ByPerimeterPoints([a[3],b[0],c[2]]))\r\ntringulations.append(Surface.ByPerimeterPoints([a[3],b[3],c[3]]))\r\n\r\n\r\n# Scale the geometry of icoshedron\r\nscaledGeom=[]\r\n\r\nfor i in tringulations:\r\n\tscaledGeom.append(Geometry.Scale(i,scaleFactor,scaleFactor,scaleFactor))\r\n# Find each face normal plane \r\nnormals=[]\t\r\nfor i in scaledGeom:\r\n\tnormals.append(Surface.NormalAtParameter(i,0.5))\r\n# Return each face polygon\r\ntriPolygons=[]\r\nfor i in scaledGeom:\r\n\ttmp=Surface.PerimeterCurves(i)\r\n\tpnts=[]\r\n\tfor j in tmp:\r\n\t\tpnts.append(Curve.PointAtParameter(j,0))\r\n\ttriPolygons.append(Polygon.ByPoints(pnts))\r\n\r\n# The output list for the icoshedron \r\nOUT = scaledGeom,triPolygons,normals\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "b237428a597940f0b2f0e90fa37ad037",
+      "Inputs": [
+        {
+          "Id": "0ebd15a9dbdc4b8994d84078531acf06",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "cb8aa2551c26422fb9dd64f46ba3b479",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "scaleFactor",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "0122242cea404ba58fe8fc22dd482a61",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3552a9d92f3b455594b580f9cc914eb3",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "513fae38b1714ec2b059d6da2c08b252",
+      "End": "3fec2c7d5d244f0099b02ec509317dcb",
+      "Id": "0fcb372e8844481fac95992ff342ecb6"
+    },
+    {
+      "Start": "19f7119152874c59a5ed9c4d70059711",
+      "End": "c59dbd3438c04dd4bd2dc490c504f4cd",
+      "Id": "e7554384eb174c0fba2d01067cb9819a"
+    },
+    {
+      "Start": "7d01551358a643cb80e152385b480330",
+      "End": "c30fc6211f944773a5da248a527b1c2a",
+      "Id": "2dc2069ce2ea4765a486b94daf1330c3"
+    },
+    {
+      "Start": "cb8aa2551c26422fb9dd64f46ba3b479",
+      "End": "fc44d1b9cf164464a1a8ededfcaa579c",
+      "Id": "f3a4ab426d14450d8a39c1ac45af9925"
+    },
+    {
+      "Start": "3552a9d92f3b455594b580f9cc914eb3",
+      "End": "0ebd15a9dbdc4b8994d84078531acf06",
+      "Id": "87c3201cd3244c44bc5fee381b8b7ce8"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 12.037685476786033,
+      "EyeY": 8.08413864792216,
+      "EyeZ": 6.5293980661803239,
+      "LookX": -4.0879094688565312,
+      "LookY": -4.4184496834019047,
+      "LookZ": -10.215005676037142,
+      "UpX": -0.061321804498089834,
+      "UpY": 0.98628560153724476,
+      "UpZ": -0.15323298761507087
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "3db4bff2925146d7b2d84eeee5711515",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1225.4684887292469,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "2bebf62c882b47ef8852c1362c9a07b7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1241.4684887292469,
+        "Y": 384.40936912226027
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "2b8a9435a449466b9a3556804c1ac905",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1031.64461175359,
+        "Y": 398.41309414289231
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "7d69f9c89cf946768ac13813c6d8b079",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1276.772695903252,
+        "Y": 450.11252894160128
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "b237428a597940f0b2f0e90fa37ad037",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 790.458060948785,
+        "Y": 401.95306848206826
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "0122242cea404ba58fe8fc22dd482a61",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 399.16794084308026
+      }
+    ],
+    "Annotations": [],
+    "X": -645.034893492931,
+    "Y": -209.75387234988705,
+    "Zoom": 1.2273361699871472
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "Uuid": "e601a17e-5a39-403c-b79f-53f2b8b2e5bb",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Create a tetrahedron geometry given a base length",
+  "Name": "Solid.tetrahedronByBaseLength",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nimport math\r\n\r\n\r\n####################################################################\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nbaseLength = IN[0]\r\n\r\nsin60=math.sin(math.radians(60))\r\nbasePoints=[]\r\n####################################################################\r\n#Creating Base points of equliteral triangle\r\nbasePoints.append(Point.ByCoordinates(0, sin60*baseLength, 0))\r\nbasePoints.append(Point.ByCoordinates(-baseLength/2, 0, 0))\r\nbasePoints.append(Point.ByCoordinates(baseLength/2, 0, 0))\r\n####################################################################\r\n#Creating the tip of tetrahedron \r\nbaseSurface=Surface.ByPerimeterPoints(basePoints)\r\nbasePolygon=Polygon.ByPoints(basePoints)\r\ncenterPoint=Polygon.Center(basePolygon)\r\nvertexDirection=Surface.NormalAtPoint(baseSurface,centerPoint)\r\ntipPoint=Geometry.Translate(centerPoint,vertexDirection,((sin60**2)*(baseLength**2)/4)**0.5)\r\n#####################################################################\r\n#Creating the thetrahedron surfaces\r\ntetrahedronSrfcs=[]\r\ntetrahedronSrfcs.append(baseSurface)\r\ntetrahedronSrfcs.append(Surface.ByPerimeterPoints([basePoints[0],basePoints[1],tipPoint]))\r\ntetrahedronSrfcs.append(Surface.ByPerimeterPoints([basePoints[0],basePoints[2],tipPoint]))\r\ntetrahedronSrfcs.append(Surface.ByPerimeterPoints([basePoints[1],basePoints[2],tipPoint]))\r\n\r\nOUT = tetrahedronSrfcs\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "a605817a82b04c3ba06040163d89335b",
+      "Inputs": [
+        {
+          "Id": "63ac3a14bf2743a08ad765f98f950e89",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1bea951aaba24a1cbba2ab685b77cfe0",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "tetrahedronSurfacs",
+      "Id": "4cc32ee63dbf408bba42ce5525ad4036",
+      "Inputs": [
+        {
+          "Id": "926546c55a2a4e9ba2cd382205cba8f5",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "baseLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "0eaf5306ffb4488a945aaa0498db2947",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3332810975a74489a68ee3f609c50f9f",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "1bea951aaba24a1cbba2ab685b77cfe0",
+      "End": "926546c55a2a4e9ba2cd382205cba8f5",
+      "Id": "b6d2a8b0df3c4c8e8186a52d393bd27a"
+    },
+    {
+      "Start": "3332810975a74489a68ee3f609c50f9f",
+      "End": "63ac3a14bf2743a08ad765f98f950e89",
+      "Id": "e23b373bae9e4c9eb5b6b160846fb39f"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1.5522920194942744,
+      "EyeY": -1.0601781201529503,
+      "EyeZ": 0.66497231149942959,
+      "LookX": -1.5522920194942744,
+      "LookY": 1.0601781201529503,
+      "LookZ": -0.66497231149942959,
+      "UpX": 0.644281694985368,
+      "UpY": 0.713250449154195,
+      "UpZ": 0.27599799689157117
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "a605817a82b04c3ba06040163d89335b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 802.4252845166111,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "4cc32ee63dbf408bba42ce5525ad4036",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 977.90627936697911,
+        "Y": 310.233766957428
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "0eaf5306ffb4488a945aaa0498db2947",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 308.89858706718496
+      }
+    ],
+    "Annotations": [],
+    "X": -468.89725906312492,
+    "Y": 30.267907181334522,
+    "Zoom": 1.0060041900272456
+  }
+}

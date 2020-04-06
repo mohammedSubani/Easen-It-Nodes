@@ -1,0 +1,164 @@
+{
+  "Uuid": "ed1d798d-4545-4274-9bb0-a24bd460c2a5",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Finds wither a list of curves are connected or not given that the curves are sorted ",
+  "Name": "Curve.isConnected",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n                          \r\n# The inputs to this node will be stored as a list in the IN variables.\r\ncrvs = IN[0]\r\n# Tests a list of curves and finds if the curves ar connenected or not\r\nfor i in range(1,len(crvs)):\r\n\tif Geometry.DistanceTo(crvs[i-1],crvs[i]) !=0:\r\n\t\tOUT=False\r\n\t\tbreak\r\n\telse:\r\n\t\tOUT=True\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#    ",
+      "VariableInputPorts": true,
+      "Id": "7d99178e6d584150958dcf6859bbce2a",
+      "Inputs": [
+        {
+          "Id": "b3ff9a67a04847249f21abea665736d8",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fb81ee2ea1104c7098a6a63a27d76953",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "result",
+      "Id": "7b684da9121948e4b8b4d3df857d1b86",
+      "Inputs": [
+        {
+          "Id": "2cd9191bf381443cacffecce018a873f",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "curves",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "4a31fa0ce9d94ab1912f7a53b93ffda9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "22f19137f28746889cd736c3827b16ff",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "fb81ee2ea1104c7098a6a63a27d76953",
+      "End": "2cd9191bf381443cacffecce018a873f",
+      "Id": "db435d098d76460a90bcd9946b4870df"
+    },
+    {
+      "Start": "22f19137f28746889cd736c3827b16ff",
+      "End": "b3ff9a67a04847249f21abea665736d8",
+      "Id": "9cfa3df5d8b54c6a8608925076fa0966"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "7d99178e6d584150958dcf6859bbce2a",
+        "X": 777.00670311421482,
+        "Y": 280.74755745063192
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "7b684da9121948e4b8b4d3df857d1b86",
+        "X": 913.71279281177817,
+        "Y": 280.44694403398034
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "4a31fa0ce9d94ab1912f7a53b93ffda9",
+        "X": 592.87866382405218,
+        "Y": 281.21767791051468
+      }
+    ],
+    "Annotations": [],
+    "X": -143.3727970052305,
+    "Y": 8.2812040433280458,
+    "Zoom": 0.95404292488281262
+  }
+}

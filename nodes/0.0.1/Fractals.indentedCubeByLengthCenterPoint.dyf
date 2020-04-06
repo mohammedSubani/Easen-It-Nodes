@@ -1,0 +1,264 @@
+{
+  "Uuid": "3572818d-c1d7-4861-bafb-c3c023e95389",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Defines an indented cube strucutre by center point the structure stops at a given cube length ",
+  "Name": "Fractals.indentedCubeByLengthCenterPoint",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nlength = IN[0]\r\nstoppingLength=IN[1]\r\ncenterPoint=IN[2]\r\n# The output to this node will be stored as a list in this list.\r\nresult=[]\r\n###########################################################################\r\n###########################################################################\r\ndef recursiveCubes(length):\r\n\t#Create a the cube.\r\n\tcube=Cuboid.ByLengths(centerPoint,length,length,length)\r\n\tfacesOfCube=Topology.Faces.GetValue(cube)\r\n###########################################################################\r\n\t# UV coordinates to form a rectangle of solid-cut extrusion.\r\n\tUVCoordinate=((0.1,0.1),(0.1,0.9),(0.9,0.9),(0.9,0.1))\r\n###########################################################################\r\n\t# Define three surfaces to the cube to from the cutting solids.\r\n\tsrfc1=Face.SurfaceGeometry(facesOfCube[0])\r\n\tsrfc2=Face.SurfaceGeometry(facesOfCube[2])\r\n\tsrfc3=Face.SurfaceGeometry(facesOfCube[5])\r\n###########################################################################\r\n\t# Define points for the cutting entities.\r\n\tfirstPatch=[]\r\n\tfor i in UVCoordinate:\r\n\t\tfirstPatch.append(Surface.PointAtParameter(srfc1,i[0],i[1]))\r\n\tsecondPatch=[]\r\n\tfor i in UVCoordinate:\r\n\t\tsecondPatch.append(Surface.PointAtParameter(srfc2,i[0],i[1]))\r\n\tthirdPatch=[]\r\n\tfor i in UVCoordinate:\r\n\t\tthirdPatch.append(Surface.PointAtParameter(srfc3,i[0],i[1]))\r\n###########################################################################\t\r\n\t# Define polygon patches of extrusion.\t\r\n\tsubpoly1=Polygon.ByPoints(firstPatch)\r\n\tsubpoly2=Polygon.ByPoints(secondPatch)\r\n\tsubpoly3=Polygon.ByPoints(thirdPatch)\r\n###########################################################################\r\n\t# Extrusion of solid-cut cubes.\r\n\tsubCubes=[]\r\n\tsubCubes.append(Curve.ExtrudeAsSolid(subpoly1,Vector.ByCoordinates(0,0,-1),length*2))\r\n\tsubCubes.append(Curve.ExtrudeAsSolid(subpoly2,Vector.ByCoordinates(0,1,0),length*2))\r\n\tsubCubes.append(Curve.ExtrudeAsSolid(subpoly3,Vector.ByCoordinates(-1,0,0),length*2))\r\n\t# Base case to stop the recursion.\r\n\tif length*0.9<stoppingLength:\r\n\t\tresult.append(Cuboid.ByLengths(centerPoint,length*0.9,length*0.9,length*0.9))\r\n\t\treturn\r\n\t# Apply subtraction.\r\n\tresult.append(Solid.DifferenceAll(cube,subCubes))\r\n\trecursiveCubes(length*0.9)\r\n###########################################################################\r\n\r\n# Calling the recursive method.\r\nrecursiveCubes(length)\r\n\r\nOUT=result\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              \r\n",
+      "VariableInputPorts": true,
+      "Id": "f022094fa2ca401ea4ecdb566837ac52",
+      "Inputs": [
+        {
+          "Id": "b0412c39275147ba831c8aa52b73d2c8",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1be8dbc8a4754695bca1f900759490ea",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ad7b77d97fa94e3987b5494b98c6296d",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "394f29a086c8454e81a617a629e1440c",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "indentedCubes",
+      "Id": "ad630b19a0d24c948d5f9f20f32da6b1",
+      "Inputs": [
+        {
+          "Id": "49ebed9b8e5c495eaf26f5974e12d65f",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "stopLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "dd60d2faf0824025ba0945a2debbb915",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "81394696e3904538af28b00cfc62e87a",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "startLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "6a4dc91717c744c0a3a6932a3e4d3c69",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "09fcfa68340a408d8b1d6242dde6809e",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "centerPoint",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "ce17c1a9ebef4fafa16a55f6a24046d1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6bfd7a1a82a34a0d8b1c4296150a2cb5",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "394f29a086c8454e81a617a629e1440c",
+      "End": "49ebed9b8e5c495eaf26f5974e12d65f",
+      "Id": "dc751297bf644b3ca4678ad8b92a555c"
+    },
+    {
+      "Start": "81394696e3904538af28b00cfc62e87a",
+      "End": "1be8dbc8a4754695bca1f900759490ea",
+      "Id": "4299f182e71949e5a9e09cd8570e77f3"
+    },
+    {
+      "Start": "09fcfa68340a408d8b1d6242dde6809e",
+      "End": "b0412c39275147ba831c8aa52b73d2c8",
+      "Id": "50103b374ab642c9862e83339779eb5a"
+    },
+    {
+      "Start": "6bfd7a1a82a34a0d8b1c4296150a2cb5",
+      "End": "ad7b77d97fa94e3987b5494b98c6296d",
+      "Id": "292c89c8914e439ebf42f61a3196d967"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 57.252003910792673,
+      "EyeY": 37.8608697277283,
+      "EyeZ": -130.48948311807015,
+      "LookX": -57.252003910792673,
+      "LookY": -37.8608697277283,
+      "LookZ": 130.48948311807015,
+      "UpX": -0.017525304766779284,
+      "UpY": 0.99904822158195028,
+      "UpZ": 0.0399438937380685
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "f022094fa2ca401ea4ecdb566837ac52",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 856.38900232585684,
+        "Y": 315.123107793803
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "ad630b19a0d24c948d5f9f20f32da6b1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1089.8890023258568,
+        "Y": 324.123107793803
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "dd60d2faf0824025ba0945a2debbb915",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 555.0,
+        "Y": 370.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "6a4dc91717c744c0a3a6932a3e4d3c69",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 555.0,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "ce17c1a9ebef4fafa16a55f6a24046d1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 552.0,
+        "Y": 437.0
+      }
+    ],
+    "Annotations": [],
+    "X": -299.95993424253265,
+    "Y": -11.759898532391787,
+    "Zoom": 0.931811528498331
+  }
+}

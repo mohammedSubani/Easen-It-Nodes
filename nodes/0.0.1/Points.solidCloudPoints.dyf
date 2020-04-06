@@ -1,0 +1,313 @@
+{
+  "Uuid": "2fbc6510-e7b2-402e-98c7-ea70d52324b6",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Creates random points within the volume of the given solid",
+  "Name": "Points.solidCloudPoints",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Geometry": {
+        "Key": "Autodesk.DesignScript.Geometry.Geometry",
+        "Value": "ProtoGeometry.dll"
+      },
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "geometry1 = Geometry.Intersect(sphere1, t1);\nt2 = List.Flatten(geometry1, -1);",
+      "Id": "2e0b82eeac59452ab90fd79ef4f1fed5",
+      "Inputs": [
+        {
+          "Id": "a93f0ef62e1d471091fc61ddf121ddac",
+          "Name": "sphere1",
+          "Description": "sphere1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "cc78310142954cf397c2428eff7b5d20",
+          "Name": "t1",
+          "Description": "t1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3478386d9fda48bcbf66c5d95074db0f",
+          "Name": "",
+          "Description": "geometry1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "edf3c1df1c7946c1ba0ef1216882bac2",
+          "Name": "",
+          "Description": "t2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "cloudPoints",
+      "Id": "b0ac016ce4214cb7a24941a020cb614f",
+      "Inputs": [
+        {
+          "Id": "746eea5b8d15464594e1ee710ba6e815",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "43f736d0-f90d-4568-b982-c1037a8e5b11",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "d2e49c392b7f4665a775cc80bb110916",
+      "Inputs": [
+        {
+          "Id": "273a432059944b6b9061999950d7de28",
+          "Name": "numberOfPoints",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "53c681dd7fa74f57b1e2a15a13a152b6",
+          "Name": "geometry",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a382b3eca5b442df98b80df1400df600",
+          "Name": "randomPoints",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates random points within the range of the bounding box (Edges are included in that range)"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "solid",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "7d9e44484dbf4bf892aaf0fdd6be1231",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "76c4cfd5e2e740c59da028a31ae0e221",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "pointsDensity",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "9464781f1703466ca00c315ae07be43d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "12d6d96704e546ea863183f207b15a6e",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#*/;",
+      "Id": "c8f53261a5504129aa6c60144ad84a53",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "edf3c1df1c7946c1ba0ef1216882bac2",
+      "End": "746eea5b8d15464594e1ee710ba6e815",
+      "Id": "22b33308cdf44adda3b7faabb6d87b33"
+    },
+    {
+      "Start": "a382b3eca5b442df98b80df1400df600",
+      "End": "cc78310142954cf397c2428eff7b5d20",
+      "Id": "36dd0f979c034eb28ca9253223495eb2"
+    },
+    {
+      "Start": "76c4cfd5e2e740c59da028a31ae0e221",
+      "End": "a93f0ef62e1d471091fc61ddf121ddac",
+      "Id": "094eef3f5162486092afdcc00d417dbc"
+    },
+    {
+      "Start": "76c4cfd5e2e740c59da028a31ae0e221",
+      "End": "53c681dd7fa74f57b1e2a15a13a152b6",
+      "Id": "e665d8a0f0fe436d959c0a82f141d1fc"
+    },
+    {
+      "Start": "12d6d96704e546ea863183f207b15a6e",
+      "End": "273a432059944b6b9061999950d7de28",
+      "Id": "0e8c86559d434373b35424f8604c3a31"
+    }
+  ],
+  "Dependencies": [
+    "43f736d0-f90d-4568-b982-c1037a8e5b11"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -1.0176133483416656,
+      "EyeY": -0.10263094914414284,
+      "EyeZ": 2.0574263176757439,
+      "LookX": 3.1633272199729223,
+      "LookY": -0.19486049762031687,
+      "LookZ": -5.0253459643730256,
+      "UpX": -0.097080374608991146,
+      "UpY": 0.983254907563985,
+      "UpZ": 0.1542244715250434
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": false,
+        "Name": "Code Block",
+        "Id": "2e0b82eeac59452ab90fd79ef4f1fed5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 896.11978366716357,
+        "Y": 303.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "b0ac016ce4214cb7a24941a020cb614f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1378.2428007125586,
+        "Y": 323.320838014488
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Points.randomPointsWithinBoundingBox",
+        "Id": "d2e49c392b7f4665a775cc80bb110916",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 576.29353520801965,
+        "Y": 397.532458787929
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "7d9e44484dbf4bf892aaf0fdd6be1231",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 347.47706974130961,
+        "Y": 306.110571655027
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "9464781f1703466ca00c315ae07be43d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 309.0,
+        "Y": 392.300895002756
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "c8f53261a5504129aa6c60144ad84a53",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 573.24425448468355,
+        "Y": 541.76952098814
+      }
+    ],
+    "Annotations": [],
+    "X": -229.61089604155728,
+    "Y": -188.69665395530703,
+    "Zoom": 0.84016471210859955
+  }
+}

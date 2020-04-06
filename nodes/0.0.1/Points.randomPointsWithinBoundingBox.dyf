@@ -1,0 +1,332 @@
+{
+  "Uuid": "43f736d0-f90d-4568-b982-c1037a8e5b11",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Creates random points within the range of the bounding box (Edges are included in that range)",
+  "Name": "Points.randomPointsWithinBoundingBox",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "BoundingBox": {
+        "Key": "Autodesk.DesignScript.Geometry.BoundingBox",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\nimport random\r\n\r\n\r\n# the input lists for this node .\r\nmaxPnt =IN[0]\r\nminPnt =IN[1]\r\nnumberOfPoints=IN[2]\r\n\r\n# The output list for these nodes .\r\npnts=[]\r\n\r\n\r\n# Finding the coordinat range for the bounding box .\r\n\r\nxRange= maxPnt.X-minPnt.X\r\nyRange= maxPnt.Y-minPnt.Y\r\nzRange= maxPnt.Z-minPnt.Z\r\n\r\n# Creating random points within the range of the bounding box .\r\nfor i in range(numberOfPoints):\r\n\tpnts.append(Point.ByCoordinates(minPnt.X+random.random()*(xRange+1), \r\n\t\t\t\t\t\t\t\t\tminPnt.Y+random.random()*(yRange+1), \r\n\t\t\t\t\t\t\t\t\tminPnt.Z+random.random()*(zRange+1)))\r\nOUT = pnts\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "c8f19608dfd54ac8b525898d449f0972",
+      "Inputs": [
+        {
+          "Id": "a72b983be46b46298afcc329abaa1654",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8c525d000c0b4685b67216519608b8f9",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "80802cbb84104411bc00eceb5a8b009d",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3b7fcedbda2143498f929e21359b7a84",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "point1 = BoundingBox.MaxPoint(boundingBox1);\npoint2 = BoundingBox.MinPoint(boundingBox1);",
+      "Id": "f6e83b81b21945a2b504269454d0d530",
+      "Inputs": [
+        {
+          "Id": "252b25c8db054f2a8236a17c6dbf73be",
+          "Name": "boundingBox1",
+          "Description": "boundingBox1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bfe64785cc874b1cb0a80493c9450f24",
+          "Name": "",
+          "Description": "point1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "668dc9e5840b45348bc9a7436183be6a",
+          "Name": "",
+          "Description": "point2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "randomPoints",
+      "Id": "d1a03218b9f249d9a759609be56655dd",
+      "Inputs": [
+        {
+          "Id": "3828f0237c6247db8a2afdaec1ff279d",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Geometry.BoundingBox",
+      "Id": "37c0deb5ec7c4bf0b333974e3b1ce63e",
+      "Inputs": [
+        {
+          "Id": "5a8b683e3fbd4b729fd5e4d5b83e510f",
+          "Name": "geometry",
+          "Description": "Autodesk.DesignScript.Geometry.Geometry",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7c5e01d9004e4085ba1b56e98630862c",
+          "Name": "BoundingBox",
+          "Description": "BoundingBox",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the BoundingBox containing the given piece of Geometry\n\nGeometry.BoundingBox: BoundingBox"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "numberOfPoints",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "61dafcf8580049e288f73fc00fa6a456",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e41208eb53a6471caa576b6ad208db42",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "geometry",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "8c325603eff34528b81b2609e5655a98",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "33ed4adc1a4842dfbda87b1f00fa65f2",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "3b7fcedbda2143498f929e21359b7a84",
+      "End": "3828f0237c6247db8a2afdaec1ff279d",
+      "Id": "c91139c8b9bb430092f122739a47390a"
+    },
+    {
+      "Start": "bfe64785cc874b1cb0a80493c9450f24",
+      "End": "a72b983be46b46298afcc329abaa1654",
+      "Id": "12af58b0e64846c8b1ad52a44f3bce8d"
+    },
+    {
+      "Start": "668dc9e5840b45348bc9a7436183be6a",
+      "End": "8c525d000c0b4685b67216519608b8f9",
+      "Id": "5977f81af41c40bb9adccdbf3ab1e943"
+    },
+    {
+      "Start": "7c5e01d9004e4085ba1b56e98630862c",
+      "End": "252b25c8db054f2a8236a17c6dbf73be",
+      "Id": "362de820946d408fa0baef1b67cbc175"
+    },
+    {
+      "Start": "e41208eb53a6471caa576b6ad208db42",
+      "End": "80802cbb84104411bc00eceb5a8b009d",
+      "Id": "12d1b203a7d948dcafe7b83a26c62e8c"
+    },
+    {
+      "Start": "33ed4adc1a4842dfbda87b1f00fa65f2",
+      "End": "5a8b683e3fbd4b729fd5e4d5b83e510f",
+      "Id": "1638a8a54ec24109b9720be4bc119bdf"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "c8f19608dfd54ac8b525898d449f0972",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1395.8408048363631,
+        "Y": 312.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "f6e83b81b21945a2b504269454d0d530",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 875.995520780144,
+        "Y": 312.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "d1a03218b9f249d9a759609be56655dd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1558.7060750630731,
+        "Y": 312.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Geometry.BoundingBox",
+        "Id": "37c0deb5ec7c4bf0b333974e3b1ce63e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 597.09778297553294,
+        "Y": 312.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "61dafcf8580049e288f73fc00fa6a456",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 361.0,
+        "Y": 386.54513014904103
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "8c325603eff34528b81b2609e5655a98",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 361.0,
+        "Y": 316.157201185677
+      }
+    ],
+    "Annotations": [],
+    "X": -64.310224466230352,
+    "Y": 92.969177540004921,
+    "Zoom": 0.612283078543345
+  }
+}

@@ -1,0 +1,349 @@
+{
+  "Uuid": "00d31ee4-df9c-439d-a40d-ecfe410029ef",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Takes in fractal geometry list and returns its exploded data",
+  "Name": "Fractals.explodeFractalGeometry",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "a[0];\na[1];\na[2];",
+      "Id": "d7a7f39423d841bbbf7504c9dda95876",
+      "Inputs": [
+        {
+          "Id": "a96e506cce864fe98d848c4163c7d5cf",
+          "Name": "a",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7bace577b612459888bbcbb27a59e04e",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1b67993d893942f99bb1147720b869c3",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "80fa8ad9c6c64dd490467695e777e083",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nfractalGeometry = IN[0]\r\n\r\n# List of outputs if nothing is stored in the list it means Geometry doesn't consist of that type.\r\nsurfaces=[]\r\ncurves=[]\r\npoints=[]\r\n\r\n\r\nif isinstance(fractalGeometry[0],Solid):\r\n# Test for solids.\r\n\tfor i in fractalGeometry:\r\n\t\tfaces=Solid.Faces.GetValue(i)\r\n\t\ttmp=[]\r\n\t\tfor j in faces:\r\n\t\t\ttmp.append(Face.SurfaceGeometry(j))\r\n\t\tsurfaces.append(tmp)\r\nif isinstance(fractalGeometry[0],Surface):\r\n# Test for surfaces.\r\n\tfor i in fractalGeometry:\r\n\t\tcrvs=Surface.PerimeterCurves(i)\r\n\t\tcurves.append(crvs)\r\nif isinstance(fractalGeometry[0],Curve):\r\n# Test for curves.\r\n\tfor i in fractalGeometry:\r\n\t\tpnts=[]\r\n\t\tpnts.append(Curve.PointAtParameter(i,0.5))\r\n\t\tpnts.append(Curve.PointAtParameter(i,0.0))\r\n\t\tpnts.append(Curve.PointAtParameter(i,1.0))\r\n\t\tpoints.append(pnts)\r\nOUT = surfaces,curves,points\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "637ff3e2e5e14fb4825fc8e471737259",
+      "Inputs": [
+        {
+          "Id": "a2a57361591e4f17911febd69d1595f7",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5360678595a24ce99d1c2bf8035f0d65",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "List.Flatten(list);",
+      "Id": "3136e63672514fb99e3fae33e2b3220a",
+      "Inputs": [
+        {
+          "Id": "e46be270103c4079ae661e806d9b318d",
+          "Name": "list",
+          "Description": "list",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "1e65c4c7e89a4177accab57a5abcd703",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "surfaces",
+      "Id": "9f5a67a34a8840d4899eef9ae62e3454",
+      "Inputs": [
+        {
+          "Id": "42b16a69d4d34d5f9a4117ccf306e2c5",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "fractalGeometry",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "1bfdd23a285d44ea86aead1746be8d19",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "216c2b2f68e34cf1b9fa60e2682f5f90",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "curves",
+      "Id": "d01129a7311b4c2687132a873819743d",
+      "Inputs": [
+        {
+          "Id": "ff1cbba39a5f4aa682f9c7e890113e9c",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "points",
+      "Id": "e3a62db784f34790812ab8918322b10d",
+      "Inputs": [
+        {
+          "Id": "91c6d0190a1a4ecbb4944971e9e14066",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "7bace577b612459888bbcbb27a59e04e",
+      "End": "42b16a69d4d34d5f9a4117ccf306e2c5",
+      "Id": "733c1b21d27f4ac386ecf86d9509d098"
+    },
+    {
+      "Start": "1b67993d893942f99bb1147720b869c3",
+      "End": "ff1cbba39a5f4aa682f9c7e890113e9c",
+      "Id": "7162671aea474e778520cbf3a71f35d5"
+    },
+    {
+      "Start": "80fa8ad9c6c64dd490467695e777e083",
+      "End": "91c6d0190a1a4ecbb4944971e9e14066",
+      "Id": "f30368adfb4e4e3ab7b90f66e4369be0"
+    },
+    {
+      "Start": "5360678595a24ce99d1c2bf8035f0d65",
+      "End": "a96e506cce864fe98d848c4163c7d5cf",
+      "Id": "9b8b8599bbee4d01b3c5a96f104330c9"
+    },
+    {
+      "Start": "1e65c4c7e89a4177accab57a5abcd703",
+      "End": "a2a57361591e4f17911febd69d1595f7",
+      "Id": "90c9624c328d441abb47be4998e3084c"
+    },
+    {
+      "Start": "216c2b2f68e34cf1b9fa60e2682f5f90",
+      "End": "e46be270103c4079ae661e806d9b318d",
+      "Id": "1969f9f7fe9a4e43b6686d26a59cb6a0"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 0.46155239919516583,
+      "EyeY": 0.44905347734591516,
+      "EyeZ": -0.49168617043667151,
+      "LookX": -0.46155239919516583,
+      "LookY": -0.87505040675303492,
+      "LookZ": 0.49168617043667151,
+      "UpX": -0.43993145016045954,
+      "UpY": 0.76604444311899222,
+      "UpZ": 0.4686536357762095
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "d7a7f39423d841bbbf7504c9dda95876",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1238.7968819234143,
+        "Y": 331.095511832589
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "637ff3e2e5e14fb4825fc8e471737259",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1078.8365174072342,
+        "Y": 329.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "3136e63672514fb99e3fae33e2b3220a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 840.19327542789415,
+        "Y": 331.8350891193
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "9f5a67a34a8840d4899eef9ae62e3454",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1414.6932754278942,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "1bfdd23a285d44ea86aead1746be8d19",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 552.0,
+        "Y": 330.48185104761
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "d01129a7311b4c2687132a873819743d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1415.0282921925082,
+        "Y": 367.84320062567622
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "e3a62db784f34790812ab8918322b10d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1416.4128425691379,
+        "Y": 434.83907829848465
+      }
+    ],
+    "Annotations": [],
+    "X": -684.69812882435656,
+    "Y": -126.87927805216867,
+    "Zoom": 1.0298856394709863
+  }
+}

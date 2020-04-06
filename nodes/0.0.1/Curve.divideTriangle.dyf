@@ -1,0 +1,214 @@
+{
+  "Uuid": "12359532-ecb8-4675-b661-7f4f560ebaa2",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Create sub-traingles by edges center points for a given triangle",
+  "Name": "Curve.divideTriangle",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n                                                                                                                                            \r\n\r\n\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ntriangle = IN[0]\r\nstopLength = IN[1]\r\n# The output lists that will eventually going to be stored in the OUT variable.\r\nresult=[]\r\n###############################################################################\r\n# A recrusive method that will iterat over sub-traingles until it reaches a certain length that will return all of the sub traingles\r\ndef iterateTriangle(triangle):\r\n###############################################################################\r\n# Finding the new points for the new sub-traingles\r\n\tcrvs=Polygon.Curves(triangle)\r\n\ttriCorners=Polygon.Corners(triangle)\r\n\tcenterPnts=[]\r\n\tfor i in crvs:\r\n\t\tcenterPnts.append(Curve.PointAtParameter(i,0.5))\r\n###############################################################################\r\n# Creating sub-traingles\r\n\ttris=[]\r\n\ttris.append(Polygon.ByPoints([centerPnts[0],centerPnts[1],centerPnts[2]]))\r\n\ttris.append(Polygon.ByPoints([centerPnts[0],centerPnts[1],triCorners[1]]))\r\n\ttris.append(Polygon.ByPoints([centerPnts[1],centerPnts[2],triCorners[2]]))\r\n\ttris.append(Polygon.ByPoints([centerPnts[0],centerPnts[2],triCorners[0]]))\r\n###############################################################################\r\n# Adding sub-traingles to output list\r\n\tpCrvs=Polygon.Curves(tris[0])\r\n\tif Curve.Length.GetValue(pCrvs[0]) < stopLength:\r\n\t\tresult.append(tris)\r\n\t\treturn\r\n\telse:\r\n\t\tfor i in tris:\r\n\t\t\titerateTriangle(i)\r\n# Calling iterateTriangle method for multiple input triangles\t\t\t\r\nfor i in triangle:\r\n\titerateTriangle(i)\r\n\r\nOUT = result\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#     ",
+      "VariableInputPorts": true,
+      "Id": "9210937971704b2fa651b926955f4c7a",
+      "Inputs": [
+        {
+          "Id": "c99ee9c1a3c14398839dd5338cd1f4f0",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "16cf7d98439b4114bd501fcfc2a07e6a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "aec2249572b74f4687dd131d2652bd8f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "listOfTriangles",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "105d49df32f347b586b0691e19dabd37",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b0d7844e075b44139e9e5d666bb164c4",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "dividedTriangles",
+      "Id": "3ad6e039a3e24255bb17ecb23d6d30a2",
+      "Inputs": [
+        {
+          "Id": "02241ff82462426c8afdc0f2ef3e4cb2",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "stopAtLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "f459dc3f80784cc4be4fb8f74fd5721f",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6b839107266b45cabb8ed2aacbcd53d8",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "aec2249572b74f4687dd131d2652bd8f",
+      "End": "02241ff82462426c8afdc0f2ef3e4cb2",
+      "Id": "0c8140e3e9b8409cb2b1e96509645b64"
+    },
+    {
+      "Start": "b0d7844e075b44139e9e5d666bb164c4",
+      "End": "c99ee9c1a3c14398839dd5338cd1f4f0",
+      "Id": "4db2e9f4cdbe489ab94371b30a880fd2"
+    },
+    {
+      "Start": "6b839107266b45cabb8ed2aacbcd53d8",
+      "End": "16cf7d98439b4114bd501fcfc2a07e6a",
+      "Id": "3362fb5049a5455e933de33e946c091b"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "9210937971704b2fa651b926955f4c7a",
+        "X": 700.45560371471242,
+        "Y": 298.30253070987021
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "105d49df32f347b586b0691e19dabd37",
+        "X": 351.4610266644342,
+        "Y": 273.951988414898
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "3ad6e039a3e24255bb17ecb23d6d30a2",
+        "X": 847.05885748454557,
+        "Y": 299.55704983463829
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "f459dc3f80784cc4be4fb8f74fd5721f",
+        "X": 374.58467092700374,
+        "Y": 332.22689803240269
+      }
+    ],
+    "Annotations": [],
+    "X": -39.156955026824676,
+    "Y": 73.09226384027869,
+    "Zoom": 0.78436932804482717
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "Uuid": "845e48d6-34e1-4d72-a649-e29dc7c2b29d",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Counts the CPU for your machine. \r\nNote : Python code is not made be Easen It Nodes for more information visit : \r\nhttps://github.com/giampaolo/psutil",
+  "Name": "ExtraUtil.countCPU",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "CPU_Count",
+      "Id": "40ba8f9fb30b409793cd9a5775c7c9b9",
+      "Inputs": [
+        {
+          "Id": "f75a4e35fb0c4db9982d72beb53ac0e1",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\n\r\nimport os\r\nimport re\r\nimport subprocess\r\n\r\n# https://github.com/giampaolo/psutil\r\n\r\n\r\ndef available_cpu_count():\r\n    \"\"\" Number of available virtual or physical CPUs on this system, i.e.\r\n    user/real as output by time(1) when called with an optimally scaling\r\n    userspace-only program\"\"\"\r\n\r\n    # cpuset\r\n    # cpuset may restrict the number of *available* processors\r\n    try:\r\n        m = re.search(r'(?m)^Cpus_allowed:\\s*(.*)$',\r\n                      open('/proc/self/status').read())\r\n        if m:\r\n            res = bin(int(m.group(1).replace(',', ''), 16)).count('1')\r\n            if res > 0:\r\n                return res\r\n    except IOError:\r\n        pass\r\n\r\n    # Python 2.6+\r\n    try:\r\n        import multiprocessing\r\n        return multiprocessing.cpu_count()\r\n    except (ImportError, NotImplementedError):\r\n        pass\r\n\r\n    \r\n    try:\r\n        import psutil\r\n        return psutil.cpu_count()   # psutil.NUM_CPUS on old versions\r\n    except (ImportError, AttributeError):\r\n        pass\r\n\r\n    # POSIX\r\n    try:\r\n        res = int(os.sysconf('SC_NPROCESSORS_ONLN'))\r\n\r\n        if res > 0:\r\n            return res\r\n    except (AttributeError, ValueError):\r\n        pass\r\n\r\n    # Windows\r\n    try:\r\n        res = int(os.environ['NUMBER_OF_PROCESSORS'])\r\n\r\n        if res > 0:\r\n            return res\r\n    except (KeyError, ValueError):\r\n        pass\r\n\r\n    # jython\r\n    try:\r\n        from java.lang import Runtime\r\n        runtime = Runtime.getRuntime()\r\n        res = runtime.availableProcessors()\r\n        if res > 0:\r\n            return res\r\n    except ImportError:\r\n        pass\r\n\r\n    # BSD\r\n    try:\r\n        sysctl = subprocess.Popen(['sysctl', '-n', 'hw.ncpu'],\r\n                                  stdout=subprocess.PIPE)\r\n        scStdout = sysctl.communicate()[0]\r\n        res = int(scStdout)\r\n\r\n        if res > 0:\r\n            return res\r\n    except (OSError, ValueError):\r\n        pass\r\n\r\n    # Linux\r\n    try:\r\n        res = open('/proc/cpuinfo').read().count('processor\\t:')\r\n\r\n        if res > 0:\r\n            return res\r\n    except IOError:\r\n        pass\r\n\r\n    # Solaris\r\n    try:\r\n        pseudoDevices = os.listdir('/devices/pseudo/')\r\n        res = 0\r\n        for pd in pseudoDevices:\r\n            if re.match(r'^cpuid@[0-9]+$', pd):\r\n                res += 1\r\n\r\n        if res > 0:\r\n            return res\r\n    except OSError:\r\n        pass\r\n\r\n    # Other UNIXes (heuristic)\r\n    try:\r\n        try:\r\n            dmesg = open('/var/run/dmesg.boot').read()\r\n        except IOError:\r\n            dmesgProcess = subprocess.Popen(['dmesg'], stdout=subprocess.PIPE)\r\n            dmesg = dmesgProcess.communicate()[0]\r\n\r\n        res = 0\r\n        while '\\ncpu' + str(res) + ':' in dmesg:\r\n            res += 1\r\n\r\n        if res > 0:\r\n            return res\r\n    except OSError:\r\n        pass\r\n\r\n    raise Exception('Can not determine number of CPUs on this system')\r\n\r\n\t\t\t\r\nOUT = available_cpu_count()\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#  \r\n#______________________________________________________________________________________________________________________________________________________#   ",
+      "VariableInputPorts": true,
+      "Id": "e8b44f15effd45fb94fb1e6e56f127f9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "71be4ef72db54062945ae8587116f9c0",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#*/;",
+      "Id": "2df36e01fc6849e0ad538f7ebf0d501a",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "71be4ef72db54062945ae8587116f9c0",
+      "End": "f75a4e35fb0c4db9982d72beb53ac0e1",
+      "Id": "bf6fa380f0ed41dda8f97f0befb93d67"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1.5522920194942744,
+      "EyeY": -1.0601781201529503,
+      "EyeZ": 0.66497231149942959,
+      "LookX": -1.5522920194942744,
+      "LookY": 1.0601781201529503,
+      "LookZ": -0.66497231149942959,
+      "UpX": 0.644281694985368,
+      "UpY": 0.713250449154195,
+      "UpZ": 0.27599799689157117
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "40ba8f9fb30b409793cd9a5775c7c9b9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 814.73612711413011,
+        "Y": 314.64698940715579
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "e8b44f15effd45fb94fb1e6e56f127f9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 694.23612711413011,
+        "Y": 314.64698940715579
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "2df36e01fc6849e0ad538f7ebf0d501a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 547.81398342247826,
+        "Y": 394.0189564050242
+      }
+    ],
+    "Annotations": [],
+    "X": -104.38462954495253,
+    "Y": -101.8055072375461,
+    "Zoom": 0.899577183476056
+  }
+}

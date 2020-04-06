@@ -1,0 +1,164 @@
+{
+  "Uuid": "23e51709-ef17-4f0e-b68a-0e1139e82f71",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "For a list of points returns two points of the longes distance in between",
+  "Name": "Points.farthestPoints",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "farthestPoints",
+      "Id": "259e7e9889394df2b19c1fd26c8e7b12",
+      "Inputs": [
+        {
+          "Id": "efbe2d1138b34f3e945973cb53f9d3a8",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# A method that measures the distance between two points .\r\ndef distance(pnt1,pnt2):\r\n\treturn (((pnt2.X-pnt1.X)**2\r\n\t\t\t+(pnt2.Y-pnt1.Y)**2\r\n\t\t\t+(pnt2.Z-pnt1.Z)**2)**0.5)\r\n\r\n# The input list of points .\r\npoints = IN[0]\r\n\r\n\r\nfarthestDistance=distance(points[0],points[1])\r\n\r\n# The output list of distances .\r\nfarthestPoints=[]\r\n\r\nfor i in range(len(points)):\r\n\tfor j in range(len(points)):\r\n\t\tif i == j:\r\n\t\t\tpass\r\n\t\telse:\r\n\t\t\tif distance(points[i],points[j])>farthestDistance:\r\n\t\t\t\tfarthestDistance=distance(points[i],points[j])\r\n\t\t\t\tfarthestPoints.Clear()\r\n\t\t\t\tfarthestPoints.append(points[i])\r\n\t\t\t\tfarthestPoints.append(points[j])\r\n\r\nOUT=farthestPoints\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "9746d214476e4835b066305a40b2127a",
+      "Inputs": [
+        {
+          "Id": "0b402e9c1cb04f8ea74be8c449c41d9f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4a3a6b919bac424da7942e245bd16c6d",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "points",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "816fff06e7454b69a95b7663e9f112b0",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "36bf06b59a494150a50c7a2836ca67cb",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "4a3a6b919bac424da7942e245bd16c6d",
+      "End": "efbe2d1138b34f3e945973cb53f9d3a8",
+      "Id": "0bf46bb532ef4dbb8b4fe395a8729d81"
+    },
+    {
+      "Start": "36bf06b59a494150a50c7a2836ca67cb",
+      "End": "0b402e9c1cb04f8ea74be8c449c41d9f",
+      "Id": "03c12fd7c20e46059a949f21e8aa48a3"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "259e7e9889394df2b19c1fd26c8e7b12",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 947.70126588594508,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "9746d214476e4835b066305a40b2127a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 763.453346938818,
+        "Y": 309.819821935798
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "816fff06e7454b69a95b7663e9f112b0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 310.928068947342
+      }
+    ],
+    "Annotations": [],
+    "X": -661.62532966718493,
+    "Y": -287.59136693744506,
+    "Zoom": 1.3775833525586678
+  }
+}

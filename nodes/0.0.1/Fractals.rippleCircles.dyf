@@ -1,0 +1,264 @@
+{
+  "Uuid": "70516a41-d88a-4ecb-96de-7c02e9c4e01c",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Creates a ripple curve recursively out a starting circle to a stopping radius",
+  "Name": "Fractals.rippleCircles",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\n\r\nsys.path.append(pyt_path)\r\nimport random\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nfirstCircle = IN[0]\r\nstoppingRadius= IN[1]\r\nrandomRange=IN[2]\r\n\r\n# The output to this node will be stored as a list.\r\nresult=[]\r\n\r\n# A recursive method to create sub-circles.\r\ndef replicateCircles(firstCircle):\r\n\t# Base Case.\r\n\tif Circle.Radius.GetValue(firstCircle) <= stoppingRadius:\r\n\t\treturn\r\n\telse:\r\n\t# Creating sub circle\r\n\t\tnewRadius=0.61803398875*Circle.Radius.GetValue(firstCircle)\r\n\t\tcenterPoint=Circle.CenterPoint.GetValue(firstCircle)\r\n\t\tnewCenter=Geometry.Translate(centerPoint,random.random()*randomRange-randomRange,random.random()*randomRange-randomRange,0)\r\n\t\tnewCircle=Circle.ByCenterPointRadius(newCenter,newRadius)\r\n\t\tresult.append(newCircle)\r\n\t\t# Calling itself.\r\n\t\treplicateCircles(newCircle)\r\n\t\t\r\n# first call\r\nreplicateCircles(firstCircle)\r\n\r\n\r\nOUT = result\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "b6181566f0694461b15b869bc5c6ddac",
+      "Inputs": [
+        {
+          "Id": "55f18910b42a4fd0af35c4336288475f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "fc05763d839a4474ab130c4359c0e77d",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "360782c999bb4c96b187334925a1f325",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "544d6c800690408382cf73dd53675a8d",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "rippleCircles",
+      "Id": "fc575de0f44f4fd4a1ab3b2ba765cd68",
+      "Inputs": [
+        {
+          "Id": "121fcd3503e545f98b2702ca38becebf",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "stoppingRadius",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "d2985ca1dbea4598bff26310a40cf16e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5836c73cdfc24366b371b91de0564081",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "firstCircle",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "b1dce5bfc1934614a76290d7ea9ffcce",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "7201c027ef584047b1506b2876b71da7",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "randomRange",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "4d52dcd0224446b8865655d4d2b130e5",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5fde5e1d90e6409a941ddd8cfc0f777a",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "544d6c800690408382cf73dd53675a8d",
+      "End": "121fcd3503e545f98b2702ca38becebf",
+      "Id": "9429157ee09248d08f6bde6b8bf157c2"
+    },
+    {
+      "Start": "5836c73cdfc24366b371b91de0564081",
+      "End": "fc05763d839a4474ab130c4359c0e77d",
+      "Id": "0e3ef28550924c7db0f47d64c740b9bb"
+    },
+    {
+      "Start": "7201c027ef584047b1506b2876b71da7",
+      "End": "55f18910b42a4fd0af35c4336288475f",
+      "Id": "0d0ee48fb8914e9b8be43425d5fa5611"
+    },
+    {
+      "Start": "5fde5e1d90e6409a941ddd8cfc0f777a",
+      "End": "360782c999bb4c96b187334925a1f325",
+      "Id": "ef092b2453a64ed5b53a4aa557bb48e7"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 57.252003910792673,
+      "EyeY": 37.8608697277283,
+      "EyeZ": -130.48948311807015,
+      "LookX": -57.252003910792673,
+      "LookY": -37.8608697277283,
+      "LookZ": 130.48948311807015,
+      "UpX": -0.017525304766779284,
+      "UpY": 0.99904822158195028,
+      "UpZ": 0.0399438937380685
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "b6181566f0694461b15b869bc5c6ddac",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 855.0,
+        "Y": 345.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "fc575de0f44f4fd4a1ab3b2ba765cd68",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1011.0,
+        "Y": 342.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "d2985ca1dbea4598bff26310a40cf16e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 552.0,
+        "Y": 366.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "b1dce5bfc1934614a76290d7ea9ffcce",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 555.0,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "4d52dcd0224446b8865655d4d2b130e5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 552.0,
+        "Y": 427.0
+      }
+    ],
+    "Annotations": [],
+    "X": -111.21211913278421,
+    "Y": -22.692306058364295,
+    "Zoom": 0.95404292488281262
+  }
+}

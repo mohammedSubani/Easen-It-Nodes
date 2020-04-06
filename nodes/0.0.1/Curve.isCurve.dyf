@@ -1,0 +1,250 @@
+{
+  "Uuid": "de67ab53-1290-482a-b811-df4e1af48019",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Filters a list of objects for only curves",
+  "Name": "Curve.isCurve",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      },
+      "Dictionary": {
+        "Key": "DesignScript.Builtin.Dictionary",
+        "Value": "DesignScriptBuiltin.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "filteredCurves",
+      "Id": "d6e629e0e8a446a488ac9c2768d4a710",
+      "Inputs": [
+        {
+          "Id": "ba0cc24da2cf49e6a4a00b3f935ae5c8",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "t3 = List.FilterByBoolMask(t1, t2);\nt4 = Dictionary.ValueAtKey(t3, \"in\");\nt5 = Dictionary.ValueAtKey(t3, \"out\");",
+      "Id": "05a5b2375fad48aa8987f0ac3785851f",
+      "Inputs": [
+        {
+          "Id": "c15c8d03a58348748f44a4854153e8a1",
+          "Name": "t1",
+          "Description": "t1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3fcdf932f6894f6b8b20b552ee2a5409",
+          "Name": "t2",
+          "Description": "t2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b8f590946d4a439f9be17a22a8e5f65f",
+          "Name": "",
+          "Description": "t3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "53eeadbb372d44a6a55418fdc4b2e04a",
+          "Name": "",
+          "Description": "t4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "110f621b3349414f819bbf488aaaad64",
+          "Name": "",
+          "Description": "t5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nobjs= IN[0]\r\nflags=[]\r\n# Flag test for the input objects\r\nfor i in objs:\r\n\tif isinstance(i,Curve):\r\n\t\tflags.append(True)\r\n\telse:\r\n\t\tflags.append(False)\r\n\r\nOUT = flags\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#    ",
+      "VariableInputPorts": true,
+      "Id": "34c517f3ee58434aa485f3933dc438ed",
+      "Inputs": [
+        {
+          "Id": "9146bbc9c56e4b809971830149f6d912",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3f195654790a451b9ea5fcaa8a6e33b3",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "list",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "ea251d310043440cb131ba8b569ce00d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c364e201663946e8a036dab1c3f7b97e",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "53eeadbb372d44a6a55418fdc4b2e04a",
+      "End": "ba0cc24da2cf49e6a4a00b3f935ae5c8",
+      "Id": "4903851a48b345c8a031f2c76782d09a"
+    },
+    {
+      "Start": "3f195654790a451b9ea5fcaa8a6e33b3",
+      "End": "3fcdf932f6894f6b8b20b552ee2a5409",
+      "Id": "dbcbfd8668f044f9a313cdd2952198c2"
+    },
+    {
+      "Start": "c364e201663946e8a036dab1c3f7b97e",
+      "End": "c15c8d03a58348748f44a4854153e8a1",
+      "Id": "6da6d7be1ee444b5a08b1adcc0b28a7c"
+    },
+    {
+      "Start": "c364e201663946e8a036dab1c3f7b97e",
+      "End": "9146bbc9c56e4b809971830149f6d912",
+      "Id": "6ace1d5752424d0490733f791eb0787e"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "d6e629e0e8a446a488ac9c2768d4a710",
+        "X": 1050.43727697947,
+        "Y": 405.362379186046
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "05a5b2375fad48aa8987f0ac3785851f",
+        "X": 660.608736499149,
+        "Y": 394.693106002746
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "34c517f3ee58434aa485f3933dc438ed",
+        "X": 494.37363782914997,
+        "Y": 448.459309107546
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Excluded": false,
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Id": "ea251d310043440cb131ba8b569ce00d",
+        "X": 327.0,
+        "Y": 391.0
+      }
+    ],
+    "Annotations": [],
+    "X": 102.70259999999996,
+    "Y": 85.78001249999997,
+    "Zoom": 0.70823125000000009
+  }
+}

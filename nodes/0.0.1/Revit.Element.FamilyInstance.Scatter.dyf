@@ -1,0 +1,309 @@
+{
+  "Uuid": "e8f858f1-cae8-4cba-a264-ec7130b2b749",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Scatters randomly a family instance by defining model line closed curve and passing it to this node",
+  "Name": "Revit.Element.FamilyInstance.Scatter",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "familyInstances",
+      "Id": "1c5e6441d0f442c8844b41539bd3e36c",
+      "Inputs": [
+        {
+          "Id": "6f590272a89f42179d4f4d20a98cd7b8",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.FamilyInstance.ByPoint@Revit.Elements.FamilyType,Autodesk.DesignScript.Geometry.Point",
+      "Id": "1bcdca8990464ebea1957b6a8e76872d",
+      "Inputs": [
+        {
+          "Id": "d42785e3ed1c4db9bf5b4482ba09ca84",
+          "Name": "familyType",
+          "Description": "Family Type. Also called Family Symbol.\n\nFamilyType",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c061f62635e64b5caf2fe506ec8aabdd",
+          "Name": "point",
+          "Description": "Point in meters.\n\nPoint",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8acdce1041964082ac29ef81fc38d336",
+          "Name": "FamilyInstance",
+          "Description": "FamilyInstance",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Place a Revit FamilyInstance given the FamilyType (also known as the FamilySymbol in the Revit API) and its coordinates in world space\n\nFamilyInstance.ByPoint (familyType: FamilyType, point: Point): FamilyInstance"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\nimport random\r\n\r\nelement= IN[0]\r\nclosedCurve=element.Geometry()\r\n\r\nsurface = Surface.ByPatch(closedCurve[0])\r\npointsDensityFactor=IN[1]\r\npoints=[]\r\nwithinSurfacePoints=[]\r\n\r\ndef isWithinSurface(pnt,srfc):\r\n\tfirstVertex=Surface.PointAtParameter(srfc,0,1)\r\n\tsecondVertex=Surface.PointAtParameter(srfc,1,0)\r\n\tthirdVertex=Surface.PointAtParameter(srfc,0,0)\r\n\tfourthVertex=Surface.PointAtParameter(srfc,1,1)\r\n\t\r\n\tline_1=Line.ByStartPointEndPoint(pnt,firstVertex)\r\n\tline_2=Line.ByStartPointEndPoint(pnt,secondVertex)\r\n\tline_3=Line.ByStartPointEndPoint(pnt,thirdVertex)\r\n\tline_4=Line.ByStartPointEndPoint(pnt,fourthVertex)\r\n\t\r\n\tfirstCond=Geometry.DoesIntersect(line_1,srfc)\r\n\tsecondCond=Geometry.DoesIntersect(line_2,srfc)\r\n\tthirdCond=Geometry.DoesIntersect(line_3,srfc)\r\n\tfourthCond=Geometry.DoesIntersect(line_4,srfc)\r\n\t\r\n\tif firstCond and secondCond and thirdCond and fourthCond:\r\n\t\treturn True\r\n\telse:\r\n\t\treturn False\r\n\r\nfor i in range(pointsDensityFactor):\r\n\tpoints.append(Surface.PointAtParameter(surface, random.random(), random.random()))\r\n\r\nfor i in points:\r\n\tif isWithinSurface(i,surface):\r\n\t\twithinSurfacePoints.append(i)\r\n\r\n\t\t\r\nOUT = withinSurfacePoints,surface\r\n\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#  \r\n#______________________________________________________________________________________________________________________________________________________#   ",
+      "VariableInputPorts": true,
+      "Id": "9887547fc9574ede9fb908b0bcd83a32",
+      "Inputs": [
+        {
+          "Id": "e2d6c97e78ac4622be5206e76d07dd3a",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9fa4f73e648144d48638b05414270947",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "66cf63ad456b4e569d530672429c2128",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "closedCurve",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "ec81024b6f7c41009ae65b5b8b177044",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f943f8b669054a77af91ea6b6f47bd39",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "familyType",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "bce746b6facc4567ac75577ddef31595",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "90800f68f4f5477492a916f626617021",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "pointsDensity",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "c3f8d1a09762422982b67a1d7d8d496a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "15ad63161bd3430883b520d91b34703a",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "32b190ce2b7f4316a175d581954b0dab",
+      "End": "6f590272a89f42179d4f4d20a98cd7b8",
+      "Id": "e39fffea640e47e4a0b1e47d62fffdf0"
+    },
+    {
+      "Start": "66cf63ad456b4e569d530672429c2128",
+      "End": "3b3018f6789e4620bc3e47fb8b613015",
+      "Id": "b562056c657b49c9bb20019da0459480"
+    },
+    {
+      "Start": "f943f8b669054a77af91ea6b6f47bd39",
+      "End": "e2d6c97e78ac4622be5206e76d07dd3a",
+      "Id": "10f15b6d511b458b9a7c88335c5b3acd"
+    },
+    {
+      "Start": "90800f68f4f5477492a916f626617021",
+      "End": "0bad67f6afd94b2795f1e910978fd68d",
+      "Id": "6040715a626f4085b3321a43ce67ccdd"
+    },
+    {
+      "Start": "15ad63161bd3430883b520d91b34703a",
+      "End": "9fa4f73e648144d48638b05414270947",
+      "Id": "1e943bf364634c2eb95e7a624f41e67c"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 12.037685476786033,
+      "EyeY": 8.08413864792216,
+      "EyeZ": 6.5293980661803239,
+      "LookX": -4.0879094688565312,
+      "LookY": -4.4184496834019047,
+      "LookZ": -10.215005676037142,
+      "UpX": -0.061321804498089834,
+      "UpY": 0.98628560153724476,
+      "UpZ": -0.15323298761507087
+    },
+    "NodeViews": [
+      {
+        "Id": "1c5e6441d0f442c8844b41539bd3e36c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Output",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1251.8465410425761,
+        "Y": 253.322802350998
+      },
+      {
+        "Id": "5cc1d752feb4488aac17ebc599be38bd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "FamilyInstance.ByPoint",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 932.377838016815,
+        "Y": 246.81055359047798
+      },
+      {
+        "Id": "9887547fc9574ede9fb908b0bcd83a32",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Python Script",
+        "ShowGeometry": false,
+        "Excluded": false,
+        "X": 684.853187335239,
+        "Y": 351.568046558167
+      },
+      {
+        "Id": "ec81024b6f7c41009ae65b5b8b177044",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 367.0,
+        "Y": 319.0
+      },
+      {
+        "Id": "bce746b6facc4567ac75577ddef31595",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 368.0,
+        "Y": 238.0
+      },
+      {
+        "Id": "c3f8d1a09762422982b67a1d7d8d496a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Input",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 372.0,
+        "Y": 409.0
+      }
+    ],
+    "Annotations": [],
+    "X": 158.701256474414,
+    "Y": 119.81485710465581,
+    "Zoom": 0.49618648738281262
+  }
+}

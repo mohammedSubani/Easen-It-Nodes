@@ -1,0 +1,314 @@
+{
+  "Uuid": "c99fc0dd-5f54-4a3f-93b5-ef4dd03b10c0",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Creates a tulip like structure using recursion the recursive method stops at the given level",
+  "Name": "Fractals.fractalPolygonTulip",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nsidesNum = IN[0]\r\nangle=IN[1]\r\nstopLevel=IN[2]\r\nscaleFactor=IN[3]\r\n# The output to this node will be stored as a list in these variables eventually will be stored in OUT.\r\nresultGeometry=[]\r\n\r\n\r\n#Creating the first tulip structure polygon to be passed to fractalFrame method.\r\n#############################################################################\r\nc1=Circle.ByCenterPointRadius(Point.ByCoordinates(0,0,0),1)\r\nc2=Circle.ByCenterPointRadius(Point.ByCoordinates(0,0,0),0.9)\r\n#############################################################################\r\np1=Polygon.RegularPolygon(c1,sidesNum)\r\np2=Polygon.RegularPolygon(c2,sidesNum)\r\n#############################################################################\r\ns1=Surface.ByPatch(p1)\r\ns2=Surface.ByPatch(p2)\r\n#############################################################################\r\nsol1=Surface.Thicken(s1,0.1)\r\nsol2=Surface.Thicken(s2,0.1)\r\n#############################################################################\r\nframeSolid=Solid.Difference(sol1,sol2)\r\n#############################################################################\r\n\r\n\r\n#This method scales and returns a tanslated vertically version of the first frame and stops at the given level.\r\ndef fractalFrame(solid,level=0):\r\n\tif level > stopLevel:\r\n\t\treturn\r\n\ttranslation=Geometry.Translate(solid,0,0,-0.1)\r\n\tplane=Plane.ByOriginNormal(Point.ByCoordinates(0,0,0),Vector.ByCoordinates(0,0,1))\r\n\trotation=Geometry.Rotate(translation,plane,angle)\r\n\tscale=Geometry.Scale(rotation,scaleFactor,scaleFactor,scaleFactor)\r\n\tresultGeometry.append(scale)\r\n\tfractalFrame(scale,level+1)\r\n\t\r\n#############################################################################\r\n#Calling the method with the first frame.\r\n\r\nfractalFrame(frameSolid)\r\n\r\n#############################################################################\r\nOUT = resultGeometry\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "45829a91739d4954be0953032f632e30",
+      "Inputs": [
+        {
+          "Id": "6f3fa38f692b4f0f85a82377c6d61859",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7cf6fa2194944b749928ad9ea67588e8",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "73d1fe5a29c749c2b330ac73ee8ea505",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "016571c103f64d07a2c14e53dc76d2d9",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0fc42e6ecd2d477c99bbcb206347ed1f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "level",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "1be38fa8091a466d9127133d856d2e5b",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "85d9900dde97412f8811ec789c8be65a",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "scaleFactor",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "2e1c40194fe74a34beb0cf8ea035e064",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2407d5a6dc614cc281fcc54325fd97d4",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "tulipSolids",
+      "Id": "c70d7948bbc64b7e9e414564c2d0e676",
+      "Inputs": [
+        {
+          "Id": "a9d22515b42645e4a9788816da85d266",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "rotation",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "f7ca64c5ecd54d72b95e22b20aec6071",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "82644eba495e45728f0048685c1d8bc2",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "numberOfSides",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "deea889303bf4c81a938a59738d187eb",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3a40e13669e041d080f192b3a5ae7f64",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "0fc42e6ecd2d477c99bbcb206347ed1f",
+      "End": "a9d22515b42645e4a9788816da85d266",
+      "Id": "8fed855d2526436aa529c3edad2da32b"
+    },
+    {
+      "Start": "85d9900dde97412f8811ec789c8be65a",
+      "End": "73d1fe5a29c749c2b330ac73ee8ea505",
+      "Id": "b688da30b94e4c3a8a0df19834c576cf"
+    },
+    {
+      "Start": "2407d5a6dc614cc281fcc54325fd97d4",
+      "End": "016571c103f64d07a2c14e53dc76d2d9",
+      "Id": "f4f6abe7eaac431cae7b88dda3ca759c"
+    },
+    {
+      "Start": "82644eba495e45728f0048685c1d8bc2",
+      "End": "7cf6fa2194944b749928ad9ea67588e8",
+      "Id": "6fa521ba2e5b4709b204783990b35233"
+    },
+    {
+      "Start": "3a40e13669e041d080f192b3a5ae7f64",
+      "End": "6f3fa38f692b4f0f85a82377c6d61859",
+      "Id": "a13d88170c094bfa8e61af507e405c5c"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 0.46155239919516583,
+      "EyeY": 0.44905347734591516,
+      "EyeZ": -0.49168617043667151,
+      "LookX": -0.46155239919516583,
+      "LookY": -0.87505040675303492,
+      "LookZ": 0.49168617043667151,
+      "UpX": -0.43993145016045954,
+      "UpY": 0.76604444311899222,
+      "UpZ": 0.4686536357762095
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "45829a91739d4954be0953032f632e30",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 875.5,
+        "Y": 388.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "1be38fa8091a466d9127133d856d2e5b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 556.0,
+        "Y": 436.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "2e1c40194fe74a34beb0cf8ea035e064",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 552.0,
+        "Y": 496.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "c70d7948bbc64b7e9e414564c2d0e676",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1117.0,
+        "Y": 390.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "f7ca64c5ecd54d72b95e22b20aec6071",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 555.0,
+        "Y": 374.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "deea889303bf4c81a938a59738d187eb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 561.0,
+        "Y": 308.0
+      }
+    ],
+    "Annotations": [],
+    "X": -189.71009197687135,
+    "Y": -93.686990423465772,
+    "Zoom": 0.931811528498331
+  }
+}

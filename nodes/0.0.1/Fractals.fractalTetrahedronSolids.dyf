@@ -1,0 +1,214 @@
+{
+  "Uuid": "428d021a-9c11-4bd6-a9e1-4945259616ff",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Creates a tetrahedron fractal solids that stops whenver the surface area of any face is less that the stopArea parameter",
+  "Name": "Fractals.fractalTetrahedronSolids",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nimport math\r\n####################################################################\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nbaseLength = IN[0]\r\nstopArea = IN[1]\r\n# A constant to be used.\r\nsin60=math.sin(math.radians(60))\r\n\r\n# The output to this node will be stored as a list in these list variables.\r\nresult=[]\r\nbasePoints=[]\r\n####################################################################\r\n#Creating first base points of equliteral triangle located using globals cs\r\nbasePoints.append(Point.ByCoordinates(0, sin60*baseLength, 0))\r\nbasePoints.append(Point.ByCoordinates(-baseLength/2, 0, 0))\r\nbasePoints.append(Point.ByCoordinates(baseLength/2, 0, 0))\r\n####################################################################\r\n# A method to create the fractals the recursion ends if the given surface area is larger the one given in the method.\r\ndef tetrahedronFractals(basePoints):\r\n\t#Creating the tip of tetrahedron\r\n\tbaseLength=Geometry.DistanceTo(basePoints[0],basePoints[1])\r\n\tbaseSurface=Surface.ByPerimeterPoints(basePoints)\r\n\tbasePolygon=Polygon.ByPoints(basePoints)\r\n\tcenterPoint=Polygon.Center(basePolygon)\r\n\tvertexDirection=Surface.NormalAtPoint(baseSurface,centerPoint)\r\n\ttipPoint=Geometry.Translate(centerPoint,vertexDirection,((sin60**2)*(baseLength**2)/4)**0.5)\r\n\t#####################################################################\r\n\t#Creating the thetrahedron surfaces\r\n\ttetrahedronSrfcs=[]\r\n\ttetrahedronSrfcs.append(baseSurface)\r\n\ttetrahedronSrfcs.append(Surface.ByPerimeterPoints([basePoints[0],basePoints[1],tipPoint]))\r\n\ttetrahedronSrfcs.append(Surface.ByPerimeterPoints([basePoints[2],basePoints[0],tipPoint]))\r\n\ttetrahedronSrfcs.append(Surface.ByPerimeterPoints([basePoints[1],basePoints[2],tipPoint]))\r\n\t####################################################################\r\n\t#Appending the solid geometry result of the tetrahedron\r\n\tresult.append(Solid.ByJoinedSurfaces(tetrahedronSrfcs))\r\n\t####################################################################\r\n\t#Creating the recursion fro fractals\r\n\tif Surface.Area.GetValue(baseSurface) < stopArea: #Base case\r\n\t\treturn\r\n\telse:                                      #Recursion statement\r\n\t\tfor i in tetrahedronSrfcs:\r\n\t\t\tfaceCurves=Surface.PerimeterCurves(i)\r\n\t\t\tnewBasePoints=[]\r\n\t\t\tfor j in faceCurves:\r\n\t\t\t\tnewBasePoints.append(Curve.PointAtParameter(j,0.5))\r\n\t\t\ttetrahedronFractals(newBasePoints)\r\n\t###################################################################\r\n\r\n\r\ntetrahedronFractals(basePoints)\r\n\r\nOUT = result\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "887a4df910ed4bcd814abb6e66fec6a3",
+      "Inputs": [
+        {
+          "Id": "2a86e5bdf9564ec38e7951b67a19197b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5b9999622b33415e9d0b6962372c5601",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "260bd037378649589ce5d1dfac6b1c4b",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "thetrahedrons",
+      "Id": "deb9a0b6cf1e4ae09dd652941bbb4606",
+      "Inputs": [
+        {
+          "Id": "9632c43bc90449f8806bdff0741725b1",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "baseLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "328b29044078469d80ed80d295bc7c12",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6a1632298be9488ba1a05c0d30c727dd",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "stopArea",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "5d0dedca06f742d99e27707cca1cfa74",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3c4c638df8d84597b752c2e46d916d69",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "260bd037378649589ce5d1dfac6b1c4b",
+      "End": "9632c43bc90449f8806bdff0741725b1",
+      "Id": "2ddab20e93c74aa1afa69d6b5973b0ef"
+    },
+    {
+      "Start": "6a1632298be9488ba1a05c0d30c727dd",
+      "End": "2a86e5bdf9564ec38e7951b67a19197b",
+      "Id": "92d8c3cb46fb49768d5b8c6a79b036d6"
+    },
+    {
+      "Start": "3c4c638df8d84597b752c2e46d916d69",
+      "End": "5b9999622b33415e9d0b6962372c5601",
+      "Id": "51698e6065b1475f8d988fe1d788a8ab"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 12.037685476786033,
+      "EyeY": 8.08413864792216,
+      "EyeZ": 6.5293980661803239,
+      "LookX": -4.0879094688565312,
+      "LookY": -4.4184496834019047,
+      "LookZ": -10.215005676037142,
+      "UpX": -0.061321804498089834,
+      "UpY": 0.98628560153724476,
+      "UpZ": -0.15323298761507087
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "887a4df910ed4bcd814abb6e66fec6a3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1105.5345901245487,
+        "Y": 456.71465645641126
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "deb9a0b6cf1e4ae09dd652941bbb4606",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1315.4644017179187,
+        "Y": 475.76562304479728
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "328b29044078469d80ed80d295bc7c12",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 785.46440171791869,
+        "Y": 407.76562304479728
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "5d0dedca06f742d99e27707cca1cfa74",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 785.46440171791869,
+        "Y": 493.76562304479728
+      }
+    ],
+    "Annotations": [],
+    "X": -1011.8882886756415,
+    "Y": -338.64019321488593,
+    "Zoom": 1.4097287639800078
+  }
+}

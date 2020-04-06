@@ -1,0 +1,367 @@
+{
+  "Uuid": "e9c2e2b2-cbbe-4c0c-b4d0-3a6b9d1c13d4",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Create fractal octahedron solids by baseLength and faceArea stop parameter",
+  "Name": "Fractals.fractalOctahedronSolids",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Plane": {
+        "Key": "Autodesk.DesignScript.Geometry.Plane",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Point": {
+        "Key": "Autodesk.DesignScript.Geometry.Point",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Vector": {
+        "Key": "Autodesk.DesignScript.Geometry.Vector",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Geometry": {
+        "Key": "Autodesk.DesignScript.Geometry.Geometry",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSVarArgFunction, DynamoCore",
+      "FunctionSignature": "DSCore.List.Join@var[]..[]",
+      "FunctionType": "VariableArgument",
+      "NodeType": "FunctionNode",
+      "Id": "c463807eebf4440793bbc4f05d36a2b3",
+      "Inputs": [
+        {
+          "Id": "49398ad63f2548b48bba661ced23b2ed",
+          "Name": "list0",
+          "Description": "Lists to join into one.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ea2a8bb7cd8c4d70b0570cd92df10519",
+          "Name": "list1",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3e29506ec62f44d5bb3bf9212aba6907",
+          "Name": "list",
+          "Description": "Joined list.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Concatenates all given lists into a single list.\n\nList.Join (lists: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "octahedronFractals",
+      "Id": "533614c88fc24484990146faaba8a9e5",
+      "Inputs": [
+        {
+          "Id": "d07dcb75b7dc413e9f8b3bc269783eb5",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "plane1 = Plane.ByOriginNormal(Point.ByCoordinates(0, 0, 0), Vector.ByCoordinates(0, 0, 1));\ngeometry1 = Geometry.Mirror(t1, plane1);",
+      "Id": "ec397337508248388a540260d3243aaf",
+      "Inputs": [
+        {
+          "Id": "afbc67546bcf477aab5bfc35358d5d7f",
+          "Name": "t1",
+          "Description": "t1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2963dd8ec1af4e5da23b133114379e94",
+          "Name": "",
+          "Description": "plane1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9e9f3a444d8441baae3937045ed98603",
+          "Name": "",
+          "Description": "geometry1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________# */;",
+      "Id": "f1f4ed40718048a285c10a69fd1f84c8",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "428d021a-9c11-4bd6-a9e1-4945259616ff",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "b3fef1483bf2434d8c5d3ec59f6e46f2",
+      "Inputs": [
+        {
+          "Id": "7b161db3ae834f5e96dc9ba8d26b4259",
+          "Name": "baseLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "71e790e4ec7445ae8899c005e1d9dcab",
+          "Name": "stopArea",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "aa3c95c9ee034e0281e3401a681a8821",
+          "Name": "thetrahedrons",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a tetrahedron fractal solids that stops whenver the surface area of any face is less that the stopArea parameter"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "baseLength",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "be73de22924a47f686e66208c637fed2",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "270ea2e4b42c4ed7afd233bf74844742",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "stopArea",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "08ccb43cef91422a93d12199890876a6",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8483faaca0a04c3b844dfcc885d898af",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "3e29506ec62f44d5bb3bf9212aba6907",
+      "End": "d07dcb75b7dc413e9f8b3bc269783eb5",
+      "Id": "180ee26e5562425f80c97ea97e576c04"
+    },
+    {
+      "Start": "9e9f3a444d8441baae3937045ed98603",
+      "End": "ea2a8bb7cd8c4d70b0570cd92df10519",
+      "Id": "040580ddb5f744f99320a09f6ecdcf4f"
+    },
+    {
+      "Start": "aa3c95c9ee034e0281e3401a681a8821",
+      "End": "49398ad63f2548b48bba661ced23b2ed",
+      "Id": "2c8df285565c404d8be392e33f1c27d1"
+    },
+    {
+      "Start": "aa3c95c9ee034e0281e3401a681a8821",
+      "End": "afbc67546bcf477aab5bfc35358d5d7f",
+      "Id": "709b7146d4b547059d2e2cbc9a3142f7"
+    },
+    {
+      "Start": "270ea2e4b42c4ed7afd233bf74844742",
+      "End": "7b161db3ae834f5e96dc9ba8d26b4259",
+      "Id": "280e576500e64312b8fa47977ac468d9"
+    },
+    {
+      "Start": "8483faaca0a04c3b844dfcc885d898af",
+      "End": "71e790e4ec7445ae8899c005e1d9dcab",
+      "Id": "1c020b511ec14fa4b53002fd4ccd914b"
+    }
+  ],
+  "Dependencies": [
+    "428d021a-9c11-4bd6-a9e1-4945259616ff"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 6.2416865826698746,
+      "EyeY": 8.1995337485916355,
+      "EyeZ": -3.5041941153873393,
+      "LookX": -6.2416865826698746,
+      "LookY": -8.1995337485916355,
+      "LookZ": 3.5041941153873393,
+      "UpX": -0.51867265517723549,
+      "UpY": 0.80385686061723427,
+      "UpZ": 0.291192074772033
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "List.Join",
+        "Id": "c463807eebf4440793bbc4f05d36a2b3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1782.8137605134739,
+        "Y": 263.23880543603804
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "533614c88fc24484990146faaba8a9e5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1930.9754164613339,
+        "Y": 259.491053647863
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "ec397337508248388a540260d3243aaf",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1009.416195479991,
+        "Y": 324.526670591695
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "f1f4ed40718048a285c10a69fd1f84c8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 979.820434781671,
+        "Y": 463.095215060097
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Fractals.fractalTetrahedronSolids",
+        "Id": "b3fef1483bf2434d8c5d3ec59f6e46f2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 681.462111828298,
+        "Y": 257.642641854146
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "be73de22924a47f686e66208c637fed2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 386.339349928664,
+        "Y": 239.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "08ccb43cef91422a93d12199890876a6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 382.0,
+        "Y": 304.09024892996905
+      }
+    ],
+    "Annotations": [],
+    "X": -44.501589522852328,
+    "Y": 123.44235352025242,
+    "Zoom": 0.46017106552380882
+  }
+}

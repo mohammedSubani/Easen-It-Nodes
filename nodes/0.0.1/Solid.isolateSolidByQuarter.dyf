@@ -1,0 +1,214 @@
+{
+  "Uuid": "50896285-7d86-4ccf-a1e0-7bff6eed87ad",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Isolates the solids within a quarter of the global coordinate system the quarter numbers are from 1-8 ",
+  "Name": "Solid.isolateSolidByQuarter",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nsolid=IN[0]\r\nquarterNumber=IN[1]\r\n\r\n# Create a golbal quarters to return the solid within a given quarter determined by the quarter number .\r\noriginPoint=Point.ByCoordinates(0,0,0)\r\ncutPlane_1=Plane.ByOriginNormal(originPoint,Vector.ByCoordinates(0,0,1))\r\ncutPlane_2=Plane.ByOriginNormal(originPoint,Vector.ByCoordinates(0,1,0))\r\ncutPlane_3=Plane.ByOriginNormal(originPoint,Vector.ByCoordinates(1,0,0))\r\n\r\n\r\nfirstCut=Geometry.Split(solid,cutPlane_1)\r\n\r\nresult='No geometry was cut'\r\n########################################################################\r\n#Choose upper or lower half\r\ntry:\r\n\tif quarterNumber<1 or quarterNumber>8:\r\n\t\traise IndexError('Invalid Quarter')\r\n\tif quarterNumber<5:\r\n\t\t########################################################################\r\n\t\t#Choose right or left half\r\n\t\tsecondCut=Geometry.Split(firstCut[0],cutPlane_2)\r\n\t\tif quarterNumber<3:\r\n\t\t\tthirdCut=Geometry.Split(secondCut[0],cutPlane_3)\r\n\t\t\tif quarterNumber==1:\r\n\t\t\t\tresult=thirdCut[0]\r\n\t\t\telse:\r\n\t\t\t\tresult=thirdCut[1]\r\n\t\telse:\r\n\t\t\tthirdCut=Geometry.Split(secondCut[1],cutPlane_3)\r\n\t\t\tif quarterNumber==3:\r\n\t\t\t\tresult=thirdCut[0]\r\n\t\t\telse:\r\n\t\t\t\tresult=thirdCut[1]\r\n\telse:\t\r\n\t\tsecondCut=Geometry.Split(firstCut[1],cutPlane_2)\r\n\t\tif quarterNumber<7:\r\n\t\t\tthirdCut=Geometry.Split(secondCut[0],cutPlane_3)\r\n\t\t\tif quarterNumber==5:\r\n\t\t\t\tresult=thirdCut[0]\r\n\t\t\telse:\r\n\t\t\t\tresult=thirdCut[1]\r\n\t\telse:\r\n\t\t\tthirdCut=Geometry.Split(secondCut[1],cutPlane_3)\r\n\t\t\tif quarterNumber ==7:\r\n\t\t\t\tresult=thirdCut[0]\r\n\t\t\telse:\r\n\t\t\t\tresult=thirdCut[1]\r\nexcept IndexError as e:\r\n\tresult=e\r\n\r\nOUT = result\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "8ac474e0b2c04e6badaa1c68d44bd77b",
+      "Inputs": [
+        {
+          "Id": "bb2d3476501841df82772cb56ec86de3",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8161ccd646b746ac872dc8a6eae0d9cd",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6938cd966e6445d38f798a9432abf1e3",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "isolatedQuarter",
+      "Id": "aea3f41271824a3f9c454e43a11e2b19",
+      "Inputs": [
+        {
+          "Id": "86de6eef4a1b4a59b1cfd130ade9963a",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "quarterNum",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "599d9c1782dd4554a057222e84d17731",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9aa7c2ed6b1744eab0936de1c9d2bf81",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "solid",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "6bc2b676b97c43a989f8fb104867b10d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9fe3e8f07bca4ef58c4c63daf54c3f4f",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "6938cd966e6445d38f798a9432abf1e3",
+      "End": "86de6eef4a1b4a59b1cfd130ade9963a",
+      "Id": "1a3def3ec48847d89b271b91021e4039"
+    },
+    {
+      "Start": "9aa7c2ed6b1744eab0936de1c9d2bf81",
+      "End": "8161ccd646b746ac872dc8a6eae0d9cd",
+      "Id": "e7b13152708243d798b2467a65ef3525"
+    },
+    {
+      "Start": "9fe3e8f07bca4ef58c4c63daf54c3f4f",
+      "End": "bb2d3476501841df82772cb56ec86de3",
+      "Id": "fe2c60fdfdc74a55aa61af1e1a0c42ce"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1.5522920194942744,
+      "EyeY": -1.0601781201529503,
+      "EyeZ": 0.66497231149942959,
+      "LookX": -1.5522920194942744,
+      "LookY": 1.0601781201529503,
+      "LookZ": -0.66497231149942959,
+      "UpX": 0.644281694985368,
+      "UpY": 0.713250449154195,
+      "UpZ": 0.27599799689157117
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "8ac474e0b2c04e6badaa1c68d44bd77b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 743.119575675569,
+        "Y": 371.75176605911707
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "aea3f41271824a3f9c454e43a11e2b19",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 950.61755732229233,
+        "Y": 386.49747705840417
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "599d9c1782dd4554a057222e84d17731",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 501.61957567556897,
+        "Y": 430.75176605911707
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "6bc2b676b97c43a989f8fb104867b10d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 502.61957567556897,
+        "Y": 323.75176605911707
+      }
+    ],
+    "Annotations": [],
+    "X": -801.87604427082715,
+    "Y": -381.573992530645,
+    "Zoom": 1.6583803436109463
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "Uuid": "f22b2fbf-dd4b-4a6e-b176-191ee8079d46",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "A tool to create attractor point for a surface translate it to change the way the surface is deformed",
+  "Name": "deformSurfaces.createAttractorPoint",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector,double",
+      "Id": "32871df8b3ba4ad2a00e8ede0162945a",
+      "Inputs": [
+        {
+          "Id": "a0347acfec884eaa8e47bda23d470be0",
+          "Name": "geometry",
+          "Description": "Autodesk.DesignScript.Geometry.Geometry",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "97c913dbb2834289bb469ba6a38fd455",
+          "Name": "direction",
+          "Description": "Displacement direction.\n\nVector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3490cf32d26b4461b6aa0c274989c454",
+          "Name": "distance",
+          "Description": "Displacement distance along given direction.\n\ndouble",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b69e9d2e4cc344a58261a001624a3415",
+          "Name": "Geometry",
+          "Description": "Transformed Geometry.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Translates any geometry type by the given distance in the given direction.\n\nGeometry.Translate (direction: Vector, distance: double): Geometry"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Surface.NormalAtPoint@Autodesk.DesignScript.Geometry.Point",
+      "Id": "27bba8e1a2a44b2eb125fa0343152afc",
+      "Inputs": [
+        {
+          "Id": "c995c3e3acf84e1d8d63051c2f9a9123",
+          "Name": "surface",
+          "Description": "Autodesk.DesignScript.Geometry.Surface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d695eb284a0740a2a543278edb171816",
+          "Name": "point",
+          "Description": "Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "3a36501619c1455ab69eef6194964d34",
+          "Name": "Vector",
+          "Description": "Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Return the surface normal at the input Point on the Surface.\n\nSurface.NormalAtPoint (point: Point): Vector"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "controlAttractorPoint",
+      "Id": "b46a9511829743978cf96fde932de072",
+      "Inputs": [
+        {
+          "Id": "14b1a77c6f1c4715891c676ba7b7f762",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "3.9;",
+      "Id": "e1875053b4e645b9a7c46dff77835fb1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "fc6ad5ca5fd54265a1a5a9adba611282",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Surface.PointAtParameter@double,double",
+      "Id": "624330691b1b4b43a1dbce4a20d4b4f2",
+      "Inputs": [
+        {
+          "Id": "72f1641a85f3441a960eb95d63b37b67",
+          "Name": "surface",
+          "Description": "Autodesk.DesignScript.Geometry.Surface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "13eeb67d5a7f46bc8a034a54929e3b05",
+          "Name": "u",
+          "Description": "double\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5f24f2476ef84082b7b36ddb21e2668c",
+          "Name": "v",
+          "Description": "double\nDefault value : 0",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0a3a9297b1f745ba82235524c94d5dc3",
+          "Name": "Point",
+          "Description": "Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Return the Point at specified U and V parameters.\n\nSurface.PointAtParameter (u: double = 0, v: double = 0): Point"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#*/;",
+      "Id": "f34f370f8f6d4ff2a6e00ba1487dd42b",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "surfaceOfWork",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "bba6d956f49d403abe6f8ddf81ab5614",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "99e850c0a1e3427db6ad79e431f899b8",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "u_value",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "a85d52d66ff344bbbeba8a9b105d6d7a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ee7a1f71b86e4987b274251c2542bed1",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "v_value",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "dc1a2fc6619248a2b159784b33c439b6",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "280570dcf6ba450c8172c9a2f11e2be1",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "b69e9d2e4cc344a58261a001624a3415",
+      "End": "14b1a77c6f1c4715891c676ba7b7f762",
+      "Id": "0823e9d35ce141c9bed73a7f2bf79bfa"
+    },
+    {
+      "Start": "3a36501619c1455ab69eef6194964d34",
+      "End": "97c913dbb2834289bb469ba6a38fd455",
+      "Id": "36f7d636372540cdb436f86071de9bc5"
+    },
+    {
+      "Start": "fc6ad5ca5fd54265a1a5a9adba611282",
+      "End": "3490cf32d26b4461b6aa0c274989c454",
+      "Id": "cdc9a87b8e3c4b4ab61b59c07bf1d7bb"
+    },
+    {
+      "Start": "0a3a9297b1f745ba82235524c94d5dc3",
+      "End": "a0347acfec884eaa8e47bda23d470be0",
+      "Id": "e75c23a294f4435ebd747dfce8ee157b"
+    },
+    {
+      "Start": "0a3a9297b1f745ba82235524c94d5dc3",
+      "End": "d695eb284a0740a2a543278edb171816",
+      "Id": "9ef5c1066df644a69fc1bb5ba80c5b67"
+    },
+    {
+      "Start": "99e850c0a1e3427db6ad79e431f899b8",
+      "End": "c995c3e3acf84e1d8d63051c2f9a9123",
+      "Id": "ed37fd97218c41b7a1c3e3d524a18596"
+    },
+    {
+      "Start": "99e850c0a1e3427db6ad79e431f899b8",
+      "End": "72f1641a85f3441a960eb95d63b37b67",
+      "Id": "0e727153ce2a4bc78867cca4ed4051f4"
+    },
+    {
+      "Start": "ee7a1f71b86e4987b274251c2542bed1",
+      "End": "13eeb67d5a7f46bc8a034a54929e3b05",
+      "Id": "6310d448f0d0487ead043f0bed301c57"
+    },
+    {
+      "Start": "280570dcf6ba450c8172c9a2f11e2be1",
+      "End": "5f24f2476ef84082b7b36ddb21e2668c",
+      "Id": "b4e7e3bcd1d34faf83a16e8a2d48faab"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1.5522920194942744,
+      "EyeY": -1.0601781201529503,
+      "EyeZ": 0.66497231149942959,
+      "LookX": -1.5522920194942744,
+      "LookY": 1.0601781201529503,
+      "LookZ": -0.66497231149942959,
+      "UpX": 0.644281694985368,
+      "UpY": 0.713250449154195,
+      "UpZ": 0.27599799689157117
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Geometry.Translate",
+        "Id": "32871df8b3ba4ad2a00e8ede0162945a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1335.0912133939921,
+        "Y": 309.810211450184
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Surface.NormalAtPoint",
+        "Id": "27bba8e1a2a44b2eb125fa0343152afc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1035.1552963464721,
+        "Y": 336.759631785275
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "b46a9511829743978cf96fde932de072",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1591.226490749852,
+        "Y": 310.309634130949
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "e1875053b4e645b9a7c46dff77835fb1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1247.1612498647321,
+        "Y": 490.61522917262596
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Surface.PointAtParameter",
+        "Id": "624330691b1b4b43a1dbce4a20d4b4f2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 788.423454030826,
+        "Y": 384.341914533784
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "f34f370f8f6d4ff2a6e00ba1487dd42b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 757.807188388156,
+        "Y": 591.264406550277
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "bba6d956f49d403abe6f8ddf81ab5614",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 359.0,
+        "Y": 288.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "a85d52d66ff344bbbeba8a9b105d6d7a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 406.729164805145,
+        "Y": 360.60144487274897
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "dc1a2fc6619248a2b159784b33c439b6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 402.061190000225,
+        "Y": 448.00793833254204
+      }
+    ],
+    "Annotations": [],
+    "X": 124.70034978115473,
+    "Y": 69.5234078607314,
+    "Zoom": 0.42645555410061708
+  }
+}

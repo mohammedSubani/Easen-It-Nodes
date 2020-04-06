@@ -1,0 +1,223 @@
+{
+  "Uuid": "cde1015b-eed3-4325-b399-bffd597b76d2",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Mask each list to the other out of list of lists to the lenghts of the longest one for shorter items Null value is the replacement",
+  "Name": "List.maskItems",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nlistOfLists = IN[0]\r\n\r\n# The output to this node will be stored in result.\r\nresult=[]\r\n\r\nmaxLength=0\r\nfor i in range(len(listOfLists)):\r\n\r\n\tif len(listOfLists[i])>maxLength:\r\n\t\tmaxLength=len(listOfLists[i])\r\n\r\nfor i in range(maxLength):\r\n\ttry:\r\n\t\ttmp=[]\r\n\t\tfor j in range(len(listOfLists)):\r\n\t\t\ttmp.append(listOfLists[j][i])\r\n\texcept IndexError :\r\n\t\ttmp.append(None)\r\n\tresult.append(tmp)\r\n\t\r\n\t\r\nOUT = result\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              \r\n",
+      "VariableInputPorts": true,
+      "Id": "a314f09ea82642118916cecf407e3889",
+      "Inputs": [
+        {
+          "Id": "c54f8dadfcd144f99d3b476bd5f00486",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "204dc9f7b0fa4bcfbf89ff31a6951e87",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c3c02461301b4dcfacbc568a7ba7603d",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "maksedList",
+      "Id": "5a0ddb8bb661483fb3b2b5b7f4204dd7",
+      "Inputs": [
+        {
+          "Id": "3740d2a90fe94734a78d95ae0484bbb7",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.Count@var[]..[]",
+      "Id": "4141022970ff4512befbda7851e41766",
+      "Inputs": [
+        {
+          "Id": "29ff1a5f93c44390981dd6c1d1984f4f",
+          "Name": "list",
+          "Description": "List to get the item count of.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "90eb768b919c48dd99cced432fb9b23e",
+          "Name": "count",
+          "Description": "List length.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Returns the number of items stored in the given list.\n\nList.Count (list: var[]..[]): int"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "listOfLists",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "9bcf98772fe64026961cabe7dde53507",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "0a710e24d4fa41d1a459768018802ac7",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "c3c02461301b4dcfacbc568a7ba7603d",
+      "End": "3740d2a90fe94734a78d95ae0484bbb7",
+      "Id": "b5df00a569d84d249583c84fea60453e"
+    },
+    {
+      "Start": "90eb768b919c48dd99cced432fb9b23e",
+      "End": "204dc9f7b0fa4bcfbf89ff31a6951e87",
+      "Id": "f1c647ad6e6a4019842e66f88b0b53c9"
+    },
+    {
+      "Start": "0a710e24d4fa41d1a459768018802ac7",
+      "End": "c54f8dadfcd144f99d3b476bd5f00486",
+      "Id": "f8a2692119e14f8c8de51859afbd6899"
+    },
+    {
+      "Start": "0a710e24d4fa41d1a459768018802ac7",
+      "End": "29ff1a5f93c44390981dd6c1d1984f4f",
+      "Id": "9915622b818f4ee183f61f86b9641140"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "a314f09ea82642118916cecf407e3889",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1031.2630695690141,
+        "Y": 219.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "5a0ddb8bb661483fb3b2b5b7f4204dd7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1171.17222528203,
+        "Y": 223.2335216809031
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.Count",
+        "Id": "4141022970ff4512befbda7851e41766",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 819.49092771246092,
+        "Y": 275.60682506932511
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "9bcf98772fe64026961cabe7dde53507",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 467.0,
+        "Y": 224.93001755950621
+      }
+    ],
+    "Annotations": [],
+    "X": -544.471888991299,
+    "Y": -64.19113966475976,
+    "Zoom": 1.2301325246066364
+  }
+}
