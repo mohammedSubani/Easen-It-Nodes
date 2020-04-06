@@ -1,0 +1,232 @@
+{
+  "Uuid": "0e251868-1f9a-44f0-88f5-7ae1deb847a2",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Filters a list and returns only the surfaces within that list",
+  "Name": "Surface.isSurface",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "filteredSurfaces",
+      "Id": "e1ab5b37b93e4a138ff9bb57e72ca5e9",
+      "Inputs": [
+        {
+          "Id": "eb196a6a02aa40f6bd732e2b9d0f237a",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "DSCore.List.FilterByBoolMask@var[]..[],var[]..[]",
+      "Id": "c1618d755e1340f9b154c2df8f58b598",
+      "Inputs": [
+        {
+          "Id": "75e895b7d5f24a3a8848c18a3b0caf79",
+          "Name": "list",
+          "Description": "List to filter.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1e362dc146204021aa232060ca966129",
+          "Name": "mask",
+          "Description": "List of booleans representing a mask.\n\nvar[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a0718ee6f0c44313b90f9056277310de",
+          "Name": "in",
+          "Description": "Items whose mask index is true.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5ced80a551a94312a3ed6180aa8f25ea",
+          "Name": "out",
+          "Description": "Items whose mask index is false.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Filters a sequence by looking up corresponding indices in a separate list of booleans.\n\nList.FilterByBoolMask (list: var[]..[], mask: var[]..[]): var[]..[]"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nobjs= IN[0]\r\nflags=[]\r\n\r\nfor i in objs:\r\n\tif isinstance(i,Surface):\r\n\t\tflags.append(True)\r\n\telse:\r\n\t\tflags.append(False)\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = flags\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "e82657943d334dee9339b82dcd73295b",
+      "Inputs": [
+        {
+          "Id": "2f48fd0eaa8f4b2db72f29f38e5d72d5",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fd381471747540ce80c40346d35a0533",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "list",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "b1f071e9c15d497d8774b9a02dfbce7a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6f5aa38208ae4eb4b829c60051990413",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "a0718ee6f0c44313b90f9056277310de",
+      "End": "eb196a6a02aa40f6bd732e2b9d0f237a",
+      "Id": "be047d199bda46a789949e9858cedfbe"
+    },
+    {
+      "Start": "fd381471747540ce80c40346d35a0533",
+      "End": "1e362dc146204021aa232060ca966129",
+      "Id": "b2092065ba2941c9aee86e8fc7cdba76"
+    },
+    {
+      "Start": "6f5aa38208ae4eb4b829c60051990413",
+      "End": "75e895b7d5f24a3a8848c18a3b0caf79",
+      "Id": "bf151ab9b609424e98160da78abd036c"
+    },
+    {
+      "Start": "6f5aa38208ae4eb4b829c60051990413",
+      "End": "2f48fd0eaa8f4b2db72f29f38e5d72d5",
+      "Id": "766c68916b0c447eb424d99c178f6993"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "e1ab5b37b93e4a138ff9bb57e72ca5e9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1043.3259222427641,
+        "Y": 311.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "List.FilterByBoolMask",
+        "Id": "c1618d755e1340f9b154c2df8f58b598",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 852.616784898177,
+        "Y": 311.853024103672
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "e82657943d334dee9339b82dcd73295b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 625.285460530384,
+        "Y": 368.52403919539995
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "b1f071e9c15d497d8774b9a02dfbce7a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 400.0,
+        "Y": 311.11557648926197
+      }
+    ],
+    "Annotations": [],
+    "X": -181.76189547517697,
+    "Y": 27.346567356311027,
+    "Zoom": 0.74769281712332514
+  }
+}

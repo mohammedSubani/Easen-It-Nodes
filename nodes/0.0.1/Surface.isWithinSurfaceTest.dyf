@@ -1,0 +1,308 @@
+{
+  "Uuid": "6d10ff7a-e279-49d8-a15b-3fa189a8cde5",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Tests if a point is within a surface or not",
+  "Name": "Surface.isWithinSurfaceTest",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "HyperboloidSurface",
+      "Id": "b08002d3f104409a8fe30bd0948d4e37",
+      "Inputs": [
+        {
+          "Id": "4ae948eadae14ed1a17a8045e532aa4d",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nparameters = IN[0]\r\ncircleRadius = IN[1]\r\nrotationDegree=IN[2]\r\nheight=IN[3]\r\n\r\n\r\nbaseCircle=Circle.ByCenterPointRadius(Point.ByCoordinates(0,0,0),circleRadius)\r\ntopCircle=Geometry.Translate(baseCircle,0,0,height)\r\n\r\n# Create bottom face points\r\nbasePnts=[]\r\nfor i in parameters:\r\n\tbasePnts.append(Curve.PointAtParameter(baseCircle,i))\r\n\r\n# Create top face points\r\ntopPnts=[]\r\nfor i in parameters:\r\n\ttopPnts.append(Curve.PointAtParameter(topCircle,i))\r\n\r\n# Rotate the top face points\r\nrotatedPnts=[]\r\nfor i in topPnts:\r\n\trotatedPnts.append(Geometry.Rotate(i,Plane.ByOriginNormal(Point.ByCoordinates(0,0,0),Vector.ByCoordinates(0,0,1)),rotationDegree))\r\n\r\n# Make lines between base and rotated points\r\nhyperboloidLines=[]\r\nfor i in range(len(rotatedPnts)):\r\n\thyperboloidLines.append(Line.ByStartPointEndPoint(rotatedPnts[i],basePnts[i]))\r\n\r\n# Create hyperboloid surface\r\nOUT = Surface.ByLoft(hyperboloidLines,baseCircle)\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "d512f14fc0c949f2b631712de5664d7f",
+      "Inputs": [
+        {
+          "Id": "2ec1f2dae5bf4d1285f757fd7d82d542",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1223e96a9b054ec985e5f62708105842",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "167884944faf4fc7aafcccedf26cab7b",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "84109c221d804f0495d0385e44f0c72f",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7a5a31fd47a64b69813a9d0b1a2e947b",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "circleRadius",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "4ded5376c4cb42c78cd85d9367a26374",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3c99235f1cca4ef591a5612774dcc509",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "rotationDegree",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "f8d6db165f6f4d2c81eaf70910c5e035",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "653732e893224cd98ba8efd15fcf6b7c",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "0..1..#100;",
+      "Id": "31e2d495dc80439f9de42b82c5a1f5ec",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f87909ed36ad47e2b226188878f020bd",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "height",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "b40fccddec4e49a1932ece3279cd7739",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5dd18e0f95b44cc58490f1764a3d8fe6",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "7a5a31fd47a64b69813a9d0b1a2e947b",
+      "End": "4ae948eadae14ed1a17a8045e532aa4d",
+      "Id": "78f09f8372d245f4992aee82677f05f9"
+    },
+    {
+      "Start": "3c99235f1cca4ef591a5612774dcc509",
+      "End": "1223e96a9b054ec985e5f62708105842",
+      "Id": "3331a5528a5b48ea83aeb82d223c1ff1"
+    },
+    {
+      "Start": "653732e893224cd98ba8efd15fcf6b7c",
+      "End": "167884944faf4fc7aafcccedf26cab7b",
+      "Id": "1858c66950584011a523036f844cf9cf"
+    },
+    {
+      "Start": "f87909ed36ad47e2b226188878f020bd",
+      "End": "2ec1f2dae5bf4d1285f757fd7d82d542",
+      "Id": "55e1b29f6961420aaf5ae4ec83c062ce"
+    },
+    {
+      "Start": "5dd18e0f95b44cc58490f1764a3d8fe6",
+      "End": "84109c221d804f0495d0385e44f0c72f",
+      "Id": "02681db259c84b65a1a35163a03ca60c"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "b08002d3f104409a8fe30bd0948d4e37",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1055.1168681574432,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "d512f14fc0c949f2b631712de5664d7f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 883.43498643949306,
+        "Y": 355.467913569673
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "4ded5376c4cb42c78cd85d9367a26374",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 376.644684501951
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "f8d6db165f6f4d2c81eaf70910c5e035",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 553.45572354211708,
+        "Y": 442.303431802167
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "31e2d495dc80439f9de42b82c5a1f5ec",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 551.691144708423,
+        "Y": 316.264554912318
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "b40fccddec4e49a1932ece3279cd7739",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 554.554547597837,
+        "Y": 503.83757892249196
+      }
+    ],
+    "Annotations": [],
+    "X": -76.274611000960249,
+    "Y": -5.4243988811138593,
+    "Zoom": 0.729950825270786
+  }
+}

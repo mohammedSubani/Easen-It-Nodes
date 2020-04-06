@@ -1,0 +1,556 @@
+{
+  "Uuid": "153af4b5-c224-4934-a21f-136f68f63754",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Divide a given surface to a rectangular mesh the node returns the rectangles, surfaces by those recs and thier center point .",
+  "Name": "Surface.dividePixels",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Surface": {
+        "Key": "Autodesk.DesignScript.Geometry.Surface",
+        "Value": "ProtoGeometry.dll"
+      },
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "a[0];\na[1];\na[2];",
+      "Id": "13d47acc504748ec901ec043b5b65198",
+      "Inputs": [
+        {
+          "Id": "0c370096983d4f2c8782e3bf02ba9722",
+          "Name": "a",
+          "Description": "a",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c2a4e2631e31419ab25d4f3121f36109",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d5d62c8f0d8643028e458fa6600054e9",
+          "Name": "",
+          "Description": "Value of expression at line 2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f249b5d9dbb345b49eee4999712a14ad",
+          "Name": "",
+          "Description": "Value of expression at line 3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "surfaces",
+      "Id": "89aa0cfdd8e546788dd866bd49f49d53",
+      "Inputs": [
+        {
+          "Id": "96d0aabe7f7f4e20b92b6887f547c90d",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nU_curves = IN[0]\r\nV_curves = IN[1]\r\n\r\n# The outputs to this node will be stored in these lists.\r\nsrfcs=[]\r\nrecs=[]\r\n\r\n# Create Rectangles for the curves\r\nfor i in range(1,len(U_curves)):\r\n\t\r\n\tprev_U=U_curves[i-1]\r\n\tcurr_U=U_curves[i]\r\n\t\r\n\tfor j in range(1,len(V_curves)):\r\n\t\tprev_V=V_curves[j-1]\r\n\t\tcurr_V=V_curves[j]\r\n\t\t\r\n\t\trecCrvs=[]\r\n\t\trecCrvs.append(prev_V[i-1])\r\n\t\trecCrvs.append(curr_V[i-1])\r\n\t\trecCrvs.append(prev_U[j-1])\r\n\t\trecCrvs.append(curr_U[j-1])\r\n\t\t\r\n\t\tp=PolyCurve.ByJoinedCurves(recCrvs)\r\n\t\ts=Surface.ByPatch(p)\r\n\t\tsrfcs.append(s)\r\n\t\t\r\n\t\trecs.append(recCrvs)\r\n\t\t\r\ncenters=[]\r\n\r\nfor i in srfcs:\r\n\tcenters.append(Surface.PointAtParameter(i,0.5,0.5))\r\n\r\nOUT = srfcs,recs,centers\r\n\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "fa9c187c9bb14e5dac51f47ff2139ff8",
+      "Inputs": [
+        {
+          "Id": "574642f9337040fa983bdbe42c1f616b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "dea1045166e9464b911413856780e4f1",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ff8a76708bfa45739768225a59e7de1f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "rectangles",
+      "Id": "7c245b67145f43639922be4a37ace324",
+      "Inputs": [
+        {
+          "Id": "2570dd4ac20d4c6cb1c05d2c2708444e",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "centerPoint",
+      "Id": "5461d00b3f2443d9ac9fb9f22b744753",
+      "Inputs": [
+        {
+          "Id": "be59ae5efefd49659fb7b1f2df095ee6",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nv_pnts = IN[0]\r\n\r\nplyCrvs=[]\r\ncrvs=[]\r\n\r\nfor i in range(len(v_pnts)):\r\n\tplyCrvs.append(PolyCurve.ByPoints(v_pnts[i]))\r\n\r\nfor i in plyCrvs:\r\n\tcrvs.append(PolyCurve.Curves(i))\r\n\r\n\r\nOUT = crvs",
+      "VariableInputPorts": true,
+      "Id": "6d21a4c7c977469d82f8b7433351d873",
+      "Inputs": [
+        {
+          "Id": "d8c00e60b3364665b73c0593c9831cf0",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8bcca80ead1f4f58bc504a5cdf116dc3",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "n = num1;\nt1 = (0..1..#n);\npoint1 = Surface.PointAtParameter(t2<1>, t1<2>, t1<3>);\nt3 = List.Transpose(point1);",
+      "Id": "124312fb14b54bb7b364d71b0dcd88a0",
+      "Inputs": [
+        {
+          "Id": "325e9158e1ec4342a806c7042537a3a7",
+          "Name": "num1",
+          "Description": "num1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "509d4bc5214a45e3855cb9d769077ad0",
+          "Name": "t2",
+          "Description": "t2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e57125c1e34f4c30b60e90fa860d1198",
+          "Name": "",
+          "Description": "n",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e4bdb3fcde814d7ab8c7c4cfab2fab69",
+          "Name": "",
+          "Description": "t1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "88d4bb1096ea4f1785c715ee4eed9aef",
+          "Name": "",
+          "Description": "point1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ab4f122bc17b46dfb2231a076faa2ddc",
+          "Name": "",
+          "Description": "t3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\nv_pnts = IN[0]\r\n\r\nplyCrvs=[]\r\ncrvs=[]\r\n\r\nfor i in range(len(v_pnts)):\r\n\tplyCrvs.append(PolyCurve.ByPoints(v_pnts[i]))\r\n\r\nfor i in plyCrvs:\r\n\tcrvs.append(PolyCurve.Curves(i))\r\n\r\n\r\nOUT = crvs",
+      "VariableInputPorts": true,
+      "Id": "fcf901e7c2ef49d78ea8f28374aba42b",
+      "Inputs": [
+        {
+          "Id": "40972ae0af024edbaeac19ab89745812",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2badcd0ad44647099e3c0a1be5903318",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________# */;",
+      "Id": "7c4e0a627a3b4407b8a0d66579996404",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "precision",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "04226c6e276847718cda0b635d1a356c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3cb0ff42854b4d9da09d8b088162c849",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "surface",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "429d17d132f4441aa280bfc1705292bb",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "14c0b9f4158343349be82211faa4846e",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "c2a4e2631e31419ab25d4f3121f36109",
+      "End": "96d0aabe7f7f4e20b92b6887f547c90d",
+      "Id": "424ee023f1b8434e8ee5dce972e49e9a"
+    },
+    {
+      "Start": "d5d62c8f0d8643028e458fa6600054e9",
+      "End": "2570dd4ac20d4c6cb1c05d2c2708444e",
+      "Id": "f12e7023d1a64e46b69d06c0a3d4d793"
+    },
+    {
+      "Start": "f249b5d9dbb345b49eee4999712a14ad",
+      "End": "be59ae5efefd49659fb7b1f2df095ee6",
+      "Id": "f6a29db27a0f4ab883f6e563c36e35b2"
+    },
+    {
+      "Start": "ff8a76708bfa45739768225a59e7de1f",
+      "End": "0c370096983d4f2c8782e3bf02ba9722",
+      "Id": "4e9ec576ba9b4ea985388753925759f7"
+    },
+    {
+      "Start": "8bcca80ead1f4f58bc504a5cdf116dc3",
+      "End": "574642f9337040fa983bdbe42c1f616b",
+      "Id": "72065efde8e14c799b2b07244c94a47e"
+    },
+    {
+      "Start": "88d4bb1096ea4f1785c715ee4eed9aef",
+      "End": "d8c00e60b3364665b73c0593c9831cf0",
+      "Id": "2db850fc681541368bc7cf01e4b00dba"
+    },
+    {
+      "Start": "ab4f122bc17b46dfb2231a076faa2ddc",
+      "End": "40972ae0af024edbaeac19ab89745812",
+      "Id": "9c01e8a5b3ff43b3a5013bcec1de2d65"
+    },
+    {
+      "Start": "2badcd0ad44647099e3c0a1be5903318",
+      "End": "dea1045166e9464b911413856780e4f1",
+      "Id": "7b0b1a26304f402f8a580fdcf1284aa8"
+    },
+    {
+      "Start": "3cb0ff42854b4d9da09d8b088162c849",
+      "End": "325e9158e1ec4342a806c7042537a3a7",
+      "Id": "3c8f57d6c45744b38bddd13f1f327ba1"
+    },
+    {
+      "Start": "14c0b9f4158343349be82211faa4846e",
+      "End": "509d4bc5214a45e3855cb9d769077ad0",
+      "Id": "96ef3578cb1f4530baffc24c27c6172e"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "13d47acc504748ec901ec043b5b65198",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1505.0290250400931,
+        "Y": 330.17680687371103
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "89aa0cfdd8e546788dd866bd49f49d53",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1692.251907396633,
+        "Y": 303.75804246854295
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Python Script",
+        "Id": "fa9c187c9bb14e5dac51f47ff2139ff8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1326.9410556836131,
+        "Y": 330.488789723836
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "7c245b67145f43639922be4a37ace324",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1691.9541123278429,
+        "Y": 365.76874556109203
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "5461d00b3f2443d9ac9fb9f22b744753",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1696.430412510183,
+        "Y": 429.853530774624
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Python Script",
+        "Id": "6d21a4c7c977469d82f8b7433351d873",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1158.08324979034,
+        "Y": 293.04522293918797
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Code Block",
+        "Id": "124312fb14b54bb7b364d71b0dcd88a0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 602.398844763693,
+        "Y": 328.57003579878597
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Python Script",
+        "Id": "fcf901e7c2ef49d78ea8f28374aba42b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1156.7615921105,
+        "Y": 429.29898231489904
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "7c4e0a627a3b4407b8a0d66579996404",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 833.679665564991,
+        "Y": 527.39738958948
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "04226c6e276847718cda0b635d1a356c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 313.379533166484,
+        "Y": 278.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "429d17d132f4441aa280bfc1705292bb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 307.0,
+        "Y": 361.51690041816096
+      }
+    ],
+    "Annotations": [],
+    "X": 4.994781268313119,
+    "Y": 110.40049561338469,
+    "Zoom": 0.46313981277671729
+  }
+}

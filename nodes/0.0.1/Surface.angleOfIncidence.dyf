@@ -1,0 +1,466 @@
+{
+  "Uuid": "0ca33f7b-da1a-4f7e-8e8a-f6c9711d569e",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Finds the angle of incidence for a source point rays over a surface divided by Surface.dividePixels tool ",
+  "Name": "Surface.angleOfIncidence",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Vector.ByTwoPoints@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point",
+      "Id": "85c3b8fc6afe407899736cca7d463e1e",
+      "Inputs": [
+        {
+          "Id": "a274b0e2c50b45b0bd91247eaac996b3",
+          "Name": "start",
+          "Description": "Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bca6ae65ba9f4324859cad1571200050",
+          "Name": "end",
+          "Description": "Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a99f4bff85444c33af1391bfb52696a3",
+          "Name": "Vector",
+          "Description": "Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Form a Vector by two end points. The result is a vector from the start to the end point.\n\nVector.ByTwoPoints (start: Point, end: Point): Vector"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Vector.AngleWithVector@Autodesk.DesignScript.Geometry.Vector",
+      "Id": "284518e9dc7143399837fcf3c8db1f51",
+      "Inputs": [
+        {
+          "Id": "d827dac9bf63444c84d7437f4c8701b8",
+          "Name": "vector",
+          "Description": "Autodesk.DesignScript.Geometry.Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "57bb0609b09049d1afca9b8188ca1c25",
+          "Name": "otherVector",
+          "Description": "Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "309bc67e57fe41a3aeb0678e3da7343d",
+          "Name": "double",
+          "Description": "double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Returns the angle between the two Vectors, in the range [0, 180] degrees.\n\nVector.AngleWithVector (otherVector: Vector): double"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "angleOfIncidence",
+      "Id": "59fd4043107a4fadaa0c4d7aaef1d31f",
+      "Inputs": [
+        {
+          "Id": "980bbfab8164480db907c640b9e1eb60",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Surface.NormalAtPoint@Autodesk.DesignScript.Geometry.Point",
+      "Id": "1e6869dcbb874c838bb348601984cce9",
+      "Inputs": [
+        {
+          "Id": "f5aabd29bbec4b3889aa750add6d9eea",
+          "Name": "surface",
+          "Description": "Autodesk.DesignScript.Geometry.Surface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3c4f8241b796465a936fee2f2bdb5cf2",
+          "Name": "point",
+          "Description": "Point",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e57544d360a04d33bea4d09455ba607d",
+          "Name": "Vector",
+          "Description": "Vector",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Return the surface normal at the input Point on the Surface.\n\nSurface.NormalAtPoint (point: Point): Vector"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "153af4b5-c224-4934-a21f-136f68f63754",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "28b864dd81364ed4bc17dba96e7263c1",
+      "Inputs": [
+        {
+          "Id": "d9d51e5166534b7a8bf19e6308045fc4",
+          "Name": "precision",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "85aa3d40c31c41958ab3ab0041375c98",
+          "Name": "surface",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b65cd8bc01274270b71b4bf1c2458ffe",
+          "Name": "surfaces",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c9d2d17829af4c759052e011bc9495bd",
+          "Name": "rectangles",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bcc8b17f98144a08aaa4102103b46ea0",
+          "Name": "centerPoint",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Divide a given surface to a rectangular mesh the node returns the rectangles, surfaces by those recs and thier center point ."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#*/;",
+      "Id": "5c671a18d13a4b4587ca5514e9348ad8",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "sourcePoint",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "b22a2e90062340d1ab7d49ee2af02055",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "34d08d4fa1e640a394207e00accf15fc",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "precision",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "9cf9f941d4a747cb9cd58089acb752ef",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "0ecc40502446444d926ad35b80cc9fa0",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "surface",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "4157e076d888406ab98fe02303a343cf",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4b6d6f81afb94e0a9bb1c77bad07a1a8",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "a99f4bff85444c33af1391bfb52696a3",
+      "End": "d827dac9bf63444c84d7437f4c8701b8",
+      "Id": "7a1f9bed15c24a65aab9fd2cf95b2717"
+    },
+    {
+      "Start": "309bc67e57fe41a3aeb0678e3da7343d",
+      "End": "980bbfab8164480db907c640b9e1eb60",
+      "Id": "4c6deb8d8b8e4dd188e2355e2ea0b9d2"
+    },
+    {
+      "Start": "e57544d360a04d33bea4d09455ba607d",
+      "End": "57bb0609b09049d1afca9b8188ca1c25",
+      "Id": "51d96fd5de66437c917b60eb82bfe536"
+    },
+    {
+      "Start": "b65cd8bc01274270b71b4bf1c2458ffe",
+      "End": "f5aabd29bbec4b3889aa750add6d9eea",
+      "Id": "806409b7f5bd442da10abae7e93969f1"
+    },
+    {
+      "Start": "bcc8b17f98144a08aaa4102103b46ea0",
+      "End": "bca6ae65ba9f4324859cad1571200050",
+      "Id": "ef889a8ef7814e1ea963694b8fefcc84"
+    },
+    {
+      "Start": "bcc8b17f98144a08aaa4102103b46ea0",
+      "End": "3c4f8241b796465a936fee2f2bdb5cf2",
+      "Id": "84bf057d62464c6cb4f7f750c637cbff"
+    },
+    {
+      "Start": "34d08d4fa1e640a394207e00accf15fc",
+      "End": "a274b0e2c50b45b0bd91247eaac996b3",
+      "Id": "b2f48ccf60394be4a32cee71854e6d84"
+    },
+    {
+      "Start": "0ecc40502446444d926ad35b80cc9fa0",
+      "End": "d9d51e5166534b7a8bf19e6308045fc4",
+      "Id": "0ab7f67ca2dc4403865c828fc79d147b"
+    },
+    {
+      "Start": "4b6d6f81afb94e0a9bb1c77bad07a1a8",
+      "End": "85aa3d40c31c41958ab3ab0041375c98",
+      "Id": "0c99031cac4d4f32a6597d948a5e88be"
+    }
+  ],
+  "Dependencies": [
+    "153af4b5-c224-4934-a21f-136f68f63754"
+  ],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 6.2416865826698746,
+      "EyeY": 8.1995337485916355,
+      "EyeZ": -3.5041941153873393,
+      "LookX": -6.2416865826698746,
+      "LookY": -8.1995337485916355,
+      "LookZ": 3.5041941153873393,
+      "UpX": -0.51867265517723549,
+      "UpY": 0.80385686061723427,
+      "UpZ": 0.291192074772033
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Vector.ByTwoPoints",
+        "Id": "85c3b8fc6afe407899736cca7d463e1e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 779.5675043247478,
+        "Y": 263.08940938712715
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Vector.AngleWithVector",
+        "Id": "284518e9dc7143399837fcf3c8db1f51",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1078.438279933298,
+        "Y": 318.03624566301016
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "59fd4043107a4fadaa0c4d7aaef1d31f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1343.6644101705679,
+        "Y": 318.03624566301016
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Surface.NormalAtPoint",
+        "Id": "1e6869dcbb874c838bb348601984cce9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 779.5675043247478,
+        "Y": 395.44972227455617
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Surface.dividePixels",
+        "Id": "28b864dd81364ed4bc17dba96e7263c1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 476.84443890109674,
+        "Y": 317.31181660778418
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "5c671a18d13a4b4587ca5514e9348ad8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 492.40614654620981,
+        "Y": 540.7917484185042
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "b22a2e90062340d1ab7d49ee2af02055",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 256.66370793742783,
+        "Y": 193.25418443711419
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "9cf9f941d4a747cb9cd58089acb752ef",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 256.66370793742783,
+        "Y": 285.04118937014516
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "4157e076d888406ab98fe02303a343cf",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 256.66370793742783,
+        "Y": 363.12864132809716
+      }
+    ],
+    "Annotations": [],
+    "X": 31.504241270148952,
+    "Y": 21.537986389963237,
+    "Zoom": 0.62740812659763479
+  }
+}

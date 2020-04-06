@@ -1,0 +1,440 @@
+{
+  "Uuid": "1fa3cabf-10f4-46aa-be60-95a2f09a27b7",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Create a Delaunay tesselation geometry using TSpline functionality",
+  "Name": "TSpline.DelaunayTesselationGeometry",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Delaunay": {
+        "Key": "Tessellation.Delaunay",
+        "Value": "Tessellation.dll"
+      },
+      "Surface": {
+        "Key": "Autodesk.DesignScript.Geometry.Surface",
+        "Value": "ProtoGeometry.dll"
+      },
+      "Geometry": {
+        "Key": "Autodesk.DesignScript.Geometry.Geometry",
+        "Value": "ProtoGeometry.dll"
+      },
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      },
+      "TSplineSurface": {
+        "Key": "Autodesk.DesignScript.Geometry.TSpline.TSplineSurface",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "DelaunayCurves = Delaunay.ByParametersOnSurface(randomUVs, srfc);\nsurfaceThickening=Surface.Thicken(srfc,0.3,true);\ninnerCurves = Geometry.Intersect(surfaceThickening, DelaunayCurves);\ninnerCurvesFlattened = List.Flatten(innerCurves, -1);\nfinalGeometrySurface = TSplineSurface.BuildPipes(innerCurvesFlattened, radius, 0.001, null, true, true, null, null, null, null, null, null, true);\n/*********************************************************************************************/\nperimeterCurves = Surface.PerimeterCurves(srfc);\nfinalGeometryCurve = TSplineSurface.BuildPipes(perimeterCurves, radius, 0.001, null, true, true, null, null, null, null, null, null, true);",
+      "Id": "47a47eb4c3e14d91aad86b054c20f44c",
+      "Inputs": [
+        {
+          "Id": "6dd9c030215548619e6a37f34035b34f",
+          "Name": "randomUVs",
+          "Description": "randomUVs",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d0040f578c094437b95d06f87c573fd9",
+          "Name": "srfc",
+          "Description": "srfc",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "dddc1be705ce43bfb64838c1ec89fa34",
+          "Name": "radius",
+          "Description": "radius",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b9ef9b16e211482f910d8b1ee24fcf6e",
+          "Name": "",
+          "Description": "DelaunayCurves",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ecaeab3fdf8d4ddb98aac52374b51e99",
+          "Name": "",
+          "Description": "surfaceThickening",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "73bb9b7c558a4053af37d33724286b05",
+          "Name": "",
+          "Description": "innerCurves",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "aa54e3e0116d4fb6a1513db9bfd5c69c",
+          "Name": "",
+          "Description": "innerCurvesFlattened",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9384ac671fce4e399c354f60eae2e3ea",
+          "Name": "",
+          "Description": "finalGeometrySurface",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "29e25a680ed44695959503f0f354ab03",
+          "Name": "",
+          "Description": "perimeterCurves",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "61397f1789d8487393a2bd387f64aea0",
+          "Name": "",
+          "Description": "finalGeometryCurve",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "DelaunayGeometry",
+      "Id": "d4d75e28131f4846ba33c494c2723aae",
+      "Inputs": [
+        {
+          "Id": "4c17584e584d48f5b2e553b50c11a4e7",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "frameGeometry",
+      "Id": "1809f392237e428a9c162d5f29ae1e88",
+      "Inputs": [
+        {
+          "Id": "b43229adddb64d68ac365cb1e4af0709",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "/*\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________#\n\n#     88888888888                                                      88               888b      88                        88                         #\n#     88                                                               88    ,d         8888b     88                        88                         #\n#     88                                                               88    88         88 `8b    88                        88                         #\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\n#______________________________________________________________________________________________________________________________________________________#\n#______________________________________________________________________________________________________________________________________________________# */;",
+      "Id": "5885492db9814ea698deee624ff26d6e",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport sys\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\npyt_path = r'C:\\Program Files (x86)\\IronPython 2.7\\Lib'\r\nsys.path.append(pyt_path)\r\nimport random\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ncount = IN[0]\r\n\r\nUVs=[]\r\n\r\nfor i in range(count):\r\n\tUVs.append(UV.ByCoordinates(random.random(),random.random()))\r\nOUT = UVs",
+      "VariableInputPorts": true,
+      "Id": "b7f8d5de33e745ecbc14845d8b033fad",
+      "Inputs": [
+        {
+          "Id": "ca852c9354d246b4b582c3464ae700ed",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "335d9f5cd2514b258b55a64636ccdbc3",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "numberOfUVs",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "92aac0037d594d27b4dc9ee0a8b6e5e0",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "67a8aab081a7437c9b62631a37210603",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "surface",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "30289d698de84c5884c426f6d699ef15",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "dcdd8a9c2c2b4556aca99a7ecf3f1359",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "radius",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "e257cc07a51643389d10c838ed17d4f1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d28e49be579044d78c57e63480fa9232",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "9384ac671fce4e399c354f60eae2e3ea",
+      "End": "4c17584e584d48f5b2e553b50c11a4e7",
+      "Id": "55d2e8077a6e49e69d71f1dfbe36a564"
+    },
+    {
+      "Start": "61397f1789d8487393a2bd387f64aea0",
+      "End": "b43229adddb64d68ac365cb1e4af0709",
+      "Id": "49cce35a84754215bfa613585ee4a6dd"
+    },
+    {
+      "Start": "335d9f5cd2514b258b55a64636ccdbc3",
+      "End": "6dd9c030215548619e6a37f34035b34f",
+      "Id": "9f0fa0f3adf240518ee45bf75944c353"
+    },
+    {
+      "Start": "67a8aab081a7437c9b62631a37210603",
+      "End": "ca852c9354d246b4b582c3464ae700ed",
+      "Id": "4f1fd0dfde01442ab19e2c0150d45ee8"
+    },
+    {
+      "Start": "dcdd8a9c2c2b4556aca99a7ecf3f1359",
+      "End": "d0040f578c094437b95d06f87c573fd9",
+      "Id": "d27f55073f634519beb35ade97b72e7f"
+    },
+    {
+      "Start": "d28e49be579044d78c57e63480fa9232",
+      "End": "dddc1be705ce43bfb64838c1ec89fa34",
+      "Id": "ed0749d5736e42708b14f17cadad5c14"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 57.252003910792673,
+      "EyeY": 37.8608697277283,
+      "EyeZ": -130.48948311807015,
+      "LookX": -57.252003910792673,
+      "LookY": -37.8608697277283,
+      "LookZ": 130.48948311807015,
+      "UpX": -0.017525304766779284,
+      "UpY": 0.99904822158195028,
+      "UpZ": 0.0399438937380685
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": false,
+        "Name": "Code Block",
+        "Id": "47a47eb4c3e14d91aad86b054c20f44c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 697.63319045352591,
+        "Y": 280.391433233964
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "d4d75e28131f4846ba33c494c2723aae",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1596.8126324162808,
+        "Y": 335.99395407139696
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "1809f392237e428a9c162d5f29ae1e88",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1597.217197210321,
+        "Y": 398.204384329317
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "5885492db9814ea698deee624ff26d6e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 741.756206916442,
+        "Y": 494.43127847217795
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "b7f8d5de33e745ecbc14845d8b033fad",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 553.59499926362992,
+        "Y": 280.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "92aac0037d594d27b4dc9ee0a8b6e5e0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 327.809417103776,
+        "Y": 281.29920488541
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "30289d698de84c5884c426f6d699ef15",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 326.41196819541597,
+        "Y": 348.695277464193
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "e257cc07a51643389d10c838ed17d4f1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 325.0,
+        "Y": 416.46975084418
+      }
+    ],
+    "Annotations": [],
+    "X": 101.6015832903139,
+    "Y": 139.50863841099368,
+    "Zoom": 0.48391633011669033
+  }
+}

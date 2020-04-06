@@ -1,0 +1,214 @@
+{
+  "Uuid": "f04db5e3-a0f1-4619-adef-49904942e38f",
+  "IsCustomNode": true,
+  "Category": "Easen It Nodes",
+  "Description": "Extrudes a polygon by means of external  point where each side for a triangle with that point the result is a mesh of surfaces",
+  "Name": "Surface.extrudePolygonSurfaces",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Enable Python support and load DesignScript library\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\npolygonList=IN[0]\r\nextrudedPoint=IN[1]\r\n\r\n\r\ntmp=[]\r\ntry:\r\n\tpolygon=[]\r\n\tfor j in polygonList:\r\n\t\tpolygon.append(j)\r\n\ttmp.append(Polygon.Corners(polygon[0]))\r\nexcept TypeError as t:\r\n\ttmp.append(Polygon.Corners(polygonList))\r\n\t\r\ntmpPnt=[]\r\ntry:\r\n\texPoint=[]\r\n\tfor j in extrudedPoint:\r\n\t\texPoint.append(j)\r\n\ttmpPnt.append(exPoint[0])\r\nexcept TypeError as t:\r\n\ttmpPnt.append(extrudedPoint)\r\n\t\r\npolygonCorners=tmp[0]\r\nextrudedPoint=tmpPnt[0]\r\n\r\nsrfcs=[]\r\n\r\nfor i in range(0,len(polygonCorners)):\r\n\ttmpPnts=[]\r\n\ttmpPnts.append(polygonCorners[i-1])\r\n\ttmpPnts.append(polygonCorners[i])\r\n\ttmpPnts.append(extrudedPoint)\r\n\tsrfcs.append(Surface.ByPerimeterPoints(tmpPnts))\r\n\r\nOUT = srfcs\r\n\r\n\r\n#______________________________________________________________________________________________________________________________________________________#\r\n#______________________________________________________________________________________________________________________________________________________#\r\n                                                                                                                                              \r\n#     88888888888                                                      88               888b      88                        88                         #\r\n#     88                                                               88    ,d         8888b     88                        88                         #\r\n#     88                                                               88    88         88 `8b    88                        88                         #\r\n#     88aaaaa      ,adPPYYba,  ,adPPYba,   ,adPPYba,  8b,dPPYba,       88  MM88MMM      88  `8b   88   ,adPPYba,    ,adPPYb,88   ,adPPYba,  ,adPPYba,  #\r\n#     88\"\"\"\"\"      \"\"     `Y8  I8[    \"\"  a8P_____88  88P'   `\"8a      88    88         88   `8b  88  a8\"     \"8a  a8\"    `Y88  a8P_____88  I8[    \"\"  #\r\n#     88           ,adPPPPP88   `\"Y8ba,   8PP\"\"\"\"\"\"\"  88       88      88    88         88    `8b 88  8b       d8  8b       88  8PP\"\"\"\"\"\"\"   `\"Y8ba,   #\r\n#     88           88,    ,88  aa    ]8I  \"8b,   ,aa  88       88      88    88,        88     `8888  \"8a,   ,a8\"  \"8a,   ,d88  \"8b,   ,aa  aa    ]8I  #\r\n#     88888888888  `\"8bbdP\"Y8  `\"YbbdP\"'   `\"Ybbd8\"'  88       88      88    \"Y888      88      `888   `\"YbbdP\"'    `\"8bbdP\"Y8   `\"Ybbd8\"'  `\"YbbdP\"'  #\r\n#______________________________________________________________________________________________________________________________________________________#                                                                                                                                                 \r\n#______________________________________________________________________________________________________________________________________________________#                              ",
+      "VariableInputPorts": true,
+      "Id": "6fd47b7fbcbe45159e2a43ad29ff5205",
+      "Inputs": [
+        {
+          "Id": "279a22b177064b6a9ed1c99c60b8cb4f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "16fe6989603f40518fd06f90fbf3030e",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9f3f160f1f2042fa9bd3f5ae5ce2a05e",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Output, DynamoCore",
+      "NodeType": "OutputNode",
+      "ElementResolver": null,
+      "Symbol": "meshSurfaces",
+      "Id": "ccbfa38436994b049667ab635ae3b94b",
+      "Inputs": [
+        {
+          "Id": "2fbc58cff2464ee4be8e7ddee51b62ef",
+          "Name": "",
+          "Description": "",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "A function output, use with custom nodes"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "polygon",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "77079188709e4c1eb93d46e42b1c86ab",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6fd0f6ebafd74a8fbe59204fb955aab0",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Symbol, DynamoCore",
+      "NodeType": "InputNode",
+      "Parameter": {
+        "Name": "translatedPoint",
+        "TypeName": "var",
+        "TypeRank": -1,
+        "DefaultValue": null,
+        "Description": ""
+      },
+      "Id": "a38a7e52bd3545cc9c1c081c9b5acf93",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "19fb1778ce834a98a2900f48e2000b41",
+          "Name": "",
+          "Description": "Symbol",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A function parameter, use with custom nodes.\r\n\r\nYou can specify the type and default value for parameter. E.g.,\r\n\r\ninput : var[]..[]\r\nvalue : bool = false"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "9f3f160f1f2042fa9bd3f5ae5ce2a05e",
+      "End": "2fbc58cff2464ee4be8e7ddee51b62ef",
+      "Id": "a9f225bd71a142d0860959c0a7bec398"
+    },
+    {
+      "Start": "6fd0f6ebafd74a8fbe59204fb955aab0",
+      "End": "279a22b177064b6a9ed1c99c60b8cb4f",
+      "Id": "19646bf9da974758bd842f5cf5170ab8"
+    },
+    {
+      "Start": "19fb1778ce834a98a2900f48e2000b41",
+      "End": "16fe6989603f40518fd06f90fbf3030e",
+      "Id": "dab41cb5ab06405ba73f667157f19898"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": false,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -0.1939963453274971,
+      "EyeY": 11.514938845388897,
+      "EyeZ": 6.8108662227409074,
+      "LookX": 3.8644787703920742,
+      "LookY": -9.5413023462362645,
+      "LookZ": -9.71625353956099,
+      "UpX": 0.18478717848355269,
+      "UpY": 0.866025403784498,
+      "UpZ": -0.46460057971134
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "6fd47b7fbcbe45159e2a43ad29ff5205",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 907.61427079885493,
+        "Y": 316.286179710634
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Output",
+        "Id": "ccbfa38436994b049667ab635ae3b94b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1064.1142707988549,
+        "Y": 327.286179710634
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "77079188709e4c1eb93d46e42b1c86ab",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 618.200225254745,
+        "Y": 308.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Input",
+        "Id": "a38a7e52bd3545cc9c1c081c9b5acf93",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 550.0,
+        "Y": 375.775842650453
+      }
+    ],
+    "Annotations": [],
+    "X": -421.96841356225025,
+    "Y": 19.486948245415533,
+    "Zoom": 0.91006380393143915
+  }
+}
