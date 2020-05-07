@@ -1,0 +1,186 @@
+{
+  "Uuid": "eae24729-dd12-4972-a3b1-b72fa92d7807",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "fractalOctahedronSolids",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "72e976f8ea01425499de24e8e7f2d78f",
+      "Name": "Number",
+      "Type": "number",
+      "Value": "10",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    },
+    {
+      "Id": "9d6b776b06ff491096f806a18b6e0572",
+      "Name": "Number",
+      "Type": "number",
+      "Value": "0.5",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "e9c2e2b2-cbbe-4c0c-b4d0-3a6b9d1c13d4",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "00cab5f741eb4412bbea3929eb3c363f",
+      "Inputs": [
+        {
+          "Id": "e62f5f44969d42d68ffc3e40120a497b",
+          "Name": "baseLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "dce299ab898745cb8c69228749a9a7a3",
+          "Name": "stopArea",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "152e14b42f4d45ebaf3f29dcb8de260a",
+          "Name": "octahedronFractals",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Create fractal octahedron solids by baseLength and faceArea stop parameter"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 10.0,
+      "Id": "72e976f8ea01425499de24e8e7f2d78f",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2fd943db91db485493eee14ea9c4d84d",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.5,
+      "Id": "9d6b776b06ff491096f806a18b6e0572",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3a5f4404517b4d5f9c9f6f8d3867fdfd",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "2fd943db91db485493eee14ea9c4d84d",
+      "End": "e62f5f44969d42d68ffc3e40120a497b",
+      "Id": "24b5330a05744db584a765d65e964cb0"
+    },
+    {
+      "Start": "3a5f4404517b4d5f9c9f6f8d3867fdfd",
+      "End": "dce299ab898745cb8c69228749a9a7a3",
+      "Id": "13d47f2aa072478299a401d5e4c3d2cd"
+    }
+  ],
+  "Dependencies": [
+    "e9c2e2b2-cbbe-4c0c-b4d0-3a6b9d1c13d4"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 7.8647175292741434,
+      "EyeY": -24.737759806383817,
+      "EyeZ": 0.94872678494183393,
+      "LookX": -9.23839725926517,
+      "LookY": 25.97272694798308,
+      "LookZ": -4.2471114135573256,
+      "UpX": 0.89739949654637985,
+      "UpY": 0.15643446504023165,
+      "UpZ": 0.4125559377174764
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Fractals.fractalOctahedronSolids",
+        "Id": "00cab5f741eb4412bbea3929eb3c363f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 234.31220162960267,
+        "Y": 246.07805040740072
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Number",
+        "Id": "72e976f8ea01425499de24e8e7f2d78f",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 72.255748193846046,
+        "Y": 211.68858630278339
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Number",
+        "Id": "9d6b776b06ff491096f806a18b6e0572",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 69.202755293689222,
+        "Y": 335.84363090915718
+      }
+    ],
+    "Annotations": [],
+    "X": 41.866329016779218,
+    "Y": -54.146277303182387,
+    "Zoom": 0.98264231136796532
+  }
+}

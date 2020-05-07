@@ -1,0 +1,17 @@
+#####################################################################################################################################################################
+
+* Inputs : 
+
+- base length: the length of any sides of octaherdron .
+- stop area : the face area by which the iterations will stop replicating .
+
+* Outputs :
+
+- List of solids .
+
+* Description : 
+
+Creates a fractal geometry made out of octahedrons they replicate on each face until the face
+are reaches the stop area parameter  .
+
+#####################################################################################################################################################################
