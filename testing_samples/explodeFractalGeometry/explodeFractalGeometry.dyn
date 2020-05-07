@@ -1,0 +1,279 @@
+{
+  "Uuid": "2d68b7b3-e93e-4ea0-b156-ea23b9f3d360",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "explodeFractalGeometry",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 1.0,
+      "Id": "2fd7039f8cd649bdb6a392bd7881c5de",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d3a8908e586b48cfaa63111e197851f2",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 10.0,
+      "Id": "c6630b9d317940679fb33e2de87b642a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8c9014a7cbc146078bbc43484f65d61a",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "80bd2891-6708-4fa4-b0bd-b9bf90aa65f9",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "d00b7530a4684b57ba8e844493d18039",
+      "Inputs": [
+        {
+          "Id": "64b524927be342c397e22bf64adac378",
+          "Name": "startLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "adfa50b69dc2481e9f265b140613f896",
+          "Name": "stopLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "23062c1caf064c1cbcd45d1e032efd6b",
+          "Name": "indentedCubes",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates an indented cubes like structure that stops at a certain cube length"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Solid.ByUnion@Autodesk.DesignScript.Geometry.Solid[]",
+      "Id": "6e28333e452447c892d4458415445919",
+      "Inputs": [
+        {
+          "Id": "4e94549a825545eaaff96ebc6c0d96a8",
+          "Name": "solids",
+          "Description": "A collection of solids\n\nSolid[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "293c1428a6d74bd39b7fba9de3176d68",
+          "Name": "Solid",
+          "Description": "Solid",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Union a collection of solids into one solid\n\nSolid.ByUnion (solids: Solid[]): Solid"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "00d31ee4-df9c-439d-a40d-ecfe410029ef",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "36b571d9bc57426c9ccd55a2dfba3e40",
+      "Inputs": [
+        {
+          "Id": "ffb706daf74c4ed6b202bd6abeeb109f",
+          "Name": "fractalGeometry",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d625cb1707cf4a01951b7d1fa97f3584",
+          "Name": "surfaces",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0097ed8a56e947a59373930ff0a69bc8",
+          "Name": "curves",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f3df632b68e84650be3a488e1ed38a99",
+          "Name": "points",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Takes in fractal geometry list and returns its exploded data"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "d3a8908e586b48cfaa63111e197851f2",
+      "End": "adfa50b69dc2481e9f265b140613f896",
+      "Id": "1c0c53ba07bc465ea396dbf20e7b594e"
+    },
+    {
+      "Start": "8c9014a7cbc146078bbc43484f65d61a",
+      "End": "64b524927be342c397e22bf64adac378",
+      "Id": "d769fdbc8bf448089d3d6250c7289170"
+    },
+    {
+      "Start": "23062c1caf064c1cbcd45d1e032efd6b",
+      "End": "4e94549a825545eaaff96ebc6c0d96a8",
+      "Id": "77490f949fd646fcb2a4db449ce7a3f4"
+    },
+    {
+      "Start": "293c1428a6d74bd39b7fba9de3176d68",
+      "End": "ffb706daf74c4ed6b202bd6abeeb109f",
+      "Id": "475d4341848e43eebacd6567a2d09586"
+    }
+  ],
+  "Dependencies": [
+    "80bd2891-6708-4fa4-b0bd-b9bf90aa65f9",
+    "00d31ee4-df9c-439d-a40d-ecfe410029ef"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 24.94759321036106,
+      "EyeY": 12.930801536759322,
+      "EyeZ": -1.0066352003085421,
+      "LookX": -24.94759321036106,
+      "LookY": -12.930801536759322,
+      "LookZ": 1.0066352003085421,
+      "UpX": -0.25860860755354154,
+      "UpY": 0.96592582628908741,
+      "UpZ": 0.010434855389498409
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Number",
+        "Id": "2fd7039f8cd649bdb6a392bd7881c5de",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 105.394014199687,
+        "Y": 313.194307300575
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Number",
+        "Id": "c6630b9d317940679fb33e2de87b642a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 108.5,
+        "Y": 202.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Fractals.indentedCubes",
+        "Id": "d00b7530a4684b57ba8e844493d18039",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 241.5,
+        "Y": 236.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Solid.ByUnion",
+        "Id": "6e28333e452447c892d4458415445919",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 550.142441041175,
+        "Y": 238.761160392919
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Fractals.explodeFractalGeometry",
+        "Id": "36b571d9bc57426c9ccd55a2dfba3e40",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 765.799817633761,
+        "Y": 239.206222744182
+      }
+    ],
+    "Annotations": [],
+    "X": 262.40593280870371,
+    "Y": 21.581283364322815,
+    "Zoom": 0.59405331560236541
+  }
+}

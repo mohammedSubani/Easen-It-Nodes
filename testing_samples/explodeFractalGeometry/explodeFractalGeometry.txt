@@ -1,0 +1,18 @@
+#####################################################################################################################################################################
+
+* Inputs : 
+
+- fractalGeometry : The list of geometries that are to be exploded .
+
+* Outputs :
+
+- Surfaces : The surfaces for solids .
+- Curves : The curves for surfaces .
+- Points : The points for curves .
+
+* Description : 
+
+returns the downgraded geometry eg. Solids ==> Surfaces / Surfaces ===> Curves  .
+
+
+#####################################################################################################################################################################
