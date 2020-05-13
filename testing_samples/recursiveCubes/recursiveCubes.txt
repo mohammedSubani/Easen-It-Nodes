@@ -1,0 +1,17 @@
+#####################################################################################################################################################################
+
+* Inputs : 
+
+- Starting cuboid : the root element that would be the base for the other cubes .
+- Stopping volume : the volume at which the iterations are goin to stop at .
+
+* Outputs :
+
+- List of cuboids .
+
+* Description : 
+
+Using recursion to create new cubes on each face of the cuboid and repeating this
+for each given cube until the cubes reach below or equal the stopping volume .
+
+#####################################################################################################################################################################

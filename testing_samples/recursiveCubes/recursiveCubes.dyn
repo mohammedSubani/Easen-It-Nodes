@@ -1,0 +1,485 @@
+{
+  "Uuid": "14b9483d-2626-4a82-a24b-550cf9834227",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "recursiveCubes",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "7f6534a9-af15-4279-b22b-8b76aa0e9087",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "4ca3b2f2f04f48248c732fd3c9249c91",
+      "Inputs": [
+        {
+          "Id": "2842bf74b2024369bd1baa3075f13812",
+          "Name": "startingCube",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "fa492ffcebd24131b1c40349fc79ef71",
+          "Name": "stoppingVolume",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "515662549e86428e8d7bcb3fd36a2cd8",
+          "Name": "resultCubes",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a recursive outward cubes structure that stops at a given volume"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Cuboid.ByLengths@double,double,double",
+      "Id": "24289dc62db047fa8a38eb9e33535776",
+      "Inputs": [
+        {
+          "Id": "c49b25ffc8ad4a899cd16fdac53f27f3",
+          "Name": "width",
+          "Description": "double\nDefault value : 1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "67fbdff224f34daebbd8179b9cee6461",
+          "Name": "length",
+          "Description": "double\nDefault value : 1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6e88a35c47ad42e9baddaf768d0ef664",
+          "Name": "height",
+          "Description": "double\nDefault value : 1",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "550e23c3310f46dca8ca3e05f70dc7c6",
+          "Name": "Cuboid",
+          "Description": "Cuboid",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Create a Cuboid centered at WCS origin, with width, length, and height.\n\nCuboid.ByLengths (width: double = 1, length: double = 1, height: double = 1): Cuboid"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.1,
+      "Id": "add69e62f93d46029b857bc401be24d8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "39510dd233d74acda647b79ad06390db",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Solid.ByUnion@Autodesk.DesignScript.Geometry.Solid[]",
+      "Id": "be47bf2693944050bb175d2aa44d9cd3",
+      "Inputs": [
+        {
+          "Id": "aaa56992d56240da8f5f2f54d09c7f5d",
+          "Name": "solids",
+          "Description": "A collection of solids\n\nSolid[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6d69e3b1d0a14b1392d84d158da1b154",
+          "Name": "Solid",
+          "Description": "Solid",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Union a collection of solids into one solid\n\nSolid.ByUnion (solids: Solid[]): Solid"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "eb84c2e9-299b-4388-b3c3-33c83f9c1c28",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "a9f6ca87975940868c6418edad177364",
+      "Inputs": [
+        {
+          "Id": "7dd4090764594ec18e6691215b503d1f",
+          "Name": "filePathSAT",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3873729e9b30411fa542f27fc36dab54",
+          "Name": "materialsTemplatePath",
+          "Description": "var",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "cba3123f4cae4e5580dd626e408666fa",
+          "Name": "familyName",
+          "Description": "var",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "836d647c05274cba9185f39a024e4dfa",
+          "Name": "materialName",
+          "Description": "var[]\nDefault value : null",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b3252853bc2c48659d1841b0db03f4a5",
+          "Name": "instance",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "eceb6b9d8fc64041ab982c81f6fd94b7",
+          "Name": "family",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Extracts a SAT geometry and imports the geometry into Revit as a mass family\r\nNote : The python code is not made by Easen It Node for more information look for Spring Nodes : https://dynamopackages.com/"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Geometry.ExportToSAT@Autodesk.DesignScript.Geometry.Geometry[],string",
+      "Id": "9fd056f87bdd4689b76b2f74ecc7c157",
+      "Inputs": [
+        {
+          "Id": "bdd2eb0690a445e39fdb3b803ebd2c41",
+          "Name": "geometry",
+          "Description": "Geometry[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9e7643accd4d4d44999349e5d58a7371",
+          "Name": "filePath",
+          "Description": "The name of the file to export the geometry to\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "066b48c01a204c5cb6dc1620dc49368e",
+          "Name": "string",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Exports the specified geometry to the given SAT file path\n\nGeometry.ExportToSAT (geometry: Geometry[], filePath: string): string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "C:\\Users\\n\\Desktop\\Solids",
+      "InputValue": "C:\\Users\\n\\Desktop\\Solids",
+      "NodeType": "ExtensionNode",
+      "Id": "8dd351f8590c4062b9d9bdcccea3cbd1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d27bc0dc655649c583ea4dfd47bc9b5f",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "E:\\Odds & Ends\\DC\\packages\\materialtemplate.rft",
+      "InputValue": "E:\\Odds & Ends\\DC\\packages\\materialtemplate.rft",
+      "NodeType": "ExtensionNode",
+      "Id": "043ef3c88a114b18a10fcae86701e074",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "4c9fcabd1b594882a0f2a7d27d932ae2",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "mass1",
+      "Id": "42803749910f4e07b58a290cf2e99a9c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e2b374cc5e5b4c1585160c65c9f15a23",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "515662549e86428e8d7bcb3fd36a2cd8",
+      "End": "aaa56992d56240da8f5f2f54d09c7f5d",
+      "Id": "699217877c024eb8b3f956d5ee0d897c"
+    },
+    {
+      "Start": "550e23c3310f46dca8ca3e05f70dc7c6",
+      "End": "2842bf74b2024369bd1baa3075f13812",
+      "Id": "b3e30bd1fd104665a820899d58208570"
+    },
+    {
+      "Start": "39510dd233d74acda647b79ad06390db",
+      "End": "fa492ffcebd24131b1c40349fc79ef71",
+      "Id": "3e49a704b2a94c5b956853e1d9094f91"
+    },
+    {
+      "Start": "6d69e3b1d0a14b1392d84d158da1b154",
+      "End": "bdd2eb0690a445e39fdb3b803ebd2c41",
+      "Id": "fcdebcf34e564d8bad71b27ea56ebe11"
+    },
+    {
+      "Start": "066b48c01a204c5cb6dc1620dc49368e",
+      "End": "7dd4090764594ec18e6691215b503d1f",
+      "Id": "1281c183b04846d4b3c2cd0298f0ce0f"
+    },
+    {
+      "Start": "d27bc0dc655649c583ea4dfd47bc9b5f",
+      "End": "9e7643accd4d4d44999349e5d58a7371",
+      "Id": "1ee0142a2832460fb92a23ddb22d835f"
+    },
+    {
+      "Start": "4c9fcabd1b594882a0f2a7d27d932ae2",
+      "End": "3873729e9b30411fa542f27fc36dab54",
+      "Id": "7a42b15c8aea480e95363dd224e4d8b4"
+    },
+    {
+      "Start": "e2b374cc5e5b4c1585160c65c9f15a23",
+      "End": "cba3123f4cae4e5580dd626e408666fa",
+      "Id": "39cfd2d3bed8413bbec7cc5f30600a37"
+    }
+  ],
+  "Dependencies": [
+    "7f6534a9-af15-4279-b22b-8b76aa0e9087",
+    "eb84c2e9-299b-4388-b3c3-33c83f9c1c28"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 1.1119777981254333,
+      "EyeY": 1.5605971723505718,
+      "EyeZ": -2.4187951862466566,
+      "LookX": -1.1119777981254333,
+      "LookY": -1.5605971723505718,
+      "LookZ": 2.4187951862466566,
+      "UpX": -0.12907593483200583,
+      "UpY": 0.95105651629516075,
+      "UpZ": 0.28076842033920318
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": false,
+        "Name": "Fractals.recursiveCubes",
+        "Id": "4ca3b2f2f04f48248c732fd3c9249c91",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 509.30067327027507,
+        "Y": 220.11848661545849
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Cuboid.ByLengths",
+        "Id": "24289dc62db047fa8a38eb9e33535776",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 169.0,
+        "Y": 79.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "stopping volume",
+        "Id": "add69e62f93d46029b857bc401be24d8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 211.41252456508516,
+        "Y": 367.9944638829511
+      },
+      {
+        "ShowGeometry": false,
+        "Name": "Solid.ByUnion",
+        "Id": "be47bf2693944050bb175d2aa44d9cd3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 826.73480563673081,
+        "Y": 209.23388295055616
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Revit.ImportExport.extractSAT__ImportToRevit",
+        "Id": "a9f6ca87975940868c6418edad177364",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1435.156155143648,
+        "Y": 405.41053370787523
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Geometry.ExportToSAT",
+        "Id": "9fd056f87bdd4689b76b2f74ecc7c157",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1078.6528582259816,
+        "Y": 244.83321232464044
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "File Path",
+        "Id": "8dd351f8590c4062b9d9bdcccea3cbd1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 840.44263712221493,
+        "Y": 332.2229465810293
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "File Path",
+        "Id": "043ef3c88a114b18a10fcae86701e074",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 930.22953596642628,
+        "Y": 444.30392250424347
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "String",
+        "Id": "42803749910f4e07b58a290cf2e99a9c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1171.2682460260028,
+        "Y": 535.97014766609868
+      }
+    ],
+    "Annotations": [],
+    "X": -278.65991635949223,
+    "Y": 44.650197282334204,
+    "Zoom": 0.65898910449449921
+  }
+}
