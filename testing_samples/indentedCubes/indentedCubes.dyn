@@ -1,0 +1,496 @@
+{
+  "Uuid": "dbbfbd25-43e3-47eb-8961-4c9a3027d633",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "indentedCubes",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "b66215184c8046d08a5237013e8acede",
+      "Name": "SAT File Path",
+      "Type": "string",
+      "Value": "C:\\Users\\n\\Desktop\\solidsUnioned",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "Id": "9efe5319a45e4cfe9888fe784cb74186",
+      "Name": "Materials Template File Path",
+      "Type": "string",
+      "Value": "E:\\Programming\\RevitDynamo\\packages\\materialtemplate.rft",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "Id": "72705669e6464affabe0c429ab1f27b1",
+      "Name": "Start Length",
+      "Type": "number",
+      "Value": "5",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    },
+    {
+      "Id": "aea4c7b20da64d7c8e9e8b0cce462c94",
+      "Name": "Stop Length",
+      "Type": "number",
+      "Value": "1",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    },
+    {
+      "Id": "56f4c68d1d934d828f59cb5e9a3b2ce9",
+      "Name": "Family mass name",
+      "Type": "string",
+      "Value": "Mass",
+      "Description": "Creates a string."
+    }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "80bd2891-6708-4fa4-b0bd-b9bf90aa65f9",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "f47b7baeed8649daa687ac1d3877e276",
+      "Inputs": [
+        {
+          "Id": "e6e55428769a4eb1bcffa8548d9cb181",
+          "Name": "startLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8cddf85258a042a297de6d2e056dbf08",
+          "Name": "stopLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4dc2ba1fc97943e682501a6576bbe823",
+          "Name": "indentedCubes",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates an indented cubes like structure that stops at a certain cube length ."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Solid.ByUnion@Autodesk.DesignScript.Geometry.Solid[]",
+      "Id": "81809e1b3b4842d996027901e37fe32f",
+      "Inputs": [
+        {
+          "Id": "824fb8c93fab49739a5554fc1892bf2a",
+          "Name": "solids",
+          "Description": "A collection of solids\n\nSolid[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6d553448f1ec45d8859f4cb04b1a5a07",
+          "Name": "Solid",
+          "Description": "Solid",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Union a collection of solids into one solid\n\nSolid.ByUnion (solids: Solid[]): Solid"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Geometry.ExportToSAT@Autodesk.DesignScript.Geometry.Geometry[],string",
+      "Id": "71ab5ee5067048d5bb1259eef303697f",
+      "Inputs": [
+        {
+          "Id": "279d95e01e05410a9508da58efbac71d",
+          "Name": "geometry",
+          "Description": "Geometry[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "aec294651335489a919809658168f4c3",
+          "Name": "filePath",
+          "Description": "The name of the file to export the geometry to\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fa75855a65504dc88d386227a7feffe3",
+          "Name": "string",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Exports the specified geometry to the given SAT file path\n\nGeometry.ExportToSAT (geometry: Geometry[], filePath: string): string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "C:\\Users\\n\\Desktop\\solidsUnioned",
+      "InputValue": "C:\\Users\\n\\Desktop\\solidsUnioned",
+      "NodeType": "ExtensionNode",
+      "Id": "b66215184c8046d08a5237013e8acede",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8313337aab7e4d949d67b2c6a48ba490",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "eb84c2e9-299b-4388-b3c3-33c83f9c1c28",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "52d849b68c264a68a2d3ecfb1ecd313c",
+      "Inputs": [
+        {
+          "Id": "6f49dc154674472dad5bc55f24ed753e",
+          "Name": "filePathSAT",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "977f163a3cec4bd4b658cdaf7ad96157",
+          "Name": "materialsTemplatePath",
+          "Description": "var",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5fc65ee907624f15bf5fe7483f6ca08c",
+          "Name": "familyName",
+          "Description": "var",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "abd566b6a2bd436bafb8a74283278f34",
+          "Name": "materialName",
+          "Description": "var[]\nDefault value : null",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0cd6d749a1f94456bc2b15106451cef0",
+          "Name": "instance",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "871554cbea4f47d9bf1c8f879b253b46",
+          "Name": "family",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Extracts a SAT geometry and imports the geometry into Revit as a mass family\r\nNote : The python code is not made by Easen It Node for more information look for Spring Nodes : https://dynamopackages.com/"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "E:\\Programming\\RevitDynamo\\packages\\materialtemplate.rft",
+      "InputValue": "E:\\Programming\\RevitDynamo\\packages\\materialtemplate.rft",
+      "NodeType": "ExtensionNode",
+      "Id": "9efe5319a45e4cfe9888fe784cb74186",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "1403a66eb8054cd1847f7d4b34f44f63",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 5.0,
+      "Id": "72705669e6464affabe0c429ab1f27b1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e493fe8c7c3f4111962f0017bad28ea7",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 1.0,
+      "Id": "aea4c7b20da64d7c8e9e8b0cce462c94",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c8cb97dcc00b4de9a23465b997dd7a94",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "Mass",
+      "Id": "56f4c68d1d934d828f59cb5e9a3b2ce9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "82dcd54645a045e5aedead4bf89e25b9",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "4dc2ba1fc97943e682501a6576bbe823",
+      "End": "824fb8c93fab49739a5554fc1892bf2a",
+      "Id": "526757d3f89a4f358c589fc44af68ca3"
+    },
+    {
+      "Start": "6d553448f1ec45d8859f4cb04b1a5a07",
+      "End": "279d95e01e05410a9508da58efbac71d",
+      "Id": "a2af05ca401b461c8ad5704b22d1ddb5"
+    },
+    {
+      "Start": "fa75855a65504dc88d386227a7feffe3",
+      "End": "6f49dc154674472dad5bc55f24ed753e",
+      "Id": "986f401e9a594b0a849ff30f9cb1023b"
+    },
+    {
+      "Start": "8313337aab7e4d949d67b2c6a48ba490",
+      "End": "aec294651335489a919809658168f4c3",
+      "Id": "aad1276da7214b1f84c7fa2c992d9b38"
+    },
+    {
+      "Start": "1403a66eb8054cd1847f7d4b34f44f63",
+      "End": "977f163a3cec4bd4b658cdaf7ad96157",
+      "Id": "2fa00f673cc74f0f8aea5f63c79d2c41"
+    },
+    {
+      "Start": "e493fe8c7c3f4111962f0017bad28ea7",
+      "End": "e6e55428769a4eb1bcffa8548d9cb181",
+      "Id": "5935b9be9bf647a4b30cc48502a3a721"
+    },
+    {
+      "Start": "c8cb97dcc00b4de9a23465b997dd7a94",
+      "End": "8cddf85258a042a297de6d2e056dbf08",
+      "Id": "2308509f6ddf48948cd82be497a09d57"
+    },
+    {
+      "Start": "82dcd54645a045e5aedead4bf89e25b9",
+      "End": "5fc65ee907624f15bf5fe7483f6ca08c",
+      "Id": "e33a3357ad5b4f4a82f466528bad499a"
+    }
+  ],
+  "Dependencies": [
+    "80bd2891-6708-4fa4-b0bd-b9bf90aa65f9",
+    "eb84c2e9-299b-4388-b3c3-33c83f9c1c28"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 3.1937627943032321,
+      "EyeY": 1.23689583268442,
+      "EyeZ": 5.2506221134160942,
+      "LookX": -3.1937627943032321,
+      "LookY": -1.23689583268442,
+      "LookZ": -5.2506221134160942,
+      "UpX": 0.0090696254192722172,
+      "UpY": 0.99984769515640382,
+      "UpZ": 0.014910680239552504
+    },
+    "NodeViews": [
+      {
+        "Id": "f47b7baeed8649daa687ac1d3877e276",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Fractals.indentedCubes",
+        "ShowGeometry": false,
+        "Excluded": false,
+        "X": 584.26003851688438,
+        "Y": 214.19002439308417
+      },
+      {
+        "Id": "81809e1b3b4842d996027901e37fe32f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Solid.ByUnion",
+        "ShowGeometry": false,
+        "Excluded": false,
+        "X": 883.738483666334,
+        "Y": 217.98455980658915
+      },
+      {
+        "Id": "71ab5ee5067048d5bb1259eef303697f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Geometry.ExportToSAT",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1178.2953282786889,
+        "Y": 220.49913462682116
+      },
+      {
+        "Id": "b66215184c8046d08a5237013e8acede",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Name": "SAT File Path",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 900.47052866899708,
+        "Y": 334.97859568134527
+      },
+      {
+        "Id": "52d849b68c264a68a2d3ecfb1ecd313c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Revit.ImportExport.extractSAT__ImportToRevit",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1688.4050655738624,
+        "Y": 220.95048957107224
+      },
+      {
+        "Id": "9efe5319a45e4cfe9888fe784cb74186",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Name": "Materials Template File Path",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1173.353787913185,
+        "Y": 368.80659753643607
+      },
+      {
+        "Id": "72705669e6464affabe0c429ab1f27b1",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Name": "Start Length",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 435.0450263660162,
+        "Y": 169.130083364921
+      },
+      {
+        "Id": "aea4c7b20da64d7c8e9e8b0cce462c94",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Name": "Stop Length",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 434.869292364049,
+        "Y": 261.78999418541417
+      },
+      {
+        "Id": "56f4c68d1d934d828f59cb5e9a3b2ce9",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Name": "Family mass name",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1411.1594804294136,
+        "Y": 487.64856637561775
+      }
+    ],
+    "Annotations": [],
+    "X": -939.05311077434226,
+    "Y": -84.718518613347555,
+    "Zoom": 0.99130945500528644
+  }
+}
