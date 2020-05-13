@@ -1,0 +1,19 @@
+#####################################################################################################################################################################
+
+* Inputs : 
+
+- First Circle: the root cirlce which its center point is used 
+		 for random translation .
+- Stopping radius : the radius at which the iterations are goin to stop at .
+- Random range : the range of random geometry translation for the root circle .
+
+* Outputs :
+
+- List of circles .
+
+* Description : 
+
+Creates a ripple like geometry by creating circles starting from a root circle which it scales down until it
+stops replicating at a certain radius.
+
+#####################################################################################################################################################################
