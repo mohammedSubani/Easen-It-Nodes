@@ -1,0 +1,19 @@
+#####################################################################################################################################################################
+
+* Inputs : 
+
+- Branches in level : number of branches at the end of each branch .
+- Stopping level : a level of indentation at which the tree will stop creating more branches .
+- Branch length : The length for every branch .
+- Root line : A curve (usually a line) which at its end the tree structure begins to branch .
+- Alpha angle : The angle from Z axis for each branch .
+
+* Outputs :
+
+- List of lines : Their geometry is a tree like structure .
+
+* Description : 
+
+Create a symmetrical branches recursive tree that is governed by angle parameter .
+
+#####################################################################################################################################################################
