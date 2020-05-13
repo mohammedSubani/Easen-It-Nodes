@@ -1,0 +1,337 @@
+{
+  "Uuid": "7e5c58f7-1d16-442a-9a78-f180ddafb9b5",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "mengerSponge",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "2a32d3e974dc49808900a1f38cc214e7",
+      "Name": "Stop Volume",
+      "Type": "number",
+      "Value": "400",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    },
+    {
+      "Id": "127cc4c8524d4cdcb840d594999d0edc",
+      "Name": "Cube Side Length",
+      "Type": "number",
+      "Value": "20",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    },
+    {
+      "Id": "e2ec3fed4af54b11979139f5d1eee2c3",
+      "Name": "File Path",
+      "Type": "string",
+      "Value": "No file selected.",
+      "Description": "Allows you to select a file on the system to get its filename"
+    }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "6e276a18-6980-49c0-8872-cb2108240b02",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "46f899200d9842b9bb6d9b47a7f54a0b",
+      "Inputs": [
+        {
+          "Id": "006723d3d69447f380eaa0cbf92ea00d",
+          "Name": "forceComputation",
+          "Description": "bool\nDefault value : false",
+          "UsingDefaultValue": true,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6d6574d5aac44c3b99333a8da5dcdc80",
+          "Name": "stopVolume",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "dd506c0b14234fbdb59791cf54275ede",
+          "Name": "cubeLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "15952f6c1a774e43a4061915e7106b71",
+          "Name": "mengerSponge",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a Menger Spong fractal structure"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 400.0,
+      "Id": "2a32d3e974dc49808900a1f38cc214e7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b630103cea5a4855b7e77376c270c794",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 20.0,
+      "Id": "127cc4c8524d4cdcb840d594999d0edc",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "1dac89c055014844a8f9d81800031c75",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Solid.ByUnion@Autodesk.DesignScript.Geometry.Solid[]",
+      "Id": "c891e0ebd1fc4b18abe83b5d13a69956",
+      "Inputs": [
+        {
+          "Id": "b4a1ed0b925145cc99919ed37ec7b285",
+          "Name": "solids",
+          "Description": "A collection of solids\n\nSolid[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a8412957332c4dc398ab61d390968c25",
+          "Name": "Solid",
+          "Description": "Solid",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Union a collection of solids into one solid\n\nSolid.ByUnion (solids: Solid[]): Solid"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Autodesk.DesignScript.Geometry.Geometry.ExportToSAT@Autodesk.DesignScript.Geometry.Geometry[],string",
+      "Id": "cf915515937542209b00f58dc15dcbbd",
+      "Inputs": [
+        {
+          "Id": "b474763d7ff04b90b9ec3748431ccb75",
+          "Name": "geometry",
+          "Description": "Geometry[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "70a3ce5b1a9d4abfb56135517dcd2d37",
+          "Name": "filePath",
+          "Description": "The name of the file to export the geometry to\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6ff6d116ede74eaaafacee4a80fadac1",
+          "Name": "string",
+          "Description": "string",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Exports the specified geometry to the given SAT file path\n\nGeometry.ExportToSAT (geometry: Geometry[], filePath: string): string"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "No file selected.",
+      "InputValue": "No file selected.",
+      "NodeType": "ExtensionNode",
+      "Id": "e2ec3fed4af54b11979139f5d1eee2c3",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "11a5a4d87f94460c9d8536c3882dbf4c",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "15952f6c1a774e43a4061915e7106b71",
+      "End": "b4a1ed0b925145cc99919ed37ec7b285",
+      "Id": "bcd0f2cb071847e0bc0ebb5f1a23f612"
+    },
+    {
+      "Start": "b630103cea5a4855b7e77376c270c794",
+      "End": "6d6574d5aac44c3b99333a8da5dcdc80",
+      "Id": "f4af5bbb502746239ee42e714427a278"
+    },
+    {
+      "Start": "1dac89c055014844a8f9d81800031c75",
+      "End": "dd506c0b14234fbdb59791cf54275ede",
+      "Id": "750944b4b0004904a9549145a7adc38e"
+    },
+    {
+      "Start": "a8412957332c4dc398ab61d390968c25",
+      "End": "b474763d7ff04b90b9ec3748431ccb75",
+      "Id": "69f9aea1deaf497b91a231051272cade"
+    },
+    {
+      "Start": "11a5a4d87f94460c9d8536c3882dbf4c",
+      "End": "70a3ce5b1a9d4abfb56135517dcd2d37",
+      "Id": "0a4fdb4237fe438ba0da586b6b6b0b31"
+    }
+  ],
+  "Dependencies": [
+    "6e276a18-6980-49c0-8872-cb2108240b02"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 57.252003910792673,
+      "EyeY": 37.8608697277283,
+      "EyeZ": -130.48948311807015,
+      "LookX": -57.252003910792673,
+      "LookY": -37.8608697277283,
+      "LookZ": 130.48948311807015,
+      "UpX": -0.017525304766779284,
+      "UpY": 0.99904822158195028,
+      "UpZ": 0.0399438937380685
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Fractals.mengerSponge",
+        "Id": "46f899200d9842b9bb6d9b47a7f54a0b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 660.5,
+        "Y": 262.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Stop Volume",
+        "Id": "2a32d3e974dc49808900a1f38cc214e7",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 294.5,
+        "Y": 295.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Cube Side Length",
+        "Id": "127cc4c8524d4cdcb840d594999d0edc",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 293.5,
+        "Y": 364.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Solid.ByUnion",
+        "Id": "c891e0ebd1fc4b18abe83b5d13a69956",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1065.1867999030053,
+        "Y": 265.32805509703132
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Geometry.ExportToSAT",
+        "Id": "cf915515937542209b00f58dc15dcbbd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1464.2827593649868,
+        "Y": 323.92854730244727
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "File Path",
+        "Id": "e2ec3fed4af54b11979139f5d1eee2c3",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 287.58893368490925,
+        "Y": 439.78313287737393
+      }
+    ],
+    "Annotations": [],
+    "X": -71.246265909342412,
+    "Y": 68.385024353375371,
+    "Zoom": 0.67900743610005776
+  }
+}

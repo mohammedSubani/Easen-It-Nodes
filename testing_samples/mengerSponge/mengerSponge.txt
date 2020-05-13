@@ -1,0 +1,18 @@
+#####################################################################################################################################################################
+
+* Inputs : 
+
+- Cube length: the length of the sides of the cube .
+- Stop Volume : the cube volume by which the iterations will stop .
+- Force computation : boolean value to force computation of menger sponge is false by default .
+
+* Outputs :
+
+- List of solids .
+
+* Description : 
+
+Creates a Menger Sponge cube structure by splitting cube to smaller ones and then splitting the cubes agian and again 
+until it the volume of the cubes reach the stop volume by which the iterations stop  .
+
+#####################################################################################################################################################################
