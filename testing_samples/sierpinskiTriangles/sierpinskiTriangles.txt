@@ -1,0 +1,16 @@
+#####################################################################################################################################################################
+
+* Inputs : 
+
+- Start length : The length of the equilateral side .
+- Stop lenght : The length at which the equilateral triangles stop replicating .
+
+* Outputs :
+
+- List of polygons: each polygon is a triangle .
+
+* Description : 
+
+Creates the Sierpinski fractal triangles as a list of polygons .
+
+#####################################################################################################################################################################

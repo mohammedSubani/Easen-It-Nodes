@@ -1,0 +1,186 @@
+{
+  "Uuid": "bae42cf3-282c-438c-9943-7674accdee16",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "sierpinskiTriangles",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [
+    {
+      "Id": "1fcc40c48bc248368bdfac258db7bc5f",
+      "Name": "Start Length",
+      "Type": "number",
+      "Value": "10",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    },
+    {
+      "Id": "80f40fd5c4f14f92ba6168e4284e106a",
+      "Name": "Stop Length",
+      "Type": "number",
+      "Value": "0.1",
+      "NumberType": "Double",
+      "Description": "Creates a number."
+    }
+  ],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "cf968e1d-f91a-4692-9320-e10f0a038051",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "b0dc051c929c442fb398bf5366eaedce",
+      "Inputs": [
+        {
+          "Id": "8c01e81b22c64de6956d2866a2b5b286",
+          "Name": "startLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8dd3b8a7e6bf40b3bbbae1a950d9acc3",
+          "Name": "stopLength",
+          "Description": "var[]..[]",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "8ed2a349df664c20831d2b94e0d8682f",
+          "Name": "sierpinskiTriangles",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Creates a polygon curve to form Sierpinski Triangles"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 10.0,
+      "Id": "1fcc40c48bc248368bdfac258db7bc5f",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "0809197183254284903d4a578947b241",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.1,
+      "Id": "80f40fd5c4f14f92ba6168e4284e106a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c7fa06f2b8a643f69f53702a120291a7",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "0809197183254284903d4a578947b241",
+      "End": "8c01e81b22c64de6956d2866a2b5b286",
+      "Id": "f755e0e014254be08432ce47d7cf3631"
+    },
+    {
+      "Start": "c7fa06f2b8a643f69f53702a120291a7",
+      "End": "8dd3b8a7e6bf40b3bbbae1a950d9acc3",
+      "Id": "c01445a2ef814a9a984d0b996b1a9c0b"
+    }
+  ],
+  "Dependencies": [
+    "cf968e1d-f91a-4692-9320-e10f0a038051"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": 6.2588465926488794,
+      "EyeY": 16.960279534185069,
+      "EyeZ": 0.8641059075527231,
+      "LookX": -6.2588465926488794,
+      "LookY": -16.960279534185069,
+      "LookZ": -5.194233146780018,
+      "UpX": -0.60638850687093759,
+      "UpY": 0.6156614753256624,
+      "UpZ": -0.50324340684669844
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Fractals.sierpinskiTriangles",
+        "Id": "b0dc051c929c442fb398bf5366eaedce",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 251.0,
+        "Y": 151.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Start Length",
+        "Id": "1fcc40c48bc248368bdfac258db7bc5f",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 57.0,
+        "Y": 108.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Stop Length",
+        "Id": "80f40fd5c4f14f92ba6168e4284e106a",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 53.0,
+        "Y": 213.0
+      }
+    ],
+    "Annotations": [],
+    "X": 0.0,
+    "Y": 0.0,
+    "Zoom": 1.0
+  }
+}
