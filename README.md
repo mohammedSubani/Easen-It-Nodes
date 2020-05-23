@@ -2,7 +2,7 @@
 A custom nodes to enhance and empower Dynamo and Dynamo Revit workflows. 
 
 # Languages used :
-Python , DesignScript , TypeScript , C#
+Python , DesignScript 
 
 # pros
 The project greatest advantage is that it doesn't rely on any outside dependencies and will work with almost every version 
